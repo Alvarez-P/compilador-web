@@ -1,6 +1,7 @@
 # Compilador-Web
 
-Contador de 40 digitos con limite de ejecucion dado por el usuario desarrolado en Golang.
+Compilador de Expresiones Regulares.
+Analizador Léxico usando RegExp.
 
 ## Getting Started
 
