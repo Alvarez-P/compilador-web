@@ -14,11 +14,7 @@ Analizador Léxico usando RegExp.
 ### Project setup
 
 ```bash
-# Get icons
-npm install material-design-icons
-```
-```html
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+# None
 ```
 ## Builth With
 

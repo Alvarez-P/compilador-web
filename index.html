@@ -7,8 +7,8 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Document</title>
+    <link href="https://cdn.materialdesignicons.com/5.2.45/css/materialdesignicons.min.css" rel="stylesheet">
+    <title>Compilador</title>
 </head>
 <body>
     <div class="container register">
@@ -19,7 +19,7 @@
 ------------------------------------------------------------------->
             <div class="col-md-3 register-left">
                 <img src="https://s3.amazonaws.com/tinycards/image/b87e632126f9e7581c56a0526d74b7c7" alt=""/>
-                <h3>ITM</h3>
+                <h3>ISC</h3>
                 <h5>Lenguajes y Autómatas I</h5>
                 <p>Analizador léxico para reconocer las cadenas que pertenecen a un lenguaje regular.</p>
             </div>
@@ -45,12 +45,13 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <button name="button" class="btnRegister rightbtn align-middle">
-                                        <i class="material-icons align-middle">settings</i>
-                                        <span class="align-middle">Compilar</span></>
+                                        <span class="mdi mdi-cog align-middle"></span>
+                                        <span class="align-middle">Compilar</span>
                                     </button>
                                     <button name="button" class="btnRegister leftbtn">
-                                        <i class="material-icons align-middle">publish</i>
-                                        <span class="align-middle">Desde un archivo</span></>
+                                        <span class="mdi mdi-file-upload align-middle"></span>
+                                        <input type="file" name="file" id="file" class="inputfile"/>
+                                        <label for="file">Desde un archivo</label>
                                     </button>
                                 </div>  
                             </div>
@@ -59,7 +60,57 @@
                 </div>
             </div>
         </div>
-
     </div>
+<!------------------------------------------------------------------
+                Footer 
+------------------------------------------------------------------->
+<footer class="footer-distributed">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="footer-left">
+                <h4>Instituto <span>Tecnológico de Mérida</span></h4>
+                <h5>Analizador léxico</h5>
+                <p class="footer-links">
+                    <a href="https://github.com/alvarez98/compilador-web">
+                        <span class="mdi mdi-github align-middle"></span>
+                    </a>
+                </p><br>
+                <p class="footer-company-name">© 2020
+                    <a href="http://aaaimx.org/">@aaaimx</a>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="footer-right">
+                <p class="footer-company-about">
+                    <span>Adolfo Esteban Alvarez Pacheco</span>
+                    Estudiante de la carrera de Ingenieria en Sistemas. Interés en Desarrollo Web e Inteligencia Artificial</p>
+                <div class="footer-icons">
+                    <a href="https://github.com/alvarez98/">
+                        <span class="mdi mdi-github align-middle"></span>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=100007732549352">
+                        <span class="mdi mdi-facebook align-middle"></span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/adolfo-esteban-%C3%A1lvarez-pacheco-6b3a21192/">
+                        <span class="mdi mdi-linkedin align-middle"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="footer-right">
+                <p class="footer-company-about">
+                    <span>Esteban Emmanuel Brito Borges</span>
+                    Estudiante de la carrera de Ingenieria en Sistemas. Interés en Desarrollo Web e Inteligencia Artificial</p>
+                <div class="footer-icons">
+                    <a href="#"><span class="mdi mdi-github align-middle"></span></a>
+                    <a href="#"><span class="mdi mdi-facebook align-middle"></span></a>
+                    <a href="#"><span class="mdi mdi-linkedin align-middle"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
