@@ -14,9 +14,12 @@ Analizador Léxico usando RegExp.
 ### Project setup
 
 ```bash
-# None
+# Get icons
+npm install material-design-icons
 ```
-
+```html
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+```
 ## Builth With
 
 - [HTML](https://www.w3schools.com/html/) - HTML is the **standard** markup language for Web pages.

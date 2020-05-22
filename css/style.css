@@ -1,36 +1,59 @@
-body {
-    background: -webkit-linear-gradient(left, #22212b, #61221d);
+/*---------------------------------------------------------
+                        Global Config
+---------------------------------------------------------*/
+:root {
+    --dark-color: #22212b;
+    --contrast-color: #215968;
+    --light-color: #f8f9fa;
 }
+body {
+    background: -webkit-linear-gradient(left, var(--dark-color), var(--contrast-color));
+}
+
+
+/*---------------------------------------------------------
+                        Text and layout
+---------------------------------------------------------*/
+
 .register{
     margin-top: 3%;
     padding: 3%;
 }
 .register-left{
     text-align: center;
-    color: #fff;
+    color: var(--light-color);
     margin-top: 4%;
-}
-.register-left input{
-    border: none;
-    border-radius: 1.5rem;
-    padding: 2%;
-    width: 60%;
-    background: #f8f9fa;
-    font-weight: bold;
-    color: #383d41;
-    margin-top: 30%;
-    margin-bottom: 3%;
-    cursor: pointer;
 }
 .register-right{
     background: #f8f9fa;
     border-top-left-radius: 10% 50%;
     border-bottom-left-radius: 10% 50%;
 }
+.register-left p{
+    font-weight: lighter;
+    padding: 12%;
+    margin-top: -9%;
+}
+.register .register-form{
+    padding: 10%;
+    margin-top: 10%;
+}
+.register-heading{
+    text-align: center;
+    margin-top: 8%;
+    margin-bottom: -15%;
+    font-weight: bold;
+    color: var(--contrast-color);
+}
+
+/*---------------------------------------------------------
+                        Animation
+---------------------------------------------------------*/
+
 .register-left img{
     margin-top: 15%;
     margin-bottom: 5%;
-    width: 25%;
+    width: 60%;
     -webkit-animation: mover 2s infinite  alternate;
     animation: mover 1s infinite  alternate;
 }
@@ -42,59 +65,83 @@ body {
     0% { transform: translateY(0); }
     100% { transform: translateY(-20px); }
 }
-.register-left p{
-    font-weight: lighter;
-    padding: 12%;
-    margin-top: -9%;
+
+
+/*---------------------------------------------------------
+                        Buttons
+---------------------------------------------------------*/
+button {
+    text-align: center;
 }
-.register .register-form{
-    padding: 10%;
-    margin-top: 10%;
+i {
+    padding: 0 1.5rem 0 0;
 }
 .btnRegister{
     float: right;
     margin-top: 10%;
     border: none;
-    border-radius: 1.5rem;
     padding: 2%;
-    background: #22212b;
-    color: #fff;
+    background: var(--dark-color);
+    color: var(--light-color);
     font-weight: 600;
     width: 50%;
     cursor: pointer;
 }
+.btnRegister.leftbtn{
+    border-radius: 1.5rem 0rem 0rem 1.5rem;
+}
+.btnRegister.rightbtn{
+    border-radius: 0rem 1.5rem 1.5rem 0rem;
+}
 .btnRegister:hover {
-    background: #61221d;
+    background: var(--contrast-color);
 }
-.register .nav-tabs{
-    margin-top: 3%;
-    border: none;
-    background: #00c6ff;
-    border-radius: 1.5rem;
-    width: 28%;
-    float: right;
+
+.register-left h5 {
+    font-weight: bold;
 }
-.register .nav-tabs .nav-link{
-    padding: 2%;
-    height: 34px;
-    font-weight: 600;
-    color: #fff;
-    border-top-right-radius: 1.5rem;
-    border-bottom-right-radius: 1.5rem;
+
+/*---------------------------------------------------------
+                        Text Area
+---------------------------------------------------------*/
+
+.amber-textarea textarea.md-textarea:focus:not([readonly]) {
+    border-color: 2px solid var(--contrast-color);
+    border-bottom: 1px solid var(--contrast-color);
+    box-shadow: 0 1px 0 0 var(--contrast-color);
 }
-.register .nav-tabs .nav-link:hover{
-    border: none;
+.active-amber-textarea.md-form label.active {
+    color: var(--contrast-color);
 }
-.register .nav-tabs .nav-link.active{
-    width: 100px;
-    color: #0062cc;
-    border: 2px solid #0062cc;
-    border-top-left-radius: 1.5rem;
-    border-bottom-left-radius: 1.5rem;
+.active-amber-textarea.md-form textarea.md-textarea:focus:not([readonly])+label {
+    color: var(--contrast-color);
 }
-.register-heading{
-    text-align: center;
-    margin-top: 8%;
-    margin-bottom: -15%;
-    color: #495057;
-}
+
+/*---------------------------------------------------------
+                        Material Icon
+---------------------------------------------------------*/
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    color: aliceblue;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+  }

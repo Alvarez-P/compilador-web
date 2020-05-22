@@ -7,30 +7,52 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
     <div class="container register">
         <div class="row">
+
+<!------------------------------------------------------------------
+                Left Section 
+------------------------------------------------------------------->
             <div class="col-md-3 register-left">
-                <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
-                <h3>Welcome</h3>
-                <p>You are 30 seconds away from earning your own money!</p>
+                <img src="https://s3.amazonaws.com/tinycards/image/b87e632126f9e7581c56a0526d74b7c7" alt=""/>
+                <h3>ITM</h3>
+                <h5>Lenguajes y Autómatas I</h5>
+                <p>Analizador léxico para reconocer las cadenas que pertenecen a un lenguaje regular.</p>
             </div>
+<!------------------------------------------------------------------
+                Right Section
+------------------------------------------------------------------->
             <div class="col-md-9 register-right">
-                
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <h3 class="register-heading">Apply as a Employee</h3>
+                        <h3 class="register-heading">Compilador</h3>
                         <div class="row register-form">
-                            <div class="col-md-6">
-                                
-                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Enter Your Answer *" value="" />
+                                    <div class="md-form amber-textarea active-amber-textarea">
+                                        <textarea id="form19" class="md-textarea form-control" rows="3"></textarea>
+                                        <label for="form19">Ingrese el código a compilar</label>
+                                    </div>
                                 </div>
-                                <input type="submit" class="btnRegister"  value="Register"/>
+                            </div>
+<!------------------------------------------------------------------
+                Buttons 
+------------------------------------------------------------------->
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button name="button" class="btnRegister rightbtn align-middle">
+                                        <i class="material-icons align-middle">settings</i>
+                                        <span class="align-middle">Compilar</span></>
+                                    </button>
+                                    <button name="button" class="btnRegister leftbtn">
+                                        <i class="material-icons align-middle">publish</i>
+                                        <span class="align-middle">Desde un archivo</span></>
+                                    </button>
+                                </div>  
                             </div>
                         </div>
                     </div>
