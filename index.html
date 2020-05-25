@@ -3,15 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/regex-icon.png" type="image/png" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
     <link href="https://cdn.materialdesignicons.com/5.2.45/css/materialdesignicons.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <title>Compilador</title>
+    <script>
+        const regexp = /(int|float|boolean|double|char|void)\s[a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}\s\(((int|float|boolean|double|char)\s[a-zA-Z$_]{1,1}[a-zA-Z0-9\-_]{0,}(\,\s(int|float|boolean|double|char)\s[a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}){0,}|)\)\s\{\n([a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}\s\=\s([a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}|[0-9]{1,}(\.[0-9]{1,}){0,1})(\s[+|\-|*|/|%]\s([a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}|[0-9]{1,}(\.[0-9]{1,}){0,1})){1,}\n){1,}\}/g
+
+        document.addEventListener('DOMContentLoaded', function () {
+            new Vue({
+                el: '#app',
+                data: {
+                    text: ''
+                },
+                methods: {
+                    validate: () => {
+                        this.text = document.getElementById("form19").value
+                        const result = regexp.exec(this.text)
+                        console.log(result === null ? 'Error' : result)
+                    },
+                    previewFiles(event) {
+                        const someData = event.target.files[0]
+                        console.log(someData)
+                        const arch = new FileReader()
+                        arch.addEventListener('load',this.leer,false);
+                        arch.readAsText(event.target.files[0])
+                    },
+                    leer(ev) {
+                        document.getElementById('form19').value = ev.target.result
+                        this.text = document.getElementById("form19").value
+                        const lineas = this.text.split('\n')
+                        document.getElementById("form19").rows = lineas.length
+                    }
+                }
+            })
+        })
+    </script>
+   
 </head>
 <body>
-    <div class="container register">
+    <div class="container register" id="app">
         <div class="row">
 
 <!------------------------------------------------------------------
@@ -34,7 +69,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="md-form amber-textarea active-amber-textarea">
-                                        <textarea id="form19" class="md-textarea form-control" rows="3"></textarea>
+                                        <textarea 
+                                        id="form19" 
+                                        class="md-textarea form-control" 
+                                        rows="1"
+                                        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                                         <label for="form19">Ingrese el código a compilar</label>
                                     </div>
                                 </div>
@@ -42,18 +81,21 @@
 <!------------------------------------------------------------------
                 Buttons 
 ------------------------------------------------------------------->
-                            <div class="col-md-12">
+                            <div class="col-md-12 buttonsCompile"> 
                                 <div class="form-group">
-                                    <button name="button" class="btnRegister rightbtn align-middle">
+                                    <label class="btn btnRegister inputfile">
+                                        <span class="mdi mdi-file-upload align-middle"></span>
+                                        Cargar archivo 
+                                        <input type="file" 
+                                            style="display: none;" 
+                                            @change="previewFiles"
+                                            accept="text/plain">
+                                    </label>
+                                    <button name="button" class="btnRegister align-middle" v-on:click="validate()">
                                         <span class="mdi mdi-cog align-middle"></span>
                                         <span class="align-middle">Compilar</span>
                                     </button>
-                                    <button name="button" class="btnRegister leftbtn">
-                                        <span class="mdi mdi-file-upload align-middle"></span>
-                                        <input type="file" name="file" id="file" class="inputfile"/>
-                                        <label for="file">Desde un archivo</label>
-                                    </button>
-                                </div>  
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -113,4 +155,5 @@
     </div>
 </footer>
 </body>
+
 </html>

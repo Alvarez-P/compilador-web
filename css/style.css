@@ -14,7 +14,9 @@ body {
 /*---------------------------------------------------------
                         Text and layout
 ---------------------------------------------------------*/
-
+textarea {
+	overflow: hidden;
+}
 .register{
     margin-top: 3%;
     padding: 3%;
@@ -26,7 +28,7 @@ body {
     margin-top: 4%;
 }
 .register-right{
-    background: #f8f9fa;
+    background: var(--light-color);
     border-top-left-radius: 10% 50%;
     border-bottom-left-radius: 10% 50%;
 }
@@ -74,26 +76,9 @@ body {
 button {
     text-align: center;
 }
-i {
-    padding: 0 1.5rem 0 0;
-}
-.btnRegister{
-    float: right;
-    margin-top: 10%;
-    border: none;
-    padding: 2%;
-    background: var(--dark-color);
-    color: var(--light-color);
-    font-weight: 600;
-    width: 50%;
-    cursor: pointer;
-}
-.btnRegister.leftbtn{
-    border-radius: 1.5rem 0rem 0rem 1.5rem;
-}
-.btnRegister.rightbtn{
-    border-radius: 0rem 1.5rem 1.5rem 0rem;
-    padding-bottom: .85rem;
+.buttonsCompile {
+	flex-direction: column; 
+	align-items: center;
 }
 .btnRegister:hover {
     background: var(--contrast-color);
@@ -104,24 +89,20 @@ i {
 .register-left h5 {
     font-weight: bold;
 }
-
 .inputfile {
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
+	padding: .10%
 }
-.inputfile + label {
-    font-weight: 600;
+.btnRegister { 
+	margin: .2rem;
+    border: none;
+    background: var(--dark-color);
     color: var(--light-color);
-    background-color: transparent;
-    display: inline-block;
-    cursor: pointer;
+    font-weight: 600;
+    width: 48%;
+	cursor: pointer;
+	border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
 }
 
-.inputfile:focus + label,
-.inputfile + label:hover {
-    background-color: transparent;
-}
 /*---------------------------------------------------------
                         Text Area
 ---------------------------------------------------------*/
@@ -285,4 +266,11 @@ footer{
 		margin-left: 0;
 	}
  
+}
+
+@media (max-width: 550px) {
+	.register-right {
+		border-top-left-radius: 0% 0%;
+		border-bottom-left-radius: 0% 0%;
+	}
 }
