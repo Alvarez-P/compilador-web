@@ -10,40 +10,8 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
     <link href="https://cdn.materialdesignicons.com/5.2.45/css/materialdesignicons.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script type="module" src="/js/index.js"></script>
     <title>Compilador</title>
-    <script>
-        const regexp = /(int|float|boolean|double|char|void)\s[a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}\s\(((int|float|boolean|double|char)\s[a-zA-Z$_]{1,1}[a-zA-Z0-9\-_]{0,}(\,\s(int|float|boolean|double|char)\s[a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}){0,}|)\)\s\{\n([a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}\s\=\s([a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}|[0-9]{1,}(\.[0-9]{1,}){0,1})(\s[+|\-|*|/|%]\s([a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}|[0-9]{1,}(\.[0-9]{1,}){0,1})){1,}\n){1,}\}/g
-
-        document.addEventListener('DOMContentLoaded', function () {
-            new Vue({
-                el: '#app',
-                data: {
-                    text: ''
-                },
-                methods: {
-                    validate: () => {
-                        this.text = document.getElementById("form19").value
-                        const result = regexp.exec(this.text)
-                        console.log(result === null ? 'Error' : result)
-                    },
-                    previewFiles(event) {
-                        const someData = event.target.files[0]
-                        console.log(someData)
-                        const arch = new FileReader()
-                        arch.addEventListener('load',this.leer,false);
-                        arch.readAsText(event.target.files[0])
-                    },
-                    leer(ev) {
-                        document.getElementById('form19').value = ev.target.result
-                        this.text = document.getElementById("form19").value
-                        const lineas = this.text.split('\n')
-                        document.getElementById("form19").rows = lineas.length
-                    }
-                }
-            })
-        })
-    </script>
-   
 </head>
 <body>
     <div class="container register" id="app">

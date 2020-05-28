@@ -7,7 +7,9 @@
     --light-color: #f8f9fa;
 }
 body {
-    background: -webkit-linear-gradient(left, var(--dark-color), var(--contrast-color));
+	background: -webkit-linear-gradient(left, var(--dark-color), var(--contrast-color));
+	overflow-x: hidden;
+	margin:0;
 }
 
 
@@ -17,10 +19,10 @@ body {
 textarea {
 	overflow: hidden;
 }
-.register{
-    margin-top: 3%;
-    padding: 3%;
-    margin-bottom: 5rem;
+.register {
+	width: 100%;
+    margin-top: 10%;
+    margin-bottom: 8rem;
 }
 .register-left{
     text-align: center;
@@ -269,6 +271,9 @@ footer{
 }
 
 @media (max-width: 550px) {
+	.btnRegister {
+		width: 100%;
+	}
 	.register-right {
 		border-top-left-radius: 0% 0%;
 		border-bottom-left-radius: 0% 0%;
