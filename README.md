@@ -22,6 +22,6 @@ Analizador Léxico usando RegExp.
 - [CSS](https://www.w3schools.com/css/) - CSS is a language that describes the style of an HTML document.
 - [JS](https://www.w3schools.com/js/) - JavaScript is the programming language of HTML and the Web.
     - [Regexp](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/RegExp)
-- [Vue.js-CDN](https://es.vuejs.org/) Framework JS progresivo para construir interfaces de usuario. 
+- [Vue.js](https://es.vuejs.org/) It is a progressive framework to build user interfaces. (CDN)
 ---
 Made with ❤️ by [Adolfo Alvarez](https://github.com/alvarez98) 

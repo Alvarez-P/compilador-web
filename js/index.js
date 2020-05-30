@@ -7,21 +7,25 @@ document.addEventListener('DOMContentLoaded', function () {
         el: '#app',
         data: {
             text: '',
-            result: '',
             previous: '',
-            res_previous: ''
+            tokens: [{}],
+            res_previous: [{}],
+            errores: [{}]
         },
         methods: {
-            validate: () => {
+            validate() {
                 this.text = document.getElementById("form19").value
                 if (this.text === this.previous) {
-                    console.log(this.res_previous)
+                    return
                 } else {
-                    this.result = regexp.exec(this.text)
-                    const res = getTokens(this.text)
+                    const { tokens, lex, errors } = getTokens(this.text)
+                    this.tokens.splice(0, this.tokens.length)
+                    this.tokens.push(...tokens)
+                    this.lexemas = lex
                     this.previous = this.text
-                    this.res_previous = res
-                    console.log(res)
+                    this.res_previous = { tokens, lex, errors }
+                    this.errores.splice(0, this.errores.length)
+                    this.errores.push(...errors)
                 }
             },
             previewFiles(event) {

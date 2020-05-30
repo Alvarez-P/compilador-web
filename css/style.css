@@ -4,7 +4,7 @@
 :root {
     --dark-color: #22212b;
     --contrast-color: #215968;
-    --light-color: #f8f9fa;
+	--light-color: #f8f9fa;
 }
 body {
 	background: -webkit-linear-gradient(left, var(--dark-color), var(--contrast-color));
@@ -120,7 +120,22 @@ button {
 .active-amber-textarea.md-form textarea.md-textarea:focus:not([readonly])+label {
     color: var(--contrast-color);
 }
+/*------------------------------------------------------------------
+            Tables 
+------------------------------------------------------------------*/
 
+.tables {
+	margin-top: 5rem;
+	margin-left: 0;
+	margin-right: 0;
+	color: var(--dark-color);
+}
+.tables h5 {
+	color: var(--light-color)
+}
+.tables table {
+	background-color: var(--light-color);
+}
 /*------------------------------------------------------------------
             Footer 
 ------------------------------------------------------------------*/
