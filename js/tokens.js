@@ -30,14 +30,15 @@ const errorTokens = {
 }
 
 
-/** 
+/** getTokens
  * @description Divide un string en lexemas para validar con expresiones regulares
  * @param {string} code Texto a validar
  * @return {[lexemas]}  Lista de lexemas en el orden en que se muetra en el texto de entrada
  * @return {[tokens]}  Lista de tokens de cada lexema (sin repetirlos)
- */
+*/
 
 export function getTokens (code) {
+    // Inicia contadores
     const contadores = {
         ID: 1,
         TD: 1,
@@ -60,6 +61,7 @@ export function getTokens (code) {
         SEP : 1,
         OA : 1
     }
+    // Obtiene los lexemas, limpia espacios vacios y repetidos. Inicia variables
     let lex = code.split(/(\n|\s|\)|,)/)
     lex = lex.filter(Boolean)
     let lexemas = [...new Set(lex)],
@@ -70,11 +72,11 @@ export function getTokens (code) {
         tokens = [],
         errMatch,
         tokenErr
-      
+    
     for (let lex in lexemas){
         let lexema = lexemas[lex]
         token = null
-    
+        // Compara cada lexema con cada regex
         for (const key in tokensMatch) {
             resMatch = tokensMatch[key].exec(lexema)
 
@@ -86,10 +88,13 @@ export function getTokens (code) {
             }
         }
         if (token) {
-            line += token.token === "ENTER" ? 1 : 0
+            // Aumenta el contador para saber en que linea se encuentra el ciclo
+            line += token.token === "ENTER" ? 1 : 0 
+            // Agrega el identificador al token
             token.token += (contadores[token.token]++)
             tokens.push(token)
         } else {
+            // Compara cada lexema con los regex de error
             for (const key in errorTokens) {
                 errMatch = errorTokens[key].regex.exec(lexema)
                 if (errMatch) {     
@@ -99,7 +104,6 @@ export function getTokens (code) {
                         description: errorTokens[key].description,
                         line
                     }
-                    break
                 }
             }
             tokens.push(tokenErr)
@@ -112,7 +116,12 @@ export function getTokens (code) {
             if(lex[l] === tokens[t].lexema) lex[l]= tokens[t].token
         }     
     }
-    console.log(errors);
+    lex = lex.toString()
+    // Limpia el texto para el archivo de tokens
+    lex = lex.replace(/,/gi, ' ')
+    lex = lex.replace(/SPACE1/gi, '')
+    lex = lex.replace(/ENTER1( )*/gi, '\n')
+    console.log(lex);
     
     return { tokens, lex, errors }
 }

@@ -5,6 +5,7 @@
     --dark-color: #22212b;
     --contrast-color: #215968;
 	--light-color: #f8f9fa;
+	--grey: #8f9296;
 }
 body {
 	background: -webkit-linear-gradient(left, var(--dark-color), var(--contrast-color));
@@ -104,21 +105,34 @@ button {
 	cursor: pointer;
 	border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
 }
-
+#download {
+	margin: 0rem;
+	width: 100%;
+	border-radius: 0rem 0rem 1.5rem 1.5rem;	
+}
+.disabled {
+	cursor: not-allowed; 
+	pointer-events: none; 
+	background-color: var(--grey);
+	color: var(var(--dark-color))
+}
 /*---------------------------------------------------------
                         Text Area
 ---------------------------------------------------------*/
 
 .amber-textarea textarea.md-textarea:focus:not([readonly]) {
-    border-color: 2px solid var(--contrast-color);
+    border-color: 3px solid var(--contrast-color);
     border-bottom: 1px solid var(--contrast-color);
-    box-shadow: 0 1px 0 0 var(--contrast-color);
+    box-shadow: 0 3px 0 0 var(--contrast-color);
 }
 .active-amber-textarea.md-form label.active {
     color: var(--contrast-color);
 }
 .active-amber-textarea.md-form textarea.md-textarea:focus:not([readonly])+label {
     color: var(--contrast-color);
+}
+#archivo-token {
+	border-radius: .5rem .5rem 0rem 0rem;
 }
 /*------------------------------------------------------------------
             Tables 
@@ -130,7 +144,7 @@ button {
 	margin-right: 0;
 	color: var(--dark-color);
 }
-.tables h5 {
+.titles {
 	color: var(--light-color)
 }
 .tables table {
@@ -198,7 +212,7 @@ footer{
 }
  
 .footer-distributed .footer-company-name{
-	color:  #8f9296;
+	color:  var(--grey);
 	font-size: 14px;
 	font-weight: normal;
 	margin: 0;

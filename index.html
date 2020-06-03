@@ -71,8 +71,9 @@
             </div>
         </div>
         <div class="row">
+            
             <div class="col-md-6 col-xs-12 tables">
-                <h5>Tabla de Simbolos</h5>
+                <h5 class="titles">Tabla de Simbolos</h5>
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">
                         <tr>
@@ -87,7 +88,7 @@
                  </table>
             </div>
             <div class="col-md-6 col-xs-12 tables">
-                <h5>Tabla de Error</h5>
+                <h5 class="titles">Tabla de Error</h5>
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">
                         <tr>
@@ -105,6 +106,21 @@
                     </tr>
                  </table>
             </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 col-xs-12" id="archivo-tokens">
+                <h5 class="titles">Archivo de tokens</h5>
+                <textarea id="archivo-token" class="md-textarea form-control" rows="1"></textarea>
+                <div class="text-center">
+                    <button id="download" name="button" class="btnRegister align-middle disabled" v-on:click="download()" >
+                        <span class="mdi mdi-download align-middle"></span>
+                        <span class="align-middle">Descargar</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
         </div>
     </div>
 <!------------------------------------------------------------------
