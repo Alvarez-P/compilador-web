@@ -1,6 +1,6 @@
 const filename = 'archivo-tokens.txt'
 export default function download(text) {
-    var element = document.createElement('a');
+    let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
   

@@ -1,6 +1,5 @@
 import { getTokens } from './tokens.js'
 import download from './download.js'
-const regexp = /^((int|float|boolean|double|char|void)\s[a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}\s\(((int|float|boolean|double|char)\s[a-zA-Z$_]{1,1}[a-zA-Z0-9\-_]{0,}(\,\s(int|float|boolean|double|char)\s[a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}){0,}|)\)\s\{\n([a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}\s\=\s([a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}|[0-9]{1,}(\.[0-9]{1,}){0,1})(\s[+|\-|*|/|%]\s([a-zA-Z$_]{1,1}[a-zA-Z0-9-_]{0,}|[0-9]{1,}(\.[0-9]{1,}){0,1})){1,}\n){1,}\}\n{0,}){1,}/g
  
 document.addEventListener('DOMContentLoaded', function () {
     new Vue({
