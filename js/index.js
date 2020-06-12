@@ -1,4 +1,4 @@
-import { getTokens } from './tokens.js'
+import compiler from './compiler/compiler.js'
 import download from './download.js'
  
 document.addEventListener('DOMContentLoaded', function () {
@@ -13,28 +13,27 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         methods: {
             validate() {
-                this.text = document.getElementById("form19").value
-                if (this.text === this.previous) {
-                    return
-                } else {
-                    // Reinicio tablas y valores
-                    this.previous = this.text
-                    this.tokens.splice(0, this.tokens.length)
-                    this.errores.splice(0, this.errores.length)
-                    // Valida y obtiene tokens
-                    const { tokens, lex, errors } = getTokens(this.text)
-                    this.tokens.push(...tokens)
-                    this.lexemas = lex
-                    this.errores.push(...errors)
-                    // Mostrar archivo de tokens
-                    const ta = document.getElementById("archivo-token")
-                    ta.value = this.lexemas
-                    const lineas = this.lexemas.split('\n')
-                    ta.rows = lineas.length 
-                    // Habilitar boton de descarga
-                    const btn = document.getElementById("download")
-                    btn.classList.remove("disabled")
+                this.text = document.getElementById("txtarea-code").value;
+                // Reinicio tablas y valores
+                this.previous = this.text;
+                this.tokens.length = 0
+                this.errores.length = 0
+                // Valida y obtiene tokens
+                const { tokens, tokenFile, errors } = compiler(this.text);
+                for (const token in tokens) {
+                  this.tokens.push(...tokens[token])
                 }
+                this.lexemas = tokenFile;
+                this.errores.push(...errors)
+                console.log('ok');
+                // Mostrar archivo de tokens
+                const ta = document.getElementById("archivo-token");
+                ta.value = this.lexemas
+                const lineas = this.lexemas.split("\n");
+                ta.rows = lineas.length
+                // Habilitar boton de descarga
+                const btn = document.getElementById("download")
+                btn.classList.remove("disabled")
             },
             previewFiles(event) {
                 const arch = new FileReader()
@@ -42,9 +41,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 arch.readAsText(event.target.files[0])
             },
             read(ev) {
-                document.getElementById('form19').value = ev.target.result
+                document.getElementById('txtarea-code').value = ev.target.result
                 const lineas = ev.target.result.split('\n')
-                document.getElementById("form19").rows = lineas.length - 1
+                document.getElementById("txtarea-code").rows = lineas.length - 1
             },
             download(){
                 download(this.lexemas)
