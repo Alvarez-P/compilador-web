@@ -20,14 +20,18 @@ let countersTk = {
     SEP: 1,
     OA: 1,
   }, errorTokens = {
-    ID : { description: '' },
-    TD : { description: '' },
-    CNE : { description: '' },
-    CNPF : { description: '' },
-    DEL : { description: '' },
-    AS : { description: '' },
-    SEP : { description: '' },
-    OA : { description: '' }
+    ID : { description: 'Identificador inválido' },
+    TD : { description: 'Tipo de dato inválido' },
+    TDF : { description: 'Tipo de función inválido' },
+    TDV : { description: 'Tipo de parámetro inválido' },
+    CNE : { description: 'No se reconoce el número' },
+    CNPF : { description: 'No se reconoce el número flotante' },
+    DEL : { description: 'Se esperaba un delimitador' },
+    AS : { description: 'Se esperaba signo de asignación' },
+    SEP : { description: 'Se esperaba un seperardor (,)' },
+    OA : { description: 'Operador inválido' },
+    DELO: { description: 'Se esperaba token {' },
+    DELE: { description: 'Se esperaba token }' }
 }
 
 export {

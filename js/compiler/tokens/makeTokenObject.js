@@ -1,5 +1,6 @@
 import { tokensMatch } from "../variables/regex.js"
 import { errorTokens } from '../variables/globalVariables.js'
+import { Token, TokenError } from './tokenClass.js'
 
 /** makeTokenObject
  * @description Divide cada linea en lexemas y obtiene el token segun su posicion a traves del lexema anterior
@@ -14,16 +15,10 @@ import { errorTokens } from '../variables/globalVariables.js'
 */
 
 const makeTokenObject = (lex, counts, countErrs, line, typeToken) => {
-    let type
-    if(typeToken === 'TDF' || typeToken === 'TDV') type = 'TD'  
-    else type = typeToken
-    const token = tokensMatch[typeToken].exec(lex) ? { 
-        token: `${type+(counts[type]++)}`,
-        lexema: lex } : {
-            token: `ERLX${type + (countErrs[type]++)}`,
-            lexema: lex,
-            line,
-            description: errorTokens[type].description }
+    let type = typeToken
+    if (typeToken === 'DELE' || typeToken === 'DELO') type = 'DEL'
+    if(typeToken === 'TDF' || typeToken === 'TDV') type = 'TD' 
+    const token = tokensMatch[typeToken].exec(lex) ? new Token(`${type+(counts[type]++)}`, lex) : new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorTokens[typeToken].description)
     return { token, counts, countErrs }
 }
 

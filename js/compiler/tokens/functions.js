@@ -1,4 +1,5 @@
 import makeTokenObject from "./makeTokenObject.js"
+import { TokenError } from './tokenClass.js'
 
 /** getFunctionTokens
  * @description Divide cada linea en lexemas y obtiene el token segun su posicion a traves del lexema anterior
@@ -12,73 +13,93 @@ import makeTokenObject from "./makeTokenObject.js"
  * @return {countErr} Objeto con los contadores de cada token de error
 */
 
-export default function getFunctionTokens(text, counters, countErrors, line) {
+export default function getFunctionTokens(text, counters, countErrors, line, errors) {
     //
     let lexemas = text.split(/(\s|,|\(|\)|{)/), previous = null, tokenList = []
     let file = ''
     lexemas = lexemas.filter(lexema => lexema && lexema !== ' ')
+    console.log(lexemas);
     for(const lexema in lexemas) {
         let lex = lexemas[lexema]
         switch(previous) {
             case null: 
                 const r = makeTokenObject(lex, counters, countErrors, line, 'TDF') // TDF para tipos de funciones y TDV para variables
-                counters, countErrors, previous = 'TD', r.countErrs, r.counts, 
+                counters = r.counts, 
+                countErrors = r.countErrs
+                previous = 'TD'
+                if(r.token.description) errors.push(r.token)
                 tokenList.push(r.token)
                 file += ` ${r.token.token}`
                 break
             case 'TD':
                 const re = makeTokenObject(lex, counters, countErrors, line, 'ID')
-                counters, countErrors, previous = 'IDF', re.countErrs, re.counts
+                counters = re.counts
+                countErrors = re.countErrs
+                previous = 'IDF'
+                if(re.token.description) errors.push(re.token)
                 tokenList.push(re.token)
                 file += ` ${re.token.token}`
                 break
             case 'IDF':
                 const res = makeTokenObject(lex, counters, countErrors, line, 'DEL')
-                counters, countErrors, previous =  '(', res.countErrs, res.counts
+                counters = res.counts
+                previous =  '('
+                countErrors = res.countErrs
+                if(res.token.description) errors.push(res.token)
                 tokenList.push(res.token)
                 file += ` ${res.token.token}`
                 break
             case '(':
                 let typeToken = lex.indexOf(')') !== -1 ? 'DEL' : 'TDV'
                 const resu = makeTokenObject(lex, counters, countErrors, line, typeToken)
-                counters, countErrors = resu.counts, resu.countErrs
+                counters = resu.counts
+                countErrors = resu.countErrs
                 previous = typeToken === 'DEL' ? ')' : 'TDV'
+                if(resu.token.description) errors.push(resu.token)
                 tokenList.push(resu.token)
                 file += ` ${resu.token.token}`
                 break
             case 'TDV':
-                const resul = makeTokenObject(lex, counters, countErrors, line, 'ID')
-                counters, countErrors, previous = 'ID', resul.countErrs, resul.counts
+                const typeTkn = lex.indexOf(')') !== -1 ? 'DEL' : 'TDV'
+                const resul = makeTokenObject(lex, counters, countErrors, line, typeTkn)
+                counters = resul.counts
+                countErrors = resul.countErrs
+                previous = typeTkn === 'DEL' ? ')' : 'TDV'
+                if(resul.token.description) errors.push(resul.token)
                 tokenList.push(resul.token)
                 file += ` ${resul.token.token}`
                 break
             case 'ID':
                 const typeTk = lex.indexOf(')') !== -1 ? 'DEL' : 'SEP'
                 const result = makeTokenObject(lex, counters, countErrors, line, typeTk)
-                counters, countErrors = result.countErrs, result.counts
+                counters = result.counts
+                countErrors = result.countErrs
                 previous = typeTk === 'DEL' ? ')' : 'SEP'
+                if(result.token.description) errors.push(result.token)
                 tokenList.push(result.token)
                 file += ` ${result.token.token}`
                 break
             case 'SEP':
                 const resulta = makeTokenObject(lex, counters, countErrors, line, 'TDV')
-                counters, countErrors, previous = 'TD', resulta.countErrs,  resulta.counts
+                counters = resulta.counts
+                countErrors = resulta.countErrs
+                previous = 'TD'
+                if(resulta.token.description) errors.push(resulta.token)
                 tokenList.push(resulta.token)
                 file += ` ${resulta.token.token}`
                 break
             case ')':
-                const resultad = makeTokenObject(lex, counters, countErrors, line, 'DEL')
-                counters, countErrors, previous = '{', resultad.countErrs,  resultad.counts
+                const resultad = makeTokenObject(lex, counters, countErrors, line, 'DELO')
+                counters = resultad.counts
+                countErrors = resultad.countErrs
+                previous = resultad.token.description !== undefined ? ')' : '{'
+                if(resultad.token.description) errors.push(resultad.token)
                 tokenList.push(resultad.token)
                 file += ` ${resultad.token.token}`
                 break
             default:
-                const token = {
-                    token: `ERLX`,
-                    line,
-                    lexema: lex,
-                    description: 'No se reconoce el lexema'
-                }
+                const token = new TokenError(`ERLX`, lex, ++line, '')
+                errors.push(token)
                 tokenList.push(token)
                 file += ` ${token.token}`
                 break
@@ -88,7 +109,8 @@ export default function getFunctionTokens(text, counters, countErrors, line) {
         tokenListF: tokenList,
         fileF: file.trim(),
         countF: counters,
-        countErrF: countErrors
+        countErrF: countErrors,
+        errsF: errors
     }
 }
 
