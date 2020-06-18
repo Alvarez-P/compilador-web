@@ -25,7 +25,7 @@ export default function compile(code) {
                 switch(lineRegex) {
                     case 'functions':
                         const { tokenListF, countF, fileF, countErrF, errsF } = getFunctionTokens(text, counters, countErrors, line, tokens, errors)
-                        tokens.push(...tokenListF)
+                        //tokens.push(...tokenListF)
                         counters = countF
                         countErrors = countErrF // igualo contadores de tokens para mantener los valores en las siguientes lineas
                         tokenFile += `${fileF}\n`
@@ -33,7 +33,7 @@ export default function compile(code) {
                         break
                     case 'operations':
                         const { tokenListO, countO, fileO, countErrO, errsO } = getOperationTokens(text, counters, countErrors, line, tokens, errors)
-                        tokens.push(...tokenListO)
+                        //tokens.push(...tokenListO)
                         counters = countO
                         countErrors = countErrO
                         tokenFile += `${fileO}\n`
@@ -41,7 +41,7 @@ export default function compile(code) {
                         break
                     case 'endFunctions':
                         const { tokenListE, countE, fileE, countErrE, errsE } = getEndFunctionToken(text, counters, countErrors, line, tokens, errors)
-                        tokens.push(...tokenListE)
+                        //tokens.push(...tokenListE)
                         counters = countE
                         countErrors = countErrE
                         tokenFile += `${fileE}\n`
@@ -53,7 +53,7 @@ export default function compile(code) {
             }
         }
     }
-    console.log(tokens)
-    console.log(errors)
+    console.log('Tokens', tokens)
+    console.log('Errores', errors)
     return { tokens, tokenFile, errors }
 }

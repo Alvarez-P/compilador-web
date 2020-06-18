@@ -13,33 +13,33 @@ import { TokenError } from './tokenClass.js'
  * @return {countErr} Objeto con los contadores de cada token de error
 */
 
-export default function getEndFuntionTokens(text, counters, countErrors, line, tokens, errors) {
+export default function getEndFuntionTokens(text, counters, countErrors, line, tokenList, errors) {
     // Separa por lexemas
-    let lexemas = text.split(/(\s|})/), previous = null, tokenList = []
+    let lexemas = text.split(/(\s|})/), previous = null//, tokenList = []
     let file = ''
     lexemas = lexemas.filter(lexema => lexema && lexema !== ' ')
     for(let lexema in lexemas) {
         let lex = lexemas[lexema]
         switch(previous) {
             case null: 
-                const r = makeTokenObject(lex, counters, countErrors, line, 'DELE', tokens) // TDF para tipos de funciones y TDV para variables
+                const r = makeTokenObject(lex, counters, countErrors, line, 'DELE', tokenList) // TDF para tipos de funciones y TDV para variables
                 counters = r.counts, 
                 countErrors = r.countErrs
                 previous = 'END'
                 if(r.token.description) errors.push(r.token)
-                tokenList.push(r.token)
+                //tokenList.push(r.token)
                 file += ` ${r.token.token}`
                 break
             case 'END':
                 const tk = new TokenError(`ERLX`, lex, ++line, '')
                 errors.push(tk)
-                tokenList.push(tk)
+                //tokenList.push(tk)
                 file += ` ${tk.token}`
                 break
             default:
                 const token = new TokenError(`ERLX`, lex, ++line, '')
                 errors.push(token)
-                tokenList.push(token)
+                //tokenList.push(token)
                 file += ` ${token.token}`
                 break
         }

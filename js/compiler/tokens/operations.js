@@ -13,30 +13,30 @@ import { TokenError } from './tokenClass.js'
  * @return {countErr} Objeto con los contadores de cada token de error
 */
 
-export default function getOperationTokens(text, counters, countErrors, line, tokens, errors) {
+export default function getOperationTokens(text, counters, countErrors, line, tokenList, errors) {
     // Separa por lexemas
-    let lexemas = text.split(/(\s|\+|\-|\/|=|\*|%)/), previous = null, tokenList = []
+    let lexemas = text.split(/(\s|\+|\-|\/|=|\*|%)/), previous = null//, tokenList = []
     let file = ''
     lexemas = lexemas.filter(lexema => lexema && lexema !== ' ')
     for(let lexema in lexemas) {
         let lex = lexemas[lexema]
         switch(previous) {
             case null: 
-                const r = makeTokenObject(lex, counters, countErrors, line, 'ID', tokens) // TDF para tipos de funciones y TDV para variables
+                const r = makeTokenObject(lex, counters, countErrors, line, 'ID', tokenList) // TDF para tipos de funciones y TDV para variables
                 counters = r.counts, 
                 countErrors = r.countErrs
                 previous = 'ID'
                 if(r.token.description) errors.push(r.token)
-                tokenList.push(r.token)
+                //tokenList.push(r.token)
                 file += ` ${r.token.token}`
                 break
             case 'ID':
-                const re = makeTokenObject(lex, counters, countErrors, line, 'AS', tokens)
+                const re = makeTokenObject(lex, counters, countErrors, line, 'AS', tokenList)
                 counters = re.counts
                 countErrors = re.countErrs
                 previous = 'AS'
                 if(re.token.description) errors.push(re.token)
-                tokenList.push(re.token)
+                //tokenList.push(re.token)
                 file += ` ${re.token.token}`
                 break
             case 'AS':
@@ -46,21 +46,21 @@ export default function getOperationTokens(text, counters, countErrors, line, to
                     else typeToken = 'CNE' 
                 }
                 else typeToken = 'ID'
-                const resu = makeTokenObject(lex, counters, countErrors, line, typeToken, tokens)
+                const resu = makeTokenObject(lex, counters, countErrors, line, typeToken, tokenList)
                 counters = resu.counts
                 countErrors = resu.countErrs
                 previous = 'OPERANDO'
                 if(resu.token.description) errors.push(resu.token)
-                tokenList.push(resu.token)
+                //tokenList.push(resu.token)
                 file += ` ${resu.token.token}`
                 break
             case 'OPERANDO':
-                const resul = makeTokenObject(lex, counters, countErrors, line, 'OA', tokens)
+                const resul = makeTokenObject(lex, counters, countErrors, line, 'OA', tokenList)
                 counters = resul.counts
                 countErrors = resul.countErrs
                 previous = 'OA'
                 if(resul.token.description) errors.push(resul.token)
-                tokenList.push(resul.token)
+                //tokenList.push(resul.token)
                 file += ` ${resul.token.token}`
                 break
             case 'OA':
@@ -70,18 +70,18 @@ export default function getOperationTokens(text, counters, countErrors, line, to
                     else typeTk = 'CNE' 
                 }
                 else typeTk = 'ID'
-                const result = makeTokenObject(lex, counters, countErrors, line, typeTk, tokens)
+                const result = makeTokenObject(lex, counters, countErrors, line, typeTk, tokenList)
                 counters = result.counts
                 countErrors = result.countErrs
                 previous = 'OPERANDO'
                 if(result.token.description) errors.push(result.token)
-                tokenList.push(result.token)
+                //tokenList.push(result.token)
                 file += ` ${result.token.token}`
                 break
             default:
                 const token = new TokenError(`ERLX`, lex, ++line, '')
                 errors.push(token)
-                tokenList.push(token)
+                //tokenList.push(token)
                 file += ` ${token.token}`
                 break
         }
