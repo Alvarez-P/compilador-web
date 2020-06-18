@@ -5,7 +5,7 @@ Analizador Léxico usando RegExp.
 
 ## ¿Cómo usar?
 
-Existen dos manera de usar este proyecto. Una es en línea y puedes acceder desde [aquí](https://github.com/EstebanBrito/compilador-web). Otra es usarlo de manera local, que se explica a continuación.
+Existen dos manera de usar este proyecto. Una es en línea y puedes acceder desde [aquí](https://estebanbrito.github.io/compilador-web/). Otra es usarlo de manera local, que se explica a continuación.
 
 ### Descarga el repositorio
 
