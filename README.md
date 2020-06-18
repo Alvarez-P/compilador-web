@@ -17,11 +17,8 @@ Si usas Firefox, entra a [esta página](about:config) y busca la opción privacy
 
 En la carpeta descomprimida, abre el archivo index.js (da doble click sobre él). Se abrirá la interfaz del programa en el navegador.
 
-### Project setup
+En la parte superior se podrá ingresar una función en texto plano. Al dar click a "Compilar", se generará en la parte inferior la tablas de símbolos y la tabla de errores, además del archivo de tokens el cual se puede descargar.
 
-```bash
-# None
-```
 ## Hecho con
 
 - [HTML](https://www.w3schools.com/html/) - HTML is the **standard** markup language for Web pages.

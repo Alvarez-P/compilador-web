@@ -35,7 +35,6 @@ const makeTokenObject = (lex, counts, countErrs, line, typeToken, tokens) => {
     if (tokensMatch[typeToken].exec(lex)){
         //Revisa si existe un token con ese lexema
         const res = lexemIsRegistered(lex, tokens)
-        if (lex==='a') console.log(res)
         if (res) {
             token = new Token(res.token, lex)
         } else {
@@ -47,7 +46,6 @@ const makeTokenObject = (lex, counts, countErrs, line, typeToken, tokens) => {
         token = new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorTokens[typeToken].description)
         tokens.push(token)
     }
-    if (lex==='a') console.log(token)
     return { token, counts, countErrs }
 }
 

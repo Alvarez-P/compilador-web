@@ -13,9 +13,9 @@ import getEndFunctionToken from './tokens/endFunctions.js'
 
 export default function compile(code) {
     let tokens = [], tokenFile = '', errors = []
-    let counters = countersTk, countErrors = countErrorsTk // asignacion a variables let ya que al importarlas, las lee como constantes, y no me deja modificarlas en linea 31
+    let counters = Object.assign({}, countersTk), countErrors = Object.assign({}, countErrorsTk) // asignacion a variables let ya que al importarlas, las lee como constantes, y no me deja modificarlas en linea 31
     let lines = code.split(/\n/)
-    for(const line in lines) {        
+    for(const line in lines) {
         let flag = false
         for(const lineRegex in linesRegex) {
             let text = lines[line].trim()            
