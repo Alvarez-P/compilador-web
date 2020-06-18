@@ -24,24 +24,24 @@ export default function compile(code) {
                 flag = true
                 switch(lineRegex) {
                     case 'functions':
-                        const { tokenListF, countF, fileF, countErrF, errsF } = getFunctionTokens(text, counters, countErrors, line, errors)
-                        tokens.push(tokenListF)
+                        const { tokenListF, countF, fileF, countErrF, errsF } = getFunctionTokens(text, counters, countErrors, line, tokens, errors)
+                        tokens.push(...tokenListF)
                         counters = countF
                         countErrors = countErrF // igualo contadores de tokens para mantener los valores en las siguientes lineas
                         tokenFile += `${fileF}\n`
                         errors = errsF
                         break
                     case 'operations':
-                        const { tokenListO, countO, fileO, countErrO, errsO } = getOperationTokens(text, counters, countErrors, line, errors)
-                        tokens.push(tokenListO)
+                        const { tokenListO, countO, fileO, countErrO, errsO } = getOperationTokens(text, counters, countErrors, line, tokens, errors)
+                        tokens.push(...tokenListO)
                         counters = countO
                         countErrors = countErrO
                         tokenFile += `${fileO}\n`
                         errors = errsO
                         break
                     case 'endFunctions':
-                        const { tokenListE, countE, fileE, countErrE, errsE } = getEndFunctionToken(text, counters, countErrors, line, errors)
-                        tokens.push(tokenListE)
+                        const { tokenListE, countE, fileE, countErrE, errsE } = getEndFunctionToken(text, counters, countErrors, line, tokens, errors)
+                        tokens.push(...tokenListE)
                         counters = countE
                         countErrors = countErrE
                         tokenFile += `${fileE}\n`

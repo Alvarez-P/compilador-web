@@ -13,7 +13,7 @@ import { TokenError } from './tokenClass.js'
  * @return {countErr} Objeto con los contadores de cada token de error
 */
 
-export default function getEndFuntionTokens(text, counters, countErrors, line, errors) {
+export default function getEndFuntionTokens(text, counters, countErrors, line, tokens, errors) {
     // Separa por lexemas
     let lexemas = text.split(/(\s|})/), previous = null, tokenList = []
     let file = ''
@@ -22,7 +22,7 @@ export default function getEndFuntionTokens(text, counters, countErrors, line, e
         let lex = lexemas[lexema]
         switch(previous) {
             case null: 
-                const r = makeTokenObject(lex, counters, countErrors, line, 'DELE') // TDF para tipos de funciones y TDV para variables
+                const r = makeTokenObject(lex, counters, countErrors, line, 'DELE', tokens) // TDF para tipos de funciones y TDV para variables
                 counters = r.counts, 
                 countErrors = r.countErrs
                 previous = 'END'

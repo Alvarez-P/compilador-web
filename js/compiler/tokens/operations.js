@@ -13,7 +13,7 @@ import { TokenError } from './tokenClass.js'
  * @return {countErr} Objeto con los contadores de cada token de error
 */
 
-export default function getOperationTokens(text, counters, countErrors, line, errors) {
+export default function getOperationTokens(text, counters, countErrors, line, tokens, errors) {
     // Separa por lexemas
     let lexemas = text.split(/(\s|\+|\-|\/|=|\*|%)/), previous = null, tokenList = []
     let file = ''
@@ -22,7 +22,7 @@ export default function getOperationTokens(text, counters, countErrors, line, er
         let lex = lexemas[lexema]
         switch(previous) {
             case null: 
-                const r = makeTokenObject(lex, counters, countErrors, line, 'ID') // TDF para tipos de funciones y TDV para variables
+                const r = makeTokenObject(lex, counters, countErrors, line, 'ID', tokens) // TDF para tipos de funciones y TDV para variables
                 counters = r.counts, 
                 countErrors = r.countErrs
                 previous = 'ID'
@@ -31,7 +31,7 @@ export default function getOperationTokens(text, counters, countErrors, line, er
                 file += ` ${r.token.token}`
                 break
             case 'ID':
-                const re = makeTokenObject(lex, counters, countErrors, line, 'AS')
+                const re = makeTokenObject(lex, counters, countErrors, line, 'AS', tokens)
                 counters = re.counts
                 countErrors = re.countErrs
                 previous = 'AS'
@@ -46,7 +46,7 @@ export default function getOperationTokens(text, counters, countErrors, line, er
                     else typeToken = 'CNE' 
                 }
                 else typeToken = 'ID'
-                const resu = makeTokenObject(lex, counters, countErrors, line, typeToken)
+                const resu = makeTokenObject(lex, counters, countErrors, line, typeToken, tokens)
                 counters = resu.counts
                 countErrors = resu.countErrs
                 previous = 'OPERANDO'
@@ -55,7 +55,7 @@ export default function getOperationTokens(text, counters, countErrors, line, er
                 file += ` ${resu.token.token}`
                 break
             case 'OPERANDO':
-                const resul = makeTokenObject(lex, counters, countErrors, line, 'OA')
+                const resul = makeTokenObject(lex, counters, countErrors, line, 'OA', tokens)
                 counters = resul.counts
                 countErrors = resul.countErrs
                 previous = 'OA'
@@ -70,7 +70,7 @@ export default function getOperationTokens(text, counters, countErrors, line, er
                     else typeTk = 'CNE' 
                 }
                 else typeTk = 'ID'
-                const result = makeTokenObject(lex, counters, countErrors, line, typeTk)
+                const result = makeTokenObject(lex, counters, countErrors, line, typeTk, tokens)
                 counters = result.counts
                 countErrors = result.countErrs
                 previous = 'OPERANDO'

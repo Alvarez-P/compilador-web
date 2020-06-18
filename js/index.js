@@ -20,9 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.errores.length = 0
                 // Valida y obtiene tokens
                 const { tokens, tokenFile, errors } = compiler(this.text);
-                for (const token in tokens) {
-                  this.tokens.push(...tokens[token])
-                }
+                //for (const token in tokens) this.tokens.push(...tokens[token])
+                this.tokens = tokens
                 this.lexemas = tokenFile;
                 this.errores.push(...errors)
                 console.log('ok');

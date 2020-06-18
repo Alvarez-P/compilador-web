@@ -13,7 +13,7 @@ import { TokenError } from './tokenClass.js'
  * @return {countErr} Objeto con los contadores de cada token de error
 */
 
-export default function getFunctionTokens(text, counters, countErrors, line, errors) {
+export default function getFunctionTokens(text, counters, countErrors, line, tokens, errors) {
     //
     let lexemas = text.split(/(\s|,|\(|\)|{)/), previous = null, tokenList = []
     let file = ''
@@ -22,7 +22,7 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
         let lex = lexemas[lexema]
         switch(previous) {
             case null: 
-                const r = makeTokenObject(lex, counters, countErrors, line, 'TDF') // TDF para tipos de funciones y TDV para variables
+                const r = makeTokenObject(lex, counters, countErrors, line, 'TDF', tokens) // TDF para tipos de funciones y TDV para variables
                 counters = r.counts, 
                 countErrors = r.countErrs
                 previous = 'TD'
@@ -31,7 +31,7 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
                 file += ` ${r.token.token}`
                 break
             case 'TD':
-                const re = makeTokenObject(lex, counters, countErrors, line, 'ID')
+                const re = makeTokenObject(lex, counters, countErrors, line, 'ID', tokens)
                 counters = re.counts
                 countErrors = re.countErrs
                 previous = 'IDF'
@@ -40,7 +40,7 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
                 file += ` ${re.token.token}`
                 break
             case 'IDF':
-                const res = makeTokenObject(lex, counters, countErrors, line, 'DEL')
+                const res = makeTokenObject(lex, counters, countErrors, line, 'DEL', tokens)
                 counters = res.counts
                 previous =  '('
                 countErrors = res.countErrs
@@ -50,7 +50,7 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
                 break
             case '(':
                 let typeToken = lex.indexOf(')') !== -1 ? 'DEL' : 'TDV'
-                const resu = makeTokenObject(lex, counters, countErrors, line, typeToken)
+                const resu = makeTokenObject(lex, counters, countErrors, line, typeToken, tokens)
                 counters = resu.counts
                 countErrors = resu.countErrs
                 previous = typeToken === 'DEL' ? ')' : 'TDV'
@@ -61,7 +61,7 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
             case 'TDV':
                 //const typeTkn = lex.indexOf(')') !== -1 ? 'DEL' : 'TDV'
                 const typeTkn = 'ID'
-                const resul = makeTokenObject(lex, counters, countErrors, line, typeTkn)
+                const resul = makeTokenObject(lex, counters, countErrors, line, typeTkn, tokens)
                 counters = resul.counts
                 countErrors = resul.countErrs
                 //previous = typeTkn === 'DEL' ? ')' : 'TDV'
@@ -72,7 +72,7 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
                 break
             case 'ID':
                 const typeTk = lex.indexOf(')') !== -1 ? 'DEL' : 'SEP'
-                const result = makeTokenObject(lex, counters, countErrors, line, typeTk)
+                const result = makeTokenObject(lex, counters, countErrors, line, typeTk, tokens)
                 counters = result.counts
                 countErrors = result.countErrs
                 previous = typeTk === 'DEL' ? ')' : 'SEP'
@@ -81,7 +81,7 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
                 file += ` ${result.token.token}`
                 break
             case 'SEP':
-                const resulta = makeTokenObject(lex, counters, countErrors, line, 'TDV')
+                const resulta = makeTokenObject(lex, counters, countErrors, line, 'TDV', tokens)
                 counters = resulta.counts
                 countErrors = resulta.countErrs
                 previous = 'TDV'
@@ -90,7 +90,7 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
                 file += ` ${resulta.token.token}`
                 break
             case ')':
-                const resultad = makeTokenObject(lex, counters, countErrors, line, 'DELO')
+                const resultad = makeTokenObject(lex, counters, countErrors, line, 'DELO', tokens)
                 counters = resultad.counts
                 countErrors = resultad.countErrs
                 previous = resultad.token.description !== undefined ? ')' : '{'
