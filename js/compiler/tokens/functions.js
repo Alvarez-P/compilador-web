@@ -18,7 +18,6 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
     let lexemas = text.split(/(\s|,|\(|\)|{)/), previous = null, tokenList = []
     let file = ''
     lexemas = lexemas.filter(lexema => lexema && lexema !== ' ')
-    console.log(lexemas);
     for(const lexema in lexemas) {
         let lex = lexemas[lexema]
         switch(previous) {
@@ -60,11 +59,13 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
                 file += ` ${resu.token.token}`
                 break
             case 'TDV':
-                const typeTkn = lex.indexOf(')') !== -1 ? 'DEL' : 'TDV'
+                //const typeTkn = lex.indexOf(')') !== -1 ? 'DEL' : 'TDV'
+                const typeTkn = 'ID'
                 const resul = makeTokenObject(lex, counters, countErrors, line, typeTkn)
                 counters = resul.counts
                 countErrors = resul.countErrs
-                previous = typeTkn === 'DEL' ? ')' : 'TDV'
+                //previous = typeTkn === 'DEL' ? ')' : 'TDV'
+                previous = 'ID'
                 if(resul.token.description) errors.push(resul.token)
                 tokenList.push(resul.token)
                 file += ` ${resul.token.token}`
@@ -83,7 +84,7 @@ export default function getFunctionTokens(text, counters, countErrors, line, err
                 const resulta = makeTokenObject(lex, counters, countErrors, line, 'TDV')
                 counters = resulta.counts
                 countErrors = resulta.countErrs
-                previous = 'TD'
+                previous = 'TDV'
                 if(resulta.token.description) errors.push(resulta.token)
                 tokenList.push(resulta.token)
                 file += ` ${resulta.token.token}`

@@ -19,6 +19,13 @@ const makeTokenObject = (lex, counts, countErrs, line, typeToken) => {
     if (typeToken === 'DELE' || typeToken === 'DELO') type = 'DEL'
     if(typeToken === 'TDF' || typeToken === 'TDV') type = 'TD' 
     const token = tokensMatch[typeToken].exec(lex) ? new Token(`${type+(counts[type]++)}`, lex) : new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorTokens[typeToken].description)
+    /*
+    let token = null
+    if (tokensMatch[typeToken].exec(lex)){
+
+    } else {
+
+    }*/
     return { token, counts, countErrs }
 }
 

@@ -26,7 +26,7 @@ export default function compile(code) {
                     case 'functions':
                         const { tokenListF, countF, fileF, countErrF, errsF } = getFunctionTokens(text, counters, countErrors, line, errors)
                         tokens.push(tokenListF)
-                        counters = countF 
+                        counters = countF
                         countErrors = countErrF // igualo contadores de tokens para mantener los valores en las siguientes lineas
                         tokenFile += `${fileF}\n`
                         errors = errsF
@@ -53,5 +53,7 @@ export default function compile(code) {
             }
         }
     }
+    console.log(tokens)
+    console.log(errors)
     return { tokens, tokenFile, errors }
 }
