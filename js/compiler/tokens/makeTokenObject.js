@@ -14,11 +14,38 @@ import { Token, TokenError } from './tokenClass.js'
  * @return {countErrs} Objeto con los contadores de cada token
 */
 
-const makeTokenObject = (lex, counts, countErrs, line, typeToken) => {
+const lexemIsRegistered = (lexem, tokens) => {
+    let match = null
+    for (const token of tokens){
+        if (token.lexema === lexem){
+            match = token
+            break
+        }
+    }
+    return match
+}
+
+const makeTokenObject = (lex, counts, countErrs, line, typeToken, tokens) => {
     let type = typeToken
     if (typeToken === 'DELE' || typeToken === 'DELO') type = 'DEL'
     if(typeToken === 'TDF' || typeToken === 'TDV') type = 'TD' 
-    const token = tokensMatch[typeToken].exec(lex) ? new Token(`${type+(counts[type]++)}`, lex) : new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorTokens[typeToken].description)
+    //DELETEconst token = tokensMatch[typeToken].exec(lex) ? new Token(`${type+(counts[type]++)}`, lex) : new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorTokens[typeToken].description)
+    
+    let token = null
+    if (tokensMatch[typeToken].exec(lex)){
+        //Revisa si existe un token con ese lexema
+        const res = lexemIsRegistered(lex, tokens)
+        if (res) {
+            token = new Token(res.token, lex)
+        } else {
+            token = new Token(`${type+(counts[type]++)}`, lex)
+            tokens.push(token)
+        }
+        //token = new Token(`${type+(counts[type]++)}`, lex)
+    } else {
+        token = new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorTokens[typeToken].description)
+        tokens.push(token)
+    }
     return { token, counts, countErrs }
 }
 

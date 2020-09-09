@@ -3,20 +3,25 @@
 Compilador de Expresiones Regulares.
 Analizador Léxico usando RegExp.
 
-## Getting Started
+## ¿Cómo usar?
 
-### Prerequisites 📋
+Existen dos manera de usar este proyecto. Una es en línea y puedes acceder desde [aquí](https://estebanbrito.github.io/compilador-web/). Otra es usarlo de manera local, que se explica a continuación.
 
-- None
+### Descarga el repositorio
 
-## Deployment 📦
+A la derecha de la página verás un botón verde con las opciones de Descargar y Clonar. Da click en Descargar y descomprime el archivo zip que has descargado.
 
-### Project setup
+### Configuración
 
-```bash
-# None
-```
-## Builth With
+Si usas Firefox, entra a [esta página](about:config) y busca la opción privacy.file_unique_origin. Cambia su valor a "false". Ya todo estará listo para usar el programa.
+
+En la carpeta descomprimida, abre el archivo index.js (da doble click sobre él). Se abrirá la interfaz del programa en el navegador.
+
+## ¿Cómo lo uso?
+
+En la parte superior se podrá ingresar una función en texto plano. Al dar click a "Compilar", se generará en la parte inferior la tablas de símbolos y la tabla de errores, además del archivo de tokens el cual se puede descargar.
+
+## Hecho con
 
 - [HTML](https://www.w3schools.com/html/) - HTML is the **standard** markup language for Web pages.
 - [CSS](https://www.w3schools.com/css/) - CSS is a language that describes the style of an HTML document.
@@ -24,4 +29,4 @@ Analizador Léxico usando RegExp.
     - [Regexp](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/RegExp)
 - [Vue.js](https://es.vuejs.org/) It is a progressive framework to build user interfaces. (CDN)
 ---
-Made with ❤️ by [Adolfo Alvarez](https://github.com/alvarez98) 
+Desarrollado con ❤️ por [Adolfo Alvarez](https://github.com/alvarez98) y [Esteban Brito](https://github.com/EstebanBrito)
