@@ -58,7 +58,6 @@ export default function getOperationTokens(text, counters, countErrors, line, to
                 const resul = makeTokenObject(lex, counters, countErrors, line, 'OA', tokenList)
                 counters = resul.counts
                 countErrors = resul.countErrs
-                previous = 'OA'
                 if(resul.token.description) errors.push(resul.token)
                 //tokenList.push(resul.token)
                 file += ` ${resul.token.token}`
@@ -73,7 +72,6 @@ export default function getOperationTokens(text, counters, countErrors, line, to
                 const result = makeTokenObject(lex, counters, countErrors, line, typeTk, tokenList)
                 counters = result.counts
                 countErrors = result.countErrs
-                previous = 'OPERANDO'
                 if(result.token.description) errors.push(result.token)
                 //tokenList.push(result.token)
                 file += ` ${result.token.token}`
