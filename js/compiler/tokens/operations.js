@@ -59,6 +59,7 @@ export default function getOperationTokens(text, counters, countErrors, line, to
                 counters = resul.counts
                 countErrors = resul.countErrs
                 if(resul.token.description) errors.push(resul.token)
+                else previous = 'OA'
                 //tokenList.push(resul.token)
                 file += ` ${resul.token.token}`
                 break

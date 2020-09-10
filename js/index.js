@@ -6,33 +6,38 @@ document.addEventListener('DOMContentLoaded', function () {
         el: '#app',
         data: {
             text: '',
-            previous: '',
             tokens: [{}],
             errores: [{}],
             lexemas: ''
         },
         methods: {
-            validate() {
-                this.text = document.getElementById("txtarea-code").value;
-                // Reinicio tablas y valores
-                this.previous = this.text;
+            resetTables(){
+                // Reset Tables and Values
                 this.tokens.length = 0
                 this.errores.length = 0
-                // Valida y obtiene tokens
-                const { tokens, tokenFile, errors } = compiler(this.text);
-                //for (const token in tokens) this.tokens.push(...tokens[token])
+            },
+            setValuesToTables ({ tokens, tokenFile, errors }) {
                 this.tokens = tokens
                 this.lexemas = tokenFile;
                 this.errores.push(...errors)
-                console.log('ok');
-                // Mostrar archivo de tokens
-                const ta = document.getElementById("archivo-token");
-                ta.value = this.lexemas
-                const lineas = this.lexemas.split("\n");
-                ta.rows = lineas.length
+            },
+            showTokenFile (){
+                const textArea = document.getElementById("archivo-token");
+                textArea.value = this.lexemas
+                const lines = this.lexemas.split("\n")
+                textArea.rows = lines.length
+            },
+            enableDownloadButton (){
                 // Habilitar boton de descarga
                 const btn = document.getElementById("download")
                 btn.classList.remove("disabled")
+            },
+            compile () {
+                this.text = document.getElementById("txtarea-code").value
+                this.resetTables()
+                this.setValuesToTables(compiler(this.text))
+                this.showLexemasInTokenFileTextArea()
+                this.enableDownloadButton()
             },
             previewFiles(event) {
                 const arch = new FileReader()
