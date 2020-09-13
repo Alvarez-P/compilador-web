@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
     <link href="https://cdn.materialdesignicons.com/5.2.45/css/materialdesignicons.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://catamphetamine.github.io/read-excel-file/read-excel-file.min.js"></script>
     <script type="module" src="./js/index.js"></script>
     <title>Compilador</title>
 </head>
@@ -57,13 +58,18 @@
                                         <input type="file" 
                                             style="display: none;" 
                                             @change="previewFiles"
-                                            accept="text/plain">
+                                            accept="text/plain, .xlsx, .xls, .csv">
                                     </label>
                                     <button name="button" class="btnRegister align-middle" v-on:click="compile()">
                                         <span class="mdi mdi-cog align-middle"></span>
                                         <span class="align-middle">Compilar</span>
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div align="center" id="dtable">
+                                
                             </div>
                         </div>
                     </div>

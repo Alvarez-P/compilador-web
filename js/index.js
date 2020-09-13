@@ -40,14 +40,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.enableDownloadButton()
             },
             previewFiles(event) {
-                const arch = new FileReader()
-                arch.addEventListener('load',this.read,false);
-                arch.readAsText(event.target.files[0])
+                const file = event.target.files[0]
+                if(file.name.indexOf('.txt') !== -1) this.readTxt(file)
+                else this.readSheet(file)
             },
-            read(event) {
-                document.getElementById('txtarea-code').value = event.target.result
+            showTxt(event) {
+                const textArea = document.getElementById('txtarea-code')
+                textArea.value = event.target.result
                 const lines = event.target.result.split('\n')
-                document.getElementById("txtarea-code").rows = lines.length - 1
+                textArea.rows = lines.length - 1
+            },
+            readTxt (file){
+                const arch = new FileReader()
+                arch.addEventListener('load', this.showTxt, false)
+                arch.readAsText(file)
+            },
+            showSheet (data) {
+                document.getElementById('dtable').innerHTML = '<table border=1>' 
+                    + data.map(row => '<tr>' 
+                    + row.map(cell => `<td> ${ cell === null ? '' : cell } </td>`).join('') 
+                    + '</tr>').join('')  
+                    + '</table>'
+            },
+            readSheet (file){
+                readXlsxFile(file).then((data) => {
+                    this.showSheet(data)
+                })
             },
             download(text) {
                 let element = document.createElement('a');
