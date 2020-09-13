@@ -1,5 +1,4 @@
 import compiler from './compiler/compiler.js'
-import download from './download.js'
  
 document.addEventListener('DOMContentLoaded', function () {
     new Vue({
@@ -9,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
             previous: '',
             tokens: [{}],
             errores: [{}],
-            lexemas: ''
+            lexemas: '',
+            filename: 'archivo-tokens.txt'
         },
         methods: {
             validate() {
@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 this.lexemas = tokenFile;
                 this.errores.push(...errors)
-                console.log('ok');
                 // Mostrar archivo de tokens
                 const ta = document.getElementById("archivo-token");
                 ta.value = this.lexemas
@@ -40,13 +39,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 arch.addEventListener('load',this.read,false);
                 arch.readAsText(event.target.files[0])
             },
-            read(ev) {
-                document.getElementById('txtarea-code').value = ev.target.result
-                const lineas = ev.target.result.split('\n')
-                document.getElementById("txtarea-code").rows = lineas.length - 1
+            read(event) {
+                document.getElementById('txtarea-code').value = event.target.result
+                const lines = event.target.result.split('\n')
+                document.getElementById("txtarea-code").rows = lines.length - 1
             },
-            download(){
-                download(this.lexemas)
+            download(text) {
+                let element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                element.setAttribute('download', this.filename);
+            
+                element.style.display = 'none';
+                document.body.appendChild(element);
+            
+                element.click();
+                document.body.removeChild(element);
             }
         }
     })
