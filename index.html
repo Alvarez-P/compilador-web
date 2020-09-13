@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/regex-icon.png" type="image/png" />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link rel="icon" href="assets/terminal-white.png" type="image/png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
     <link href="https://cdn.materialdesignicons.com/5.2.45/css/materialdesignicons.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script type="module" src="/js/index.js"></script>
+    <script type="module" src="./js/index.js"></script>
     <title>Compilador</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
                 Left Section 
 ------------------------------------------------------------------->
             <div class="col-md-3 register-left">
-                <img src="https://s3.amazonaws.com/tinycards/image/b87e632126f9e7581c56a0526d74b7c7" alt=""/>
+                <img src="./assets/terminal-icon.png" alt=""/>
                 <h3>ISC</h3>
                 <h5>Lenguajes y Autómatas I</h5>
                 <p>Analizador léxico para reconocer las cadenas que pertenecen a un lenguaje regular.</p>
@@ -59,7 +59,7 @@
                                             @change="previewFiles"
                                             accept="text/plain">
                                     </label>
-                                    <button name="button" class="btnRegister align-middle" v-on:click="validate()">
+                                    <button name="button" class="btnRegister align-middle" v-on:click="compile()">
                                         <span class="mdi mdi-cog align-middle"></span>
                                         <span class="align-middle">Compilar</span>
                                     </button>

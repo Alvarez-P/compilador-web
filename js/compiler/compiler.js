@@ -13,9 +13,9 @@ import getEndFunctionToken from './tokens/endFunctions.js'
 
 export default function compile(code) {
     let tokens = [], tokenFile = '', errors = []
-    let counters = countersTk, countErrors = countErrorsTk // asignacion a variables let ya que al importarlas, las lee como constantes, y no me deja modificarlas en linea 31
+    let counters = Object.assign({}, countersTk), countErrors = Object.assign({}, countErrorsTk) // asignacion a variables let ya que al importarlas, las lee como constantes, y no me deja modificarlas en linea 31
     let lines = code.split(/\n/)
-    for(const line in lines) {        
+    for(const line in lines) {
         let flag = false
         for(const lineRegex in linesRegex) {
             let text = lines[line].trim()            
@@ -24,24 +24,24 @@ export default function compile(code) {
                 flag = true
                 switch(lineRegex) {
                     case 'functions':
-                        const { tokenListF, countF, fileF, countErrF, errsF } = getFunctionTokens(text, counters, countErrors, line, errors)
-                        tokens.push(tokenListF)
-                        counters = countF 
+                        const { tokenListF, countF, fileF, countErrF, errsF } = getFunctionTokens(text, counters, countErrors, line, tokens, errors)
+                        //tokens.push(...tokenListF)
+                        counters = countF
                         countErrors = countErrF // igualo contadores de tokens para mantener los valores en las siguientes lineas
                         tokenFile += `${fileF}\n`
                         errors = errsF
                         break
                     case 'operations':
-                        const { tokenListO, countO, fileO, countErrO, errsO } = getOperationTokens(text, counters, countErrors, line, errors)
-                        tokens.push(tokenListO)
+                        const { tokenListO, countO, fileO, countErrO, errsO } = getOperationTokens(text, counters, countErrors, line, tokens, errors)
+                        //tokens.push(...tokenListO)
                         counters = countO
                         countErrors = countErrO
                         tokenFile += `${fileO}\n`
                         errors = errsO
                         break
                     case 'endFunctions':
-                        const { tokenListE, countE, fileE, countErrE, errsE } = getEndFunctionToken(text, counters, countErrors, line, errors)
-                        tokens.push(tokenListE)
+                        const { tokenListE, countE, fileE, countErrE, errsE } = getEndFunctionToken(text, counters, countErrors, line, tokens, errors)
+                        //tokens.push(...tokenListE)
                         counters = countE
                         countErrors = countErrE
                         tokenFile += `${fileE}\n`
@@ -53,5 +53,7 @@ export default function compile(code) {
             }
         }
     }
+    console.log('Tokens', tokens)
+    console.log('Errores', errors)
     return { tokens, tokenFile, errors }
 }
