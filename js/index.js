@@ -8,17 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
             tokens: [{}],
             errores: [{}],
             lexemas: '',
-            filename: 'archivo-tokens.txt'
+            filename: 'token-file.txt'
         },
         methods: {
-            resetTables(){
-                // Reset Tables and Values
+            resetTables (){
                 this.tokens.length = 0
                 this.errores.length = 0
             },
             setValuesToTables ({ tokens, tokenFile, errors }) {
                 this.tokens = tokens
-                this.lexemas = tokenFile;
+                this.lexemas = tokenFile
                 this.errores.push(...errors)
             },
             showTokenFile (){
@@ -28,23 +27,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 textArea.rows = lines.length
             },
             enableDownloadButton (){
-                // Habilitar boton de descarga
                 const btn = document.getElementById("download")
                 btn.classList.remove("disabled")
             },
-            compile () {
+            compile (){
                 this.text = document.getElementById("txtarea-code").value
                 this.resetTables()
                 this.setValuesToTables(compiler(this.text))
                 this.showLexemasInTokenFileTextArea()
                 this.enableDownloadButton()
             },
-            previewFiles(event) {
+            previewFiles (event){
                 const file = event.target.files[0]
-                if(file.name.indexOf('.txt') !== -1) this.readTxt(file)
-                else this.readSheet(file)
+                this.readTxt(file)
             },
-            showTxt(event) {
+            showTxt (event){
                 const textArea = document.getElementById('txtarea-code')
                 textArea.value = event.target.result
                 const lines = event.target.result.split('\n')
@@ -55,26 +52,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 arch.addEventListener('load', this.showTxt, false)
                 arch.readAsText(file)
             },
-            showSheet (data) {
-                document.getElementById('dtable').innerHTML = '<table border=1>' 
-                    + data.map(row => '<tr>' 
-                    + row.map(cell => `<td> ${ cell === null ? '' : cell } </td>`).join('') 
-                    + '</tr>').join('')  
-                    + '</table>'
-            },
-            readSheet (file){
-                readXlsxFile(file).then((data) => {
-                    this.showSheet(data)
-                })
-            },
-            download(text) {
+            download (text){
                 let element = document.createElement('a');
                 element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
                 element.setAttribute('download', this.filename);
             
                 element.style.display = 'none';
                 document.body.appendChild(element);
-            
+
                 element.click();
                 document.body.removeChild(element);
             }
