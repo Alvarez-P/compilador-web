@@ -1,5 +1,4 @@
 import compiler from './compiler/compiler.js'
-import download from './download.js'
  
 document.addEventListener('DOMContentLoaded', function () {
     new Vue({
@@ -8,17 +7,17 @@ document.addEventListener('DOMContentLoaded', function () {
             text: '',
             tokens: [{}],
             errores: [{}],
-            lexemas: ''
+            lexemas: '',
+            filename: 'token-file.txt'
         },
         methods: {
-            resetTables(){
-                // Reset Tables and Values
+            resetTables (){
                 this.tokens.length = 0
                 this.errores.length = 0
             },
             setValuesToTables ({ tokens, tokenFile, errors }) {
                 this.tokens = tokens
-                this.lexemas = tokenFile;
+                this.lexemas = tokenFile
                 this.errores.push(...errors)
             },
             showTokenFile (){
@@ -28,29 +27,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 textArea.rows = lines.length
             },
             enableDownloadButton (){
-                // Habilitar boton de descarga
                 const btn = document.getElementById("download")
                 btn.classList.remove("disabled")
             },
-            compile () {
+            compile (){
                 this.text = document.getElementById("txtarea-code").value
                 this.resetTables()
                 this.setValuesToTables(compiler(this.text))
                 this.showLexemasInTokenFileTextArea()
                 this.enableDownloadButton()
             },
-            previewFiles(event) {
+            previewFiles (event){
+                const file = event.target.files[0]
+                this.readTxt(file)
+            },
+            showTxt (event){
+                const textArea = document.getElementById('txtarea-code')
+                textArea.value = event.target.result
+                const lines = event.target.result.split('\n')
+                textArea.rows = lines.length - 1
+            },
+            readTxt (file){
                 const arch = new FileReader()
-                arch.addEventListener('load',this.read,false);
-                arch.readAsText(event.target.files[0])
+                arch.addEventListener('load', this.showTxt, false)
+                arch.readAsText(file)
             },
-            read(ev) {
-                document.getElementById('txtarea-code').value = ev.target.result
-                const lineas = ev.target.result.split('\n')
-                document.getElementById("txtarea-code").rows = lineas.length - 1
-            },
-            download(){
-                download(this.lexemas)
+            download (text){
+                let element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                element.setAttribute('download', this.filename);
+            
+                element.style.display = 'none';
+                document.body.appendChild(element);
+
+                element.click();
+                document.body.removeChild(element);
             }
         }
     })
