@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.lexemas = tokenFile
                 this.errores.push(...errors)
             },
-            showTokenFile (){
+            showLexemsInTokenFileTextArea (){
                 const textArea = document.getElementById("archivo-token");
                 textArea.value = this.lexemas
                 const lines = this.lexemas.split("\n")
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.text = document.getElementById("txtarea-code").value
                 this.resetTables()
                 this.setValuesToTables(compiler(this.text))
-                this.showLexemasInTokenFileTextArea()
+                this.showLexemsInTokenFileTextArea()
                 this.enableDownloadButton()
             },
             previewFiles (event){

@@ -1,6 +1,6 @@
-import { linesRegex } from "./variables/regex.js"
+import { linesRegex } from "./var/regex.js"
 import getFunctionTokens from "./tokens/functions.js"
-import { countersTk, countErrorsTk } from './variables/globalVariables.js'
+import { tokenCounter, errorTokenCounter } from './var/global.js'
 import getOperationTokens from "./tokens/operations.js"
 import getEndFunctionToken from './tokens/endFunctions.js' 
 
@@ -13,7 +13,7 @@ import getEndFunctionToken from './tokens/endFunctions.js'
 
 export default function compile(code) {
     let tokens = [], tokenFile = '', errors = []
-    let counters = Object.assign({}, countersTk), countErrors = Object.assign({}, countErrorsTk) // asignacion a variables let ya que al importarlas, las lee como constantes, y no me deja modificarlas en linea 31
+    let counters = Object.assign({}, tokenCounter), countErrors = Object.assign({}, errorTokenCounter) // asignacion a variables let ya que al importarlas, las lee como constantes, y no me deja modificarlas en linea 31
     let lines = code.split(/\n/)
     for(const line in lines) {
         let flag = false

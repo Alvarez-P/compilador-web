@@ -1,5 +1,5 @@
-import { tokensMatch } from "../variables/regex.js"
-import { errorTokens } from '../variables/globalVariables.js'
+import { matchingTokens } from "../var/regex.js"
+import { errorMessages } from '../var/global.js'
 import { Token, TokenError } from './tokenClass.js'
 
 /** makeTokenObject
@@ -29,10 +29,10 @@ const makeTokenObject = (lex, counts, countErrs, line, typeToken, tokens) => {
     let type = typeToken
     if (typeToken === 'DELE' || typeToken === 'DELO') type = 'DEL'
     if(typeToken === 'TDF' || typeToken === 'TDV') type = 'TD' 
-    //DELETEconst token = tokensMatch[typeToken].exec(lex) ? new Token(`${type+(counts[type]++)}`, lex) : new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorTokens[typeToken].description)
+    //DELETEconst token = tokensMatch[typeToken].exec(lex) ? new Token(`${type+(counts[type]++)}`, lex) : new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorMessages[typeToken].description)
     
     let token = null
-    if (tokensMatch[typeToken].exec(lex)){
+    if (matchingTokens[typeToken].exec(lex)){
         //Revisa si existe un token con ese lexema
         const res = lexemIsRegistered(lex, tokens)
         if (res) {
@@ -43,7 +43,7 @@ const makeTokenObject = (lex, counts, countErrs, line, typeToken, tokens) => {
         }
         //token = new Token(`${type+(counts[type]++)}`, lex)
     } else {
-        token = new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorTokens[typeToken].description)
+        token = new TokenError(`ERLX${type + (countErrs[type]++)}`, lex, ++line, errorMessages[typeToken].description)
         tokens.push(token)
     }
     return { token, counts, countErrs }
