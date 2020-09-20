@@ -98,7 +98,7 @@
                           <th scope="col">Descripción</th>
                         </tr>
                       </thead>
-                    <tr v-for="item in errores" v-bind:style="item.token? 'color: #e04141' : 'color: green'" scope="row">
+                    <tr v-for="item in errors" v-bind:style="item.token? 'color: #e04141' : 'color: green'" scope="row">
                         <td v-text="item.token"></td>
                         <td v-text="item.lexema"></td>
                         <td v-text="item.line"></td>
