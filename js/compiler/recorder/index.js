@@ -1,4 +1,4 @@
-const registry = ({tokens, errors, lexemes, tokenCounter, errorTokenCounter}) => (token, isLastLexemeInLine) => {
+export const registry = ({tokens, errors, lexemes, tokenCounter, errorTokenCounter}) => (token, isLastLexemeInLine) => {
     let isRegistered = false
     tokens.forEach(current => {
         if(current.lexema === token.lexema) isRegistered = true
@@ -16,6 +16,3 @@ const registry = ({tokens, errors, lexemes, tokenCounter, errorTokenCounter}) =>
     if (isLastLexemeInLine) lexemes += '\n'
     return { tokens, errors, lexemes, tokenCounter, errorTokenCounter }
 }
-
-const recorder = registry({tokens, errors, lexemes, tokenCounter, errorTokenCounter})
-recorder(newToken)
