@@ -6,24 +6,24 @@ document.addEventListener('DOMContentLoaded', function () {
         data: {
             text: '',
             tokens: [{}],
-            errores: [{}],
-            lexemas: '',
+            errors: [{}],
+            lexemes: '',
             filename: 'token-file.txt'
         },
         methods: {
             resetTables (){
                 this.tokens.length = 0
-                this.errores.length = 0
+                this.errors.length = 0
             },
             setValuesToTables ({ tokens, tokenFile, errors }) {
                 this.tokens = tokens
-                this.lexemas = tokenFile
-                this.errores.push(...errors)
+                this.lexemes = tokenFile
+                this.errors.push(...errors)
             },
             showLexemsInTokenFileTextArea (){
                 const textArea = document.getElementById("archivo-token");
-                textArea.value = this.lexemas
-                const lines = this.lexemas.split("\n")
+                textArea.value = this.lexemes
+                const lines = this.lexemes.split("\n")
                 textArea.rows = lines.length
             },
             enableDownloadButton (){
