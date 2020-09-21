@@ -9,8 +9,6 @@ const matchingTokens = {
     TDF: /^(int|float|boolean|double|char|void)$/,
     TDV: /^(int|float|boolean|double|char)$/,
     CNE: /^[0-9]{1,}$/,
-    SPACE: /^ $/,
-    ENTER: /^\n$/,
     CNPF: /^[0-9]{1,}\.[0-9]{1,}$/,
     DEL: /[\(|\)|{|}]/,
     AS: /^=$/,
