@@ -10,10 +10,11 @@ class Token {
 class TokenError extends Token {
     line = 0
     description = ''
-    constructor(token, lexema, line, desc) {
+    constructor(token, lexema, line, expectedTokens) {
         super(token, lexema)
         this.line = line
-        this.description = desc === '' ? 'No se esperaba simbolo' : desc
+        this.description = `Se esperaba alguno de los siguientes tokens: 
+        ${expectedTokens.join(', ')}`
     }
 }
 
