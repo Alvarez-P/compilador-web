@@ -1,7 +1,8 @@
 const linesRegex = {
-    functions: /[\(\)]{1,1}/,
-    operations: /[=]{1,1}/,
-    endFunctions: /[}]{1,1}/
+    function: /[a-zA-Z0-9$_@]+\s+[a-zA-Z0-9$_@]+\s*\(+[\W\w=!><+\-*/]*\)+/,
+    while: /[a-zA-Z0-9$_@]+\s*\(+[\W\w=!><+\-*/]*\)+/,
+    operation: /[a-zA-Z0-9$_@]+\s+[=!><+\-*/]*\s+[a-zA-Z0-9$_@]+/,
+    delimiter: /[{}]+/
 }
 
 const matchingTokens = {
