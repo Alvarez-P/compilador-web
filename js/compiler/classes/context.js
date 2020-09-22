@@ -23,7 +23,6 @@ export default class Context {
     findVariable (lexeme) {
         let found = false, dataType = ''
         for (let currentScope of this.scope) {
-            if (found) break
             for (let object of currentScope) {
                 if (object.dataType === lexeme) {
                     dataType = object.dataType
@@ -31,6 +30,7 @@ export default class Context {
                 }
                 if (found) break
             }
+            if (found) break
         }
         return dataType
     }
