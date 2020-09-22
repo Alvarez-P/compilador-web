@@ -24,7 +24,7 @@ export default class Context {
         let found = false, dataType = ''
         for (let currentScope of this.scope) {
             for (let object of currentScope) {
-                if (object.dataType === lexeme) {
+                if (object.lexeme === lexeme) {
                     dataType = object.dataType
                     found = true
                 }
