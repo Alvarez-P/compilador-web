@@ -1,4 +1,4 @@
-import { Token, TokenError } from "../classes"
+import { Token, TokenError } from "../classes/token"
 
 /**
  * @function matcher

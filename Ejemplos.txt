@@ -1,0 +1,51 @@
+//Ejemplo 1
+void prueba1 ()
+{
+	a = a + b * 5
+	while (a < b)
+	{
+		a = a * 5
+	}
+}
+
+//Ejemplo 2
+void prueba1 ()
+{
+	a = a + b * 5
+	int suma (int a, int b, bool f)
+	{
+		c = a + b
+		while (a <= b && a <= c)
+		{
+			a = a + b + f
+		}
+	}
+}
+
+//Ejemplo 3
+voi9d prueba1()
+{
+	a = a + b * 5
+	while (y < 8)
+	{
+		a = a * 5
+	}
+}
+int suma (int a, int b)
+{
+	c = a + b
+}
+
+//Ejemplo 4
+void prueba1()
+{
+	a = a + b * 5
+	while (y < 8)
+	{
+		a = a * 5
+	}
+}
+int suma@ (int a, int b, bool c)
+{
+	c = a + b
+}
