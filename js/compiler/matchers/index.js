@@ -1,31 +1,47 @@
 import { Token, TokenError } from "../classes/token"
 
 /**
- * @function tokenMatcher
+ * @function matcher
  * @description match lexeme with tokens regexes 
  * @param {String} lexem 
  * @param {Object} matchingTokens
  * @param {Array} expectedTokens
  * @return {String} Token type
  */
-export const tokenMatcher = (lexeme, matchingTokens, expectedTokens) => {
+export const matcher = (lexeme, regexList) => {
     let match = null
-    expectedTokens.forEach(key => { 
-        if (matchingTokens[key].exec(lexeme)) match = key 
+    regexList.forEach(currentRegex => { 
+        if (currentRegex.exec(lexeme)) match = key 
     })
     return match
 }
 
 /**
- * @function matcherFunction
+ * @function matcherLexeme
  * @description check if the token is correct
  * @param {String} lexeme
- * @param {Object} matchingTokens
+ * @param {Object} regexList
  * @param {Ocject} Context
  * @return {Object} Token Instance or TokenError Instance
  */
-export const matcherFunction = (lexeme, matchingTokens, Context) => {
-    const match = tokenMatcher(lexeme, matchingTokens, Context.expectedTokens)
-    if(match) return new Token(match, lexeme)
-    return new TokenError(match, lexeme, Context.numberLine, Context.expectedTokens)
+export const matcherLexeme = (lexeme, regexList, Context) => {
+    let requiredRegex = {}
+    Context.expectedTokens.forEach(tokenType => {
+        Object.assign(requiredRegex, regexList[tokenType])
+    })
+    const match = matcher(lexeme, requiredRegex)
+    return match ? 
+        new Token(match, lexeme, '') : 
+        new TokenError(match, lexeme, '', Context.numberLine, Context.expectedTokens)
+}
+
+/**
+ * @function matcherLine
+ * @description check if the token is correct
+ * @param {String} lexeme
+ * @param {Object} regexList
+ * @return {Object} Line Type
+*/
+export const matcherLine = (lexeme, regexList) => {
+    return matcher(lexeme, regexList)
 }

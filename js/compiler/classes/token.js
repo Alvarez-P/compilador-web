@@ -1,17 +1,19 @@
 class Token {
     token = ''
-    lexema = ''
-    constructor(token, lexema){
+    lexeme = ''
+    dataType = ''
+    constructor(token, lexeme, dataType){
         this.token = token
-        this.lexema = lexema
+        this.lexeme = lexeme
+        this.dataType = dataType
     }
 }
 
 class TokenError extends Token {
     line = 0
     description = ''
-    constructor(token, lexema, line, expectedTokens) {
-        super(token, lexema)
+    constructor(token, lexeme, dataType, line, expectedTokens) {
+        super(token, lexeme, dataType)
         this.line = line
         this.description = `Se esperaba alguno de los siguientes tokens: 
         ${expectedTokens.join(', ')}`
