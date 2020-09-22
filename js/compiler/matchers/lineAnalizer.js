@@ -1,15 +1,16 @@
-import { linesRegex } from '../var/regex'
+import { linesRegex } from '../var/regex.js'
 
 /** analizeLine
  * @description Dada una línea de código, determine de qué tipo es
  * @param {string} code Línea de código a analizar
- * @return {}  Cadena que representa el tipo de línea encontrada. Retorna -1 si no pertenece a ningún tipo.
+ * @return {string} Cadena que representa el tipo de línea encontrada. Retorna null si no pertenece a ningún tipo.
 */
 
 function analizeLine(line){
     let type = null
-    for (key, value in linesRegex){
-        const match = value.exec(line)
+    for (const key in linesRegex){
+        const match = linesRegex[key].exec(line)
+        //console.log(match)
         if (match){
             type = key
             break
