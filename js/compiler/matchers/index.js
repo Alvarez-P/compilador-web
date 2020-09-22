@@ -10,8 +10,8 @@ import { Token, TokenError } from "../classes/token"
  */
 export const matcher = (lexeme, regexList) => {
     let match = null
-    regexList.forEach(currentRegex => { 
-        if (currentRegex.exec(lexeme)) match = key 
+    regexList.forEach(([key, value]) => { 
+        if (value.exec(lexeme)) match = key 
     })
     return match
 }
