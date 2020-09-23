@@ -1,5 +1,5 @@
 import { Token, TokenError } from "../classes/token"
-
+import { linesRegex, matchingTokens } from "../var/regex"
 /**
  * @function matcher
  * @description match lexeme with tokens regexes 
@@ -24,24 +24,29 @@ export const matcher = (lexeme, regexList) => {
  * @param {Ocject} Context
  * @return {Object} Token Instance or TokenError Instance
  */
-export const matcherLexeme = (lexeme, regexList, Context) => {
+export const matcherLexeme = (lexeme, Context) => {
     let requiredRegex = {}
     Context.expectedTokens.forEach(tokenType => {
-        Object.assign(requiredRegex, regexList[tokenType])
+        Object.assign(requiredRegex, matchingTokens[tokenType])
     })
     const match = matcher(lexeme, requiredRegex)
-    return match ? 
+    return match ?
         new Token(match, lexeme, '') : 
-        new TokenError(match, lexeme, '', Context.numberLine, Context.expectedTokens)
+        new TokenError(
+            Context.expectedTokens[0], 
+            lexeme, 
+            '', 
+            Context.numberLine, 
+            `Se esperaba alguno de los siguientes tokens: ${context.expectedTokens.join(', ')}`
+        )
 }
 
 /**
  * @function matcherLine
  * @description check if the token is correct
  * @param {String} lexeme
- * @param {Object} regexList
  * @return {Object} Line Type
 */
-export const matcherLine = (lexeme, regexList) => {
-    return matcher(lexeme, regexList)
+export const matcherLine = (lexeme) => {
+    return matcher(lexeme, linesRegex)
 }

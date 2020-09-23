@@ -1,7 +1,7 @@
 export const registry = ({tokens, errors, lexemes, tokenCounter, errorTokenCounter}) => (token, isLastLexemeInLine) => {
     let isRegistered = false
     tokens.forEach(current => {
-        if(current.lexema === token.lexema) isRegistered = true
+        if(current.lexema === token.lexema && current.token === token.token) isRegistered = true
     })
     if (token.description) {
         token.token = token.token + errorTokenCounter[token.token]

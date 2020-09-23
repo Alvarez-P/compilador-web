@@ -1,7 +1,9 @@
 export default class Context {
-    //Me desespera no ver la definición de los atributos de clase xd
     lineTypes = ["function", "operation", "while", "delimiter"]
     functionPlaces = ["outside", "onSignature", "onBlock"]
+    operationPlaces = ["onAsignation","onOperation"]
+    operationPlace = null
+    operationDataType = null
     lineType = null
     functionPlace = null
     scope = []
@@ -31,6 +33,12 @@ export default class Context {
     set expectedTokens(tokens){
         this.expectedTokens = tokens
     }
+    set operationDataType (operationDataType) {
+        this.operationDataType = operationDataType
+    }
+    set operationPlace (operationPlace){
+        if(this.operationPlaces.includes(operationPlace)) this.operationPlace = operationPlace
+    }
     deleteLastScope () {
         this.scope.shift()
     }
@@ -50,5 +58,8 @@ export default class Context {
     }
     addNewScope () {
         this.scope.unshift([])
+    }
+    addNewVariable (variable) {
+        this.scope[0].unshift(variable)
     }
 }
