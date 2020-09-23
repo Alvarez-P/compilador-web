@@ -15,8 +15,10 @@ const matchingTokens = {
     AS: /^=$/,
     SEP: /,/,
     OA: /^[+|\-|*|/|%]$/,
-    DELO: /^{$/,
-    DELE: /^}$/
+    DELSO: /^\($/,
+    DELSE: /^\)$/,
+    DELFO: /^{$/,
+    DELFE: /^}$/
 }
 
 export {

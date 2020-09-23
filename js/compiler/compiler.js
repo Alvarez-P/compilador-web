@@ -1,5 +1,6 @@
 import { tokenCounter, errorTokenCounter } from './var/global.js'
 import { splitCode } from './split.js'
+import { functionHandler } from './matchers/handlers.js'
 
 /**
  * @description Divide un string en lineas para validar con expresiones regulares y obtener los tokens
