@@ -2,6 +2,7 @@ export default class Context {
     lineTypes = ["function", "operation", "while", "delimiter"]
     functionPlaces = ["outside", "onSignature", "onBlock"]
     scope = []
+    lastToken = null
     constructor (lineType, functionPlace, scope, lastToken, opDType, numberLine, expectedTokens) {
         if(this.lineTypes.includes(lineType)) this.lineType = lineType
         if(this.functionPlaces.includes(functionPlace)) this.functionPlace = functionPlace
@@ -17,6 +18,10 @@ export default class Context {
     set functionPlace(functionPlace) {
         if(this.functionPlaces.includes(functionPlace)) this.functionPlace = functionPlace
     }
+    set lastToken(token){
+        this.lastToken = token
+    }
+    set 
     deleteLastScope () {
         this.scope.shift()
     }
