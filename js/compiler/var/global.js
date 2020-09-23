@@ -3,11 +3,8 @@ const tokenCounter = {}, errorTokenCounter = {}
 
 TokensName.forEach(tokenName => {
   tokenCounter[tokenName] = 1
-  errorTokenCounter[tokenName] = 1
+  errorTokenCounter[`ERLX${tokenName}`] = 1
 })
-
-tokenCounter['SPACE'] = 1
-tokenCounter['ENTER'] = 1
 
 const errorMessages = {
   ID: { description: 'Identificador inválido' },

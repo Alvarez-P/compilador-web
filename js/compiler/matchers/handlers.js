@@ -1,32 +1,28 @@
-import { matchToken } from '../matchers/index.js'
-import { Token, TokenError } from '../classes/token'
+import { TokenError } from '../classes/token.js'
+import { matcherLexeme } from '../matchers/index.js'
 
 /**
  * 
  * @param {Object} C Objeto que guarda la información del contexto en el que se encuentra el análisis
  * @returns {Function} Función que dada un toke
  */
-function functionHandler(context){
-    return function (lexeme) {
+const functionHandler = (context) => {
+    return (lexeme) => {
         let token = null
         //Análisis sintáctico
-        token = matchExpectedToken(lexeme, context) 
+        token = matcherLexeme(lexeme, context) 
         if (token instanceof Token){
             // Si el token era el esperado se hace el análisis semántico
             if(token.token==='ID'){
                 if (context.functionPlace==='onSignature'){
                     const prevId = context.findVariable(token.lexema)
-                    if (!prevId){
+                    if (prevId){
                         const desc = 'No se puede redefinir la variable. El shadowing no está permitido'
-                        token = TokenError(token.token, token.lexema, null, desc)
+                        token = new TokenError(token.token, token.lexeme, context.lastToken.lexeme, context.numberLine, desc)
                     } else {
                         token.dataType = context.lastToken.lexeme
-                        context.scope.addNewVariable(token)
+                        context.addNewVariable(token)
                     }
-                }
-            } else {
-                if (!['TDF', 'TDV', 'DEL', 'SEP'].includes(token.token)){
-                    token = TokenError(token.token, token.lexema, null, 'Se esperaba otro tipo de token')
                 }
             }
         }
