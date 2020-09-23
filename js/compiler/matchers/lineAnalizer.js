@@ -19,6 +19,10 @@ function analizeLine(line){
     return type
 }
 
+function otraFuncion(){
+    
+}
+
 export {
     analizeLine
 }
