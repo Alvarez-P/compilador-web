@@ -1,15 +1,22 @@
 export default class Context {
+    //Me desespera no ver la definición de los atributos de clase xd
     lineTypes = ["function", "operation", "while", "delimiter"]
     functionPlaces = ["outside", "onSignature", "onBlock"]
+    lineType = null
+    functionPlace = null
     scope = []
     lastToken = null
-    constructor (lineType, functionPlace, scope, lastToken, opDType, numberLine, expectedTokens) {
+    opDType = null
+    lineNumber = null
+    expectedTokens = []
+
+    constructor (lineType, functionPlace, scope, lastToken, opDType, lineNumber, expectedTokens) {
         if(this.lineTypes.includes(lineType)) this.lineType = lineType
         if(this.functionPlaces.includes(functionPlace)) this.functionPlace = functionPlace
         this.scope = scope
         this.lastToken = lastToken
         this.opDType = opDType
-        this.numberLine = numberLine
+        this.lineNumber = lineNumber
         this.expectedTokens = expectedTokens
     }
     set lineType(lineType) {
@@ -21,7 +28,10 @@ export default class Context {
     set lastToken(token){
         this.lastToken = token
     }
-    set deleteLastScope () {
+    set expectedTokens(tokens){
+        this.expectedTokens = tokens
+    }
+    deleteLastScope () {
         this.scope.shift()
     }
     findVariable (lexeme) {
@@ -40,5 +50,8 @@ export default class Context {
     }
     addNewScope () {
         this.scope.unshift([])
+    }
+    addNewVariable (variable) {
+        this.scope[0].unshift(variable)
     }
 }
