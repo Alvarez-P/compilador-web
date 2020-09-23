@@ -5,7 +5,7 @@ import { matcherLexeme } from './'
  * @description
  * @param {Object} context Objeto que guarda la información del contexto en el que se encuentra el análisis
  * @returns {Function} Función que dado un token
- */
+*/
 const operationHandler = (context) => {
     return (lexeme) => {
         let token = null
@@ -16,8 +16,12 @@ const operationHandler = (context) => {
             if(token.token==='ID'){
                 if (context.operationPlace==='onAsignation'){
                     const prevId = context.findVariable(token.lexema)
-                    if (!prevId){
+                    if (!prevId && context.lastToken.lexeme){
                         token.dataType = context.lastToken.lexeme
+                        context.operationDataType = token.dataType
+                        context.addNewVariable(token)
+                    } else if(!prevId && !context.lastToken.lexeme) {
+                        token.dataType = 'any'
                         context.operationDataType = token.dataType
                         context.addNewVariable(token)
                     } else {
@@ -30,7 +34,9 @@ const operationHandler = (context) => {
                     if (!prevId){
                         const desc = 'Indefinido'
                         token = new TokenError(token.token, token.lexeme, null, context.numberLine, desc)
-                    } else if(prevId !== context.operationDataType) {
+                    } else if(context.operationDataType === 'any') {
+                        context.operationDataType = prevId
+                    } else if(context.operationDataType !== 'any' && prevId !== context.operationDataType) {
                         const desc = `Tipo de dato inválido: se esperaba un ${context.operationDataType}`
                         token = new TokenError(token.token, token.lexeme, prevId, context.numberLine, desc)
                     }
