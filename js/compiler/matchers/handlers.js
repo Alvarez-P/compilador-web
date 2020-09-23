@@ -12,10 +12,10 @@ function functionHandler(context){
         //Análisis sintáctico
         token = matchExpectedToken(lexeme, context) 
         if (token instanceof Token){
-            // Análisis semántico
+            // Si el token era el esperado se hace el análisis semántico
             if(token.token==='ID'){
                 if (context.functionPlace==='onSignature'){
-                    const prevId = context.scopes.findVariable(token.lexema)
+                    const prevId = context.findVariable(token.lexema)
                     if (!prevId){
                         const desc = 'No se puede redefinir la variable. El shadowing no está permitido'
                         token = TokenError(token.token, token.lexema, null, desc)
