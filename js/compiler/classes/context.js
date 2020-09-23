@@ -21,8 +21,7 @@ export default class Context {
     set lastToken(token){
         this.lastToken = token
     }
-    set 
-    deleteLastScope () {
+    set deleteLastScope () {
         this.scope.shift()
     }
     findVariable (lexeme) {
