@@ -1,6 +1,9 @@
 import { tokenCounter, errorTokenCounter } from './var/global.js'
 import { splitCode } from './split.js'
-import { functionHandler, whileHandler, operationHandler, delimiterHandler } from './matchers/handlers.js'
+import { functionHandler } from './matchers/handlers.js/index.js'
+import { operationHandler } from './matchers/operations.js'
+import { delimiterHandler } from './matchers/delimiter.js'
+import { whileHandler } from './matchers/while.js'
 import Context from './classes/context.js'
 import registry from './recorder/index.js'
 
