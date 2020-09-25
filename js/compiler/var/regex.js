@@ -18,7 +18,8 @@ const matchingTokens = {
     DELSO: /^\($/,
     DELSE: /^\)$/,
     DELFO: /^{$/,
-    DELFE: /^}$/
+    DELFE: /^}$/,
+    WHILE: '/^while$/'
 }
 
 export {
