@@ -11,7 +11,7 @@ const operationHandler = (context) => {
         let token = null
         //Análisis sintáctico
         token = matcherLexeme(lexeme, context) 
-        if (token instanceof Token){
+        if (!(token instanceof TokenError)){
             // Si el token era el esperado se hace el análisis semántico
             if(token.token==='ID'){
                 if (context.operationPlace==='onAsignation'){
@@ -19,11 +19,11 @@ const operationHandler = (context) => {
                     if (!prevId && context.lastToken.lexeme){
                         token.dataType = context.lastToken.lexeme
                         context.operationDataType = token.dataType
-                        context.addNewVariable(token)
+                        context.addNewVariable({lexeme: token.lexeme, dataType: token.dataType})
                     } else if(!prevId && !context.lastToken.lexeme) {
                         token.dataType = 'any'
                         context.operationDataType = token.dataType
-                        context.addNewVariable(token)
+                        context.addNewVariable({lexeme: token.lexeme, dataType: token.dataType})
                     } else {
                         const desc = 'No se puede redefinir la variable. El shadowing no está permitido'
                         token = new TokenError(token.token, token.lexeme, context.lastToken.lexeme, context.numberLine, desc)
@@ -40,6 +40,21 @@ const operationHandler = (context) => {
                         const desc = `Tipo de dato inválido: se esperaba un ${context.operationDataType}`
                         token = new TokenError(token.token, token.lexeme, prevId, context.numberLine, desc)
                     }
+                }
+            }
+            if(['CNE', 'CNPF'].includes(token.token)){
+                const dataType = token.token === 'CNE'? 'int' : 'double'
+                if (context.operationDataType==='any') {
+                    context.operationDataType = dataType
+                } else if(context.operationDataType !== dataType) {
+                    const desc = `Tipo de dato inválido: se esperaba un ${context.operationDataType}`
+                    token = new TokenError(token.token, token.lexeme, prevId, context.numberLine, desc)
+                }
+            }
+            if(token.token==='OA'){
+                const desc = `Operador inválido para el tipo de dato ${context.operationDataType}`
+                if ((context.operationDataType==='char' && ['*','-','%','/'].includes(token.token)) || context.operationDataType==='boolean') {
+                    token = new TokenError(token.token, token.lexeme, prevId, context.numberLine, desc)
                 }
             }
         }
