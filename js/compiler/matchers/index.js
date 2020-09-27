@@ -10,7 +10,7 @@ import { linesRegex, matchingTokens } from "../var/regex.js"
  */
 export const matcher = (lexeme, regexObj) => {
     let match = null
-    Object.entries(regexList).forEach(([key, value]) => { 
+    Object.entries(regexObj).forEach(([key, value]) => { 
         if (value.exec(lexeme)) match = key 
     })
     return match
