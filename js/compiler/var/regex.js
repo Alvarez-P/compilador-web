@@ -4,7 +4,7 @@ const linesRegex = {
     operation: /[a-zA-Z0-9$_@]+\s+([a-zA-Z0-9$_@]+\s+){0,1}[=!><+\-*/]*\s+[a-zA-Z0-9$_@]+/, //  /[a-zA-Z0-9$_@]+\s+[=!><+\-*/]*\s+[a-zA-Z0-9$_@]+/
     delimiter: /[{}]+/
 }
-
+//BUG EN OA: ¿Cómo hacer para que detecte un OA?
 const matchingTokens = {
     ID: /^[a-zA-Z$_]{1,1}[a-zA-Z0-9\_]{0,}$/,
     TDF: /^(int|float|boolean|double|char|void)$/,
@@ -14,12 +14,12 @@ const matchingTokens = {
     DEL: /[\(|\)|{|}]/,
     AS: /^=$/,
     SEP: /,/,
-    OA: /^[+|\-|*|/|%]$/,
+    OA: /^[+|\-|*|/|%|<|>|<=|>=|==|!=|&&]$/,
     DELSO: /^\($/,
     DELSE: /^\)$/,
     DELFO: /^{$/,
     DELFE: /^}$/,
-    WHILE: '/^while$/'
+    WHILE: /^while$/
 }
 
 export {

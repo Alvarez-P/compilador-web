@@ -1,5 +1,5 @@
-import { Token, TokenError } from "../classes/token"
-import { linesRegex, matchingTokens } from "../var/regex"
+import { Token, TokenError } from "../classes/token.js"
+import { linesRegex, matchingTokens } from "../var/regex.js"
 /**
  * @function matcher
  * @description match lexeme with tokens regexes 
@@ -8,7 +8,7 @@ import { linesRegex, matchingTokens } from "../var/regex"
  * @param {Array} expectedTokens
  * @return {String} Token type
  */
-export const matcher = (lexeme, regexList) => {
+export const matcher = (lexeme, regexObj) => {
     let match = null
     Object.entries(regexList).forEach(([key, value]) => { 
         if (value.exec(lexeme)) match = key 
@@ -27,7 +27,7 @@ export const matcher = (lexeme, regexList) => {
 export const matcherLexeme = (lexeme, Context) => {
     let requiredRegex = {}
     Context.expectedTokens.forEach(tokenType => {
-        Object.assign(requiredRegex, matchingTokens[tokenType])
+        requiredRegex[tokenType] = matchingTokens[tokenType]
     })
     const match = matcher(lexeme, requiredRegex)
     return match ?
@@ -37,7 +37,7 @@ export const matcherLexeme = (lexeme, Context) => {
             lexeme, 
             '', 
             Context.numberLine, 
-            `Se esperaba alguno de los siguientes tokens: ${context.expectedTokens.join(', ')}`
+            `Se esperaba alguno de los siguientes tokens: ${Context.expectedTokens.join(', ')}`
         )
 }
 
