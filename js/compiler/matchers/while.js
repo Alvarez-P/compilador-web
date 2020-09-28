@@ -8,30 +8,31 @@ const whileHandler = (context) => {
         // An. sintacico
         token = matcherLexeme(lexeme, context)
         //Muy importante esta condicion, NO es igual a if(token instanceof Token)
-        if (!token instanceof TokenError){
-            if (!['ID'].includes(token.token)) { // Solo analiza ID
-                // An. semántico
-                switch(token.token){
-                    case 'ID':
-                        const prevToken = contex.findVariable(token.lexeme)
-                        if (!prevToken){
-                            const desc = 'Indefinida la variable'
+        if (!(token instanceof TokenError)){
+            switch(token.token){
+                case 'ID':
+                    const tokenDType = context.findVariable(token.lexeme)
+                    if (!tokenDType){
+                        const desc = 'Indefinida la variable'
+                        token = new TokenError(token.token, token.lexeme, null, null, desc)
+                    } else if (context.operationPlace==='onOperation'){
+                        //Si hay operacion, busca tipo del token actual y comparalo con tipo de operacion
+                        const opDataType = context.operationDataType
+                        if (opDataType!=='any' && opDataType!==tokenDType){
+                            const desc = 'Incompatibilidad de tipos'
                             token = new TokenError(token.token, token.lexeme, null, null, desc)
-                        } else if (context.onOperation){
-                            const opDataType = context.operationDataType
-                            if (opDataType!=='any' && opDataType!==prevToken.dataType){
-                                const desc = 'Incompatibilidad de tipos'
-                                token = new TokenError(token.token, token.lexeme, null, null, desc)
-                            }
                         }
-                        break
-                }
+                    }
+                    break
             }
         }
-        //Cambiar estado del context
-        if (context.expectedTokens.includes('ID') && context.onOperation) context.onOperation = false
+        //Cambiar estado de context
+        if (context.expectedTokens.includes('ID') && context.operationPlace==='onOperation') context.operationPlace = null
         if (context.expectedTokens.includes('OA') && token.token!=='DELSE') {
-            const dtype = context.lastToken.dataType
+            //Activa la operacion, busca en scope el ultimo lexema de ID y lo asigna como tipo de dato de operacion
+            const lastLexeme = context.lastToken.lexeme
+            const dtype = context.findVariable(lastLexeme)
+            context.operationPlace = 'onOperation'
             if (!dtype) context.operationDataType = 'any'
             else context.operationDataType = dtype
         }
