@@ -7,7 +7,7 @@ import { whileHandler } from '../compiler/matchers/while.js'
 
 const codeLines = [
     ['while', '(', 'a', '<', 'b', ')'],
-    ['while', '(', 'a', '<=', 'b', '&&', 'a', '<=', 'c']
+    ['while', '(', 'a', '||', 'b', '&&', 'a', '<=', 'c', ')']
 ]
 const scopes = [
     [
@@ -34,6 +34,12 @@ const handlers = contexts.map(context => {
     return handler
 })
 
+function showContext(context){
+    return {
+        expectedTokens: context.expectedTokens
+    }
+}
+
 function test(){
     const results = []
     for(let key = 0; key < codeLines.length; key++){
@@ -49,6 +55,7 @@ function test(){
     for(const key in results){
         console.log(`RESULT # ${key}`)
         console.log(results[key])
+        console.log(showContext(contexts[key]))
     }
 }
 
