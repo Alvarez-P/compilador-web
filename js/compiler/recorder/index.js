@@ -1,5 +1,6 @@
-export const registry = ({tokens, errors, lexemes, tokenCounter, errorTokenCounter}) => (token, isLastLexemeInLine) => {
+export const register = ({tokens, errors, lexemes, tokenCounter, errorTokenCounter}) => (token, isLastLexemeInLine) => {
     let isRegistered = false
+    //Compara lexemas y tokens para comprobar si está registrado
     tokens.forEach(current => {
         if(current.lexema === token.lexema && current.token === token.token) isRegistered = true
     })

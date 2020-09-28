@@ -5,7 +5,8 @@ import { operationHandler } from './matchers/operations.js'
 import { delimiterHandler } from './matchers/delimiter.js'
 import { whileHandler } from './matchers/while.js'
 import Context from './classes/context.js'
-import registry from './recorder/index.js'
+import { TokenError } from './classes/token.js'
+import register from './recorder/index.js'
 
 let context = Context()
 const funcHandler = functionHandler(context)
@@ -25,15 +26,16 @@ function compile(code) {
     let tokens = [], errors = [], tokenFile = ''
     let counter = Object.assign({}, tokenCounter)
     let errorCounter = Object.assign({}, errorTokenCounter)
-    const register = registry(tokens, errors, tokenFile, counter, errorCounter)
+    const registerToken = register(tokens, errors, tokenFile, counter, errorCounter)
 
     const { splittedCode, lineTypes } = splitCode(code)
-    for (key of lineTypes){ //Se puede hacer "for (line, lineType of splittedCode, lineTypes):" como en Python?
+    for (key of lineTypes){
         if (context.blockJustOpened) context.blockJustOpened = false
         const handler = chooseLineHandler(lineTypes[key])
         for (lexem of splittedCode[key]){
             const token = handler(lexem)
-            register(token)
+            if (token instanceof TokenError) token.line = key
+            registerToken(token)
         }
     }
     //console.log('Tokens', tokens)
