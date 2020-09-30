@@ -15,14 +15,14 @@ const functionHandler = (context) => {
             // Si el token era el esperado se hace el análisis semántico
             if(token.token==='ID'){
                 if (context.functionPlace==='onSignature'){
-                    const dtype = context.findVariable(token.lexema)
+                    const dtype = context.findVariable(token.lexeme)
                     if (dtype){
                         const desc = 'No se puede redefinir la variable. El shadowing no está permitido'
                         token = new TokenError(token.token, token.lexeme, context.lastToken.lexeme, context.numberLine, desc)
                     } else {
                         if (context.lastToken instanceof TokenError){
                             const desc = 'Identificador no posee un tipo de dato definido'
-                            token = TokenError(token.token, token.lexema, null, null, desc)
+                            token = new TokenError(token.token, token.lexeme, null, null, desc)
                         } else {
                             token.dataType = context.lastToken.lexeme
                             context.addNewVariable(token)
@@ -32,11 +32,14 @@ const functionHandler = (context) => {
             }
         }
         //Cambia el operationPlace
-        if (context.expectedTokens.includes('DELSO')) context.functionPlace = 'onSignature'
+        if (context.expectedTokens.includes('DELSO')) {
+            context.functionPlace = 'onSignature'
+            context.addNewScope()
+        }
 
         //Cambia el siguiente token esperado
         // Muy importante la primera línea
-        // Nota: Hay un bug si el tipo de token esperado era incluye un 'DELSE y no se recibió ')'
+        // BUG: Todo el analisis falla si el tipo de token esperado incluye un 'DELSE' y no se recibió ')'
         if(context.expectedTokens.includes('DELSE') && token.token==='DELSE') context.expectedTokens = ['DELBO']
         else if(context.expectedTokens.includes('TDF') || context.expectedTokens.includes('TDV')) context.expectedTokens = ['ID']
         else if(context.expectedTokens.includes('ID')){
@@ -44,8 +47,8 @@ const functionHandler = (context) => {
             else context.expectedTokens = ['DELSO']
         }
         else if (context.expectedTokens.includes('DELSO')) context.expectedTokens = ['TDV', 'DELSE']      
-        else if(context.expectedTokens.includes('SEP')) context.expectedTokens = ['TDV']
-        
+        else if (context.expectedTokens.includes('SEP')) context.expectedTokens = ['TDV']
+
         context.lastToken = token // Muy importante
         return token
     }

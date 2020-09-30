@@ -11,12 +11,13 @@ const codeLines = [
     ['void', 'prueba1', '(', ')'],
     ['int', 'suma', '(', 'int', 'a', ',', 'int', 'b', ',', 'boolean', 'c', ')'],
 ]
-const scopes = [ null, null ]
+const scopes = [ null, [ { token: 'ID', lexeme: 'c', dataType: 'int' } ] ]
 
 const contexts = scopes.map(scope => {
     let c = new Context()
     //Initialize context for while
-    c.scope = [scope]
+    if (scope) c.scope = [scope]
+    else c.scope = []
     c.expectedTokens = ['TDF']
     return c
 })

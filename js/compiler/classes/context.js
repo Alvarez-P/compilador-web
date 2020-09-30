@@ -43,7 +43,7 @@ export default class Context {
         this.scope.shift()
     }
     findVariable (lexeme) {
-        let found = false, dataType = ''
+        let found = false, dataType = null
         for (let currentScope of this.scope) {
             for (let object of currentScope) {
                 if (object.lexeme === lexeme) {
