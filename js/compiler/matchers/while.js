@@ -14,13 +14,13 @@ const whileHandler = (context) => {
                     const tokenDType = context.findVariable(token.lexeme)
                     if (!tokenDType){
                         const desc = 'Indefinida la variable'
-                        token = new TokenError(token.token, token.lexeme, null, null, desc)
+                        token = new TokenError(token.token, token.lexeme, 'semantic', null, desc)
                     } else if (context.operationPlace==='onOperation'){
                         //Si hay operacion, busca tipo del token actual y comparalo con tipo de operacion
                         const opDataType = context.operationDataType
                         if (opDataType!=='any' && opDataType!==tokenDType){
                             const desc = 'Incompatibilidad de tipos'
-                            token = new TokenError(token.token, token.lexeme, null, null, desc)
+                            token = new TokenError(token.token, token.lexeme, 'semantic', null, desc)
                         }
                     }
                     break
