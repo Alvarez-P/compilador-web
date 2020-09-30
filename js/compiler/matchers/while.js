@@ -1,5 +1,5 @@
 import { TokenError } from '../classes/token.js'
-import { matcherLexeme } from './index.js/index.js'
+import { matcherLexeme } from './index.js'
 
 
 const whileHandler = (context) => {

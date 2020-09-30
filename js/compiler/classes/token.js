@@ -3,7 +3,8 @@ class Token {
     lexeme = null
     dataType = null
     constructor(token, lexeme, dataType){
-        super(token, lexeme)
+        this.token = token
+        this.lexeme = lexeme
         this.dataType = dataType
     }
     set lexeme (lexeme) {

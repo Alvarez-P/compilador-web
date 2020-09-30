@@ -1,13 +1,26 @@
 //TESTEANDO WHILE HANDLER
 import Context from '../compiler/classes/context.js'
 import { whileHandler } from '../compiler/matchers/while.js'
-import { scopes } from "./index.js";
+//import { scopes } from "./index.js";
 //while (a < b)
 //while (a <= b && a <= c)
 
 const codeLines = [
     ['while', '(', 'a', '<', 'b', ')'],
     ['while', '(', 'a', '||', 'b', '&&', 'a', '<=', 'c', ')']
+]
+
+const scopes = [
+    [
+        { token: 'ID', lexeme: 'a', dataType: 'int' },
+        { token: 'ID', lexeme: 'b', dataType: 'int' }
+    ],
+    [
+        { token: 'ID', lexeme: 'a', dataType: 'int' },
+        { token: 'ID', lexeme: 'b', dataType: 'int' },
+        { token: 'ID', lexeme: 'c', dataType: 'int' },
+        //{ token: 'ID', lexeme: 'd', dataType: 'char' }
+    ]
 ]
 
 const contexts = scopes.map(scope => {
