@@ -1,24 +1,13 @@
 //TESTEANDO WHILE HANDLER
 import Context from '../compiler/classes/context.js'
 import { whileHandler } from '../compiler/matchers/while.js'
-
+import { scopes } from "./index.js";
 //while (a < b)
 //while (a <= b && a <= c)
 
 const codeLines = [
     ['while', '(', 'a', '<', 'b', ')'],
     ['while', '(', 'a', '||', 'b', '&&', 'a', '<=', 'c', ')']
-]
-const scopes = [
-    [
-        { token: 'ID', lexeme: 'a', dataType: 'int' },
-        { token: 'ID', lexeme: 'b', dataType: 'int' }
-    ],
-    [
-        { token: 'ID', lexeme: 'a', dataType: 'int' },
-        { token: 'ID', lexeme: 'b', dataType: 'int' },
-        { token: 'ID', lexeme: 'c', dataType: 'int' }
-    ]
 ]
 
 const contexts = scopes.map(scope => {
@@ -34,11 +23,7 @@ const handlers = contexts.map(context => {
     return handler
 })
 
-function showContext(context){
-    return {
-        expectedTokens: context.expectedTokens
-    }
-}
+const showContext = ({ expectedTokens }) => expectedTokens
 
 function test(){
     const results = []
@@ -60,3 +45,4 @@ function test(){
 }
 
 test()
+
