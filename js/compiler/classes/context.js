@@ -2,25 +2,16 @@ export default class Context {
     lineTypes = ["function", "operation", "while", "delimiter"]
     functionPlaces = ["outside", "onSignature", "onBlock"]
     operationPlaces = ["onAsignation","onOperation"]
-    operationPlace = null
-    operationDataType = null
+    operationPlace = "onAsignation"
+    operationDataType = 'any'
     lineType = null
-    functionPlace = null
+    functionPlace = "outside"
     scope = []
-    lastToken = null
+    lastToken = {}
     opDType = null
     lineNumber = null
     expectedTokens = []
 
-    constructor (lineType, functionPlace, scope, lastToken, opDType, lineNumber, expectedTokens) {
-        if(this.lineTypes.includes(lineType)) this.lineType = lineType
-        if(this.functionPlaces.includes(functionPlace)) this.functionPlace = functionPlace
-        this.scope = scope
-        this.lastToken = lastToken
-        this.opDType = opDType
-        this.lineNumber = lineNumber
-        this.expectedTokens = expectedTokens
-    }
     set lineType(lineType) {
         if(this.lineTypes.includes(lineType)) this.lineType = lineType
     }
@@ -43,14 +34,12 @@ export default class Context {
         this.scope.shift()
     }
     findVariable (lexeme) {
-        let found = false, dataType = null
-        for (let currentScope of this.scope) {
-            for (let object of currentScope) {
-                if (object.lexeme === lexeme) {
-                    dataType = object.dataType
-                    found = true
-                }
-                if (found) break
+        let found = false, dataType = ''
+        const lastScope = this.scope[0]
+        for (let object of lastScope) {
+            if (object.lexeme === lexeme) {
+                dataType = object.dataType
+                found = true
             }
             if (found) break
         }
@@ -61,5 +50,8 @@ export default class Context {
     }
     addNewVariable (variable) {
         this.scope[0].unshift(variable)
+    }
+    resetOperationDataType(){
+        this.operationDataType = 'any'
     }
 }

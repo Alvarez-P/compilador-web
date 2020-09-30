@@ -9,7 +9,7 @@ import { matcherLexeme } from './index.js'
 const functionHandler = (context) => {
     return (lexeme) => {
         let token = null
-        //Análisis sintáctico
+        // Análisis sintáctico
         token = matcherLexeme(lexeme, context)
         if (!(token instanceof TokenError)){
             // Si el token era el esperado se hace el análisis semántico
@@ -18,11 +18,11 @@ const functionHandler = (context) => {
                     const dtype = context.findVariable(token.lexeme)
                     if (dtype){
                         const desc = 'No se puede redefinir la variable. El shadowing no está permitido'
-                        token = new TokenError(token.token, token.lexeme, 'semantic', context.numberLine, desc)
+                        token = new TokenError(token.token, token.lexeme, dtype, context.lineNumber, 'semantic', desc)
                     } else {
                         if (context.lastToken instanceof TokenError){
                             const desc = 'Identificador no posee un tipo de dato definido'
-                            token = new TokenError(token.token, token.lexeme, 'semantic', null, desc)
+                            token = new TokenError(token.token, token.lexeme, null, 'semantic', desc)
                         } else {
                             token.dataType = context.lastToken.lexeme
                             context.addNewVariable(token)
@@ -37,7 +37,7 @@ const functionHandler = (context) => {
             context.addNewScope()
         }
 
-        //Cambia el siguiente token esperado
+        // Cambia el siguiente token esperado
         // Muy importante la primera línea
         // BUG: Todo el analisis falla si el tipo de token esperado incluye un 'DELSE' y no se recibió ')'
         if(context.expectedTokens.includes('DELSE') && token.token==='DELSE') context.expectedTokens = ['DELBO']

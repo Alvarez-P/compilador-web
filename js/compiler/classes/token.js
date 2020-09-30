@@ -1,31 +1,32 @@
-class BaseToken {
+class Token {
     token = null
     lexeme = null
-    constructor(token, lexeme){
-        this.token = token
-        this.lexeme = lexeme
-    }
-}
-
-class Token extends BaseToken{
     dataType = null
     constructor(token, lexeme, dataType){
         super(token, lexeme)
         this.dataType = dataType
     }
+    set lexeme (lexeme) {
+        this.lexeme = lexeme
+    }
+    set dataType(dataType) {
+        this.dataType = dataType
+    }
 }
 
-class TokenError extends BaseToken {
-    errorType = null
-    line = 0
+class TokenError extends Token {
+    lineNumber = 1
     description = ''
-    constructor(token, lexeme, errorType, line, description) {
-        super(token, lexeme)
+    constructor(token, lexeme, dataType, lineNumber, errorType, description) {
+        super(token, lexeme, dataType)
+        this.lineNumber = lineNumber
         this.errorType = errorType
-        this.line = line
         this.description = description
     }
-    set description(description) {
+    set lineNumber (lineNumber) {
+        this.lineNumber = lineNumber + 1
+    }
+    set description (description) {
         this.description = description
     }
     set token(token) {
