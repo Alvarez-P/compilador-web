@@ -1,4 +1,4 @@
-//TESTEANDO WHILE HANDLER
+//TESTEANDO FUNCTION HANDLER
 import Context from '../compiler/classes/context.js'
 import { functionHandler } from '../compiler/matchers/function.js'
 
@@ -11,7 +11,10 @@ const codeLines = [
     ['void', 'prueba1', '(', ')'],
     ['int', 'suma', '(', 'int', 'a', ',', 'int', 'b', ',', 'boolean', 'c', ')'],
 ]
-const scopes = [ null, [ { token: 'ID', lexeme: 'c', dataType: 'int' } ] ]
+const scopes = [ 
+    null, 
+    [ { token: 'ID', lexeme: 'c', dataType: 'int' } ] //Debe dar error por shadowing
+] 
 
 const contexts = scopes.map(scope => {
     let c = new Context()
