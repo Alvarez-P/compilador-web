@@ -2,10 +2,10 @@ export default class Context {
     lineTypes = ["function", "operation", "while", "delimiter"]
     functionPlaces = ["outside", "onSignature", "onBlock"]
     operationPlaces = ["onAsignation","onOperation"]
-    operationPlace = null
+    operationPlace = "onAsignation"
     operationDataType = 'any'
     lineType = null
-    functionPlace = null
+    functionPlace = "outside"
     scope = []
     lastToken = {}
     opDType = null

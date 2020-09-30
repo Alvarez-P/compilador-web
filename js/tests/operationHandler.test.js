@@ -9,8 +9,8 @@ const codeLines = [
     ['int', 'variable', '0', 'a', '+', 'b', '-', '23']
 ]
 
-function test(){
-    for(const key in codeLines){
+const test = () => {
+    for (const key in codeLines) {
         const line = codeLines[key]
         let context = new Context()
         context.scope = [scopes[key]]

@@ -14,11 +14,15 @@ const operationHandler = ({ context, lexeme }) => {
         // Si el token era el esperado se hace el análisis semántico
         if (token.token === 'ID') {
             const prevId = context.findVariable(token.lexeme)
-            token.dataType = prevId
+            token.dataType = prevId || 'any'
             switch (context.operationPlace) {
                 case 'onAsignation':
-                    // La variable no existe y hay un tipo de dato antes                  
-                    if (!prevId && context.lastToken.lexeme) {
+                    // La variable no existe y hay un tipo de dato antes
+                    if(context.lastToken instanceof TokenError){
+                        const desc = 'Identificador no posee un tipo de dato definido'
+                        token = new TokenError(token.token, token.lexeme, null, 'semantic', desc)
+                    }
+                    else if (!prevId && context.lastToken.lexeme) {
                         token.dataType = context.lastToken.lexeme
                         context.operationDataType = token.dataType
                         context.addNewVariable({
@@ -43,6 +47,7 @@ const operationHandler = ({ context, lexeme }) => {
                             token.lexeme,
                             '',
                             context.lineNumber,
+                            'semantic',
                             desc
                         )
                     }
@@ -56,6 +61,7 @@ const operationHandler = ({ context, lexeme }) => {
                             token.lexeme,
                             '',
                             context.lineNumber,
+                            'semantic',
                             desc
                         )
                         // La variable ya ha sido declarada y la operacion es de tipo any
@@ -70,6 +76,7 @@ const operationHandler = ({ context, lexeme }) => {
                             token.token,
                             token.lexeme,
                             prevId,
+                            'semantic',
                             context.lineNumber,
                             desc
                         )
@@ -88,8 +95,9 @@ const operationHandler = ({ context, lexeme }) => {
                 token = new TokenError(
                     token.token,
                     token.lexeme,
-                    '',
+                    dataType,
                     context.lineNumber,
+                    'semantic',
                     desc
                 )
             }
@@ -106,6 +114,7 @@ const operationHandler = ({ context, lexeme }) => {
                     token.lexeme,
                     '',
                     context.lineNumber,
+                    'semantic',
                     desc
                 )
             }
