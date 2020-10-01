@@ -20,14 +20,17 @@ const operationHandler = (context) => (lexeme) => {
                         const desc = 'Identificador no posee un tipo de dato definido'
                         token = new TokenError(token.token, token.lexeme, null, context.lineNumber, 'semantic', desc)
                     }
-                    else if (!prevDType && context.lastToken.lexeme) {
+                    else if (!prevDType && context.lastToken) {
                         token.dataType = context.lastToken.lexeme
                         context.operationDataType = token.dataType
                         context.addNewVariable({ lexeme: token.lexeme, dataType: token.dataType })
-                    } else if (!prevDType && !context.lastToken.lexeme) {
+                    } else if (!prevDType && !context.lastToken) {
                         const desc = 'La variable no está definida'
                         token = new TokenError(token.token,token.lexeme, null, context.lineNumber, 'semantic', desc)
-                    } else {
+                    } else if (prevDType && !context.lastToken) {
+                        context.operationDataType = token.dataType
+                    }
+                    else {
                         const desc = 'La variable ya está definida'
                         token = new TokenError(token.token, token.lexeme, null, context.lineNumber, 'semantic', desc)
                     }
@@ -57,7 +60,7 @@ const operationHandler = (context) => (lexeme) => {
             }
         }
         if (['OA'].includes(token.token)) {
-            if ((context.operationDataType==='char' && token.token!=='+')|| context.operationDataType==='boolean') {
+            if ((context.operationDataType==='char' && token.lexeme!=='+')|| context.operationDataType==='boolean') {
                 const desc = `Operador inválido para el tipo de dato ${context.operationDataType}`
                 token = new TokenError(token.token,token.lexeme, null, context.lineNumber, 'semantic', desc)
             }
