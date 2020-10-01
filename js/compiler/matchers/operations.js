@@ -18,15 +18,15 @@ const operationHandler = (context) => (lexeme) => {
                 case 'onAsignation':
                     if(context.lastToken instanceof TokenError){
                         const desc = 'Identificador no posee un tipo de dato definido'
-                        token = new TokenError(token.token, token.lexeme, null, 'semantic', desc)
+                        token = new TokenError(token.token, token.lexeme, null, context.lineNumber, 'semantic', desc)
                     }
                     else if (!prevDType && context.lastToken.lexeme) {
                         token.dataType = context.lastToken.lexeme
                         context.operationDataType = token.dataType
                         context.addNewVariable({ lexeme: token.lexeme, dataType: token.dataType })
                     } else if (!prevDType && !context.lastToken.lexeme) {
-                        context.operationDataType = token.dataType
-                        context.addNewVariable({ lexeme: token.lexeme, dataType: token.dataType })
+                        const desc = 'La variable no está definida'
+                        token = new TokenError(token.token,token.lexeme, null, context.lineNumber, 'semantic', desc)
                     } else {
                         const desc = 'La variable ya está definida'
                         token = new TokenError(token.token, token.lexeme, null, context.lineNumber, 'semantic', desc)
@@ -40,7 +40,7 @@ const operationHandler = (context) => (lexeme) => {
                         context.operationDataType = prevDType
                     } else if (context.operationDataType !== 'any' && prevDType !== context.operationDataType) {
                         const desc = `Tipo de dato inválido. Se esperaba un: ${context.operationDataType}`
-                        token = new TokenError(token.token,token.lexeme, null, context.lineNumber, 'semantic', desc)
+                        token = new TokenError(token.token,token.lexeme, prevDType, context.lineNumber, 'semantic', desc)
                     }
                     break;
                 default:
