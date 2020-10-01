@@ -1,4 +1,4 @@
-import { matcherLexeme } from './'
+import { matcherLexeme } from './index.js'
 
 /**
  * @function delimiterHandler
@@ -8,12 +8,11 @@ import { matcherLexeme } from './'
 */
 const delimiterHandler = (context) => {
     return (lexeme) => {
-        let token = null
         // Análisis sintáctico
-        token = matcherLexeme(lexeme, context) 
+        const token = matcherLexeme(lexeme, context) 
         if (!(token instanceof TokenError)){
             // Si el token era el esperado se hace el análisis semántico
-            context.deleteLastScope()
+            if (token.token==='DELBE') context.deleteLastScope()
         }
         return token
     }
