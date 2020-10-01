@@ -1,10 +1,12 @@
-const TokensName = ['ID', 'TD', 'AS', 'CNE', 'CNPF', 'DEL', 'SEP', 'OA']
+const TokensName = ['ID', 'TD', 'AS', 'CNE', 'CNPF', 'DEL', 'SEP', 'OA', 'IT']
 const tokenCounter = {}, errorTokenCounter = {}
 
 TokensName.forEach(tokenName => {
   tokenCounter[tokenName] = 1
   errorTokenCounter[`ERLX${tokenName}`] = 1
 })
+
+errorTokenCounter['SEM'] = 1
 
 const errorMessages = {
   ID: { description: 'Identificador inválido' },
