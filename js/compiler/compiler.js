@@ -1,19 +1,13 @@
 import { tokenCounter, errorTokenCounter } from './var/global.js'
 import { splitCode } from './split.js'
-import { functionHandler } from './matchers/handlers.js/index.js'
+import { functionHandler } from './matchers/function.js'
 import { operationHandler } from './matchers/operations.js'
 import { delimiterHandler } from './matchers/delimiter.js'
 import { whileHandler } from './matchers/while.js'
 import Context from './classes/context.js'
 import { TokenError } from './classes/token.js'
-import register from './recorder/index.js'
+import { register } from './recorder/index.js'
 
-let context = Context()
-const funcHandler = functionHandler(context)
-const whiHandler = whileHandler(context)
-const opHandler = operationHandler(context)
-const delHandler = delimiterHandler(context)
-const chooseLineHandler = initializeLineHandler(context, funcHandler, whiHandler, opHandler, delHandler)
 
 /**
  * @description Divide un string en lineas para validar con expresiones regulares y obtener los tokens
@@ -23,28 +17,35 @@ const chooseLineHandler = initializeLineHandler(context, funcHandler, whiHandler
  */
 
 function compile(code) {
+    //Contexto y manejadores
+    let context = new Context()
+    const funcHandler = functionHandler(context)
+    const whiHandler = whileHandler(context)
+    const opHandler = operationHandler(context)
+    const delHandler = delimiterHandler(context)
+    const chooseLineHandler = initializeLineHandler(context, funcHandler, whiHandler, opHandler, delHandler)
+    //Tablas y archivos de token
     let tokens = [], errors = [], tokenFile = ''
     let counter = Object.assign({}, tokenCounter)
     let errorCounter = Object.assign({}, errorTokenCounter)
     const registerToken = register(tokens, errors, tokenFile, counter, errorCounter)
 
+    //Separación
+    console.log('SEPARACIÓN')
     const { splittedCode, lineTypes } = splitCode(code)
-    for (key of lineTypes){
-        if (context.blockJustOpened) context.blockJustOpened = false
-        const handler = chooseLineHandler(lineTypes[key])
-        for (lexem of splittedCode[key]){
-            const token = handler(lexem)
-            if (token instanceof TokenError) token.line = key
-            registerToken(token)
+    console.log('MANEJO')
+    for (const lineKey in lineTypes){
+        //Manejo
+        const handler = chooseLineHandler(lineTypes[lineKey])
+        for (const lexemKey in splittedCode[lineKey]){
+            const token = handler(splittedCode[lineKey][lexemKey])
+            if (token instanceof TokenError) token.line = (parseInt(lineKey) + 1)
+            //Registro
+            const isLast = (parseInt(lexemKey)+1) === splittedCode[lineKey].length
+            tokenFile = registerToken(token, isLast)
         }
     }
-    //console.log('Tokens', tokens)
-    //console.log('Errores', errors)
     return { tokens, errors, tokenFile }
-}
-
-export {
-    compile
 }
 
 /**
@@ -74,15 +75,22 @@ function initializeLineHandler(context, fnHandler, whHandler, opHandler, delHand
                 context.operationPlace = null
                 return whHandler
             case 'operation':
-                context.expectedTokens = ['ID', 'TDV']
+                context.expectedTokens = ['ID', 'TDV'] //MUY IMPORTANTE EL ORDEN DEL ARRAY
                 context.operationPlace = null
                 return opHandler
             case 'delimiter':
-                if (context.blockJustOpened) context.expectedTokens = ['DELBO']
+                if (context.blockJustOpened){
+                    context.expectedTokens = ['DELBO']
+                    context.blockJustOpened = false
+                }
                 else context.expectedTokens = ['DELBE']
                 return delHandler
             default:
                 throw new Error('Tipo de línea desconocida')
         }
     }
+}
+
+export {
+    compile
 }
