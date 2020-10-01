@@ -36,7 +36,7 @@ export const matcherLexeme = (lexeme, Context) => {
             Context.expectedTokens[0], 
             lexeme,
             null, 
-            null, 
+            null,
             'lexical',
             `Se esperaba alguno de los siguientes tokens: ${Context.expectedTokens.join(', ')}`
         )
