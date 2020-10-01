@@ -44,6 +44,12 @@ const operationHandler = (context) => {
                             const desc = 'Indefinida la variable'
                             token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
                         }
+                    } else {// Para lexemas "a" en "a = b * c". Comprueba que existe en scope
+                    const tokenDType = context.findVariable(token.lexeme)
+                        if (!tokenDType){
+                            const desc = 'Indefinida la variable'
+                            token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
+                        }
                     }
                     break
                 case 'CNE':
