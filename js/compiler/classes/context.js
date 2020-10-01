@@ -7,7 +7,7 @@ export default class Context {
     lineType = null
     functionPlace = null
     scope = []
-    lastToken = {}
+    lastToken = null
     lineNumber = null
     expectedTokens = []
     blockJustOpened = null
