@@ -17,8 +17,8 @@ const matchingTokens = {
     OA: /^\+$|^\-$|^\*$|^<$|^>$|^<=$|^>=$|^==$|^!=$|^&&$|^\|\|$/,
     DELSO: /^\($/,
     DELSE: /^\)$/,
-    DELFO: /^{$/,
-    DELFE: /^}$/,
+    DELBO: /^{$/,
+    DELBE: /^}$/,
     WHILE: /^while$/
 }
 

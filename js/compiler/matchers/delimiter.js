@@ -1,4 +1,5 @@
 import { matcherLexeme } from './index.js'
+import { TokenError } from '../classes/token.js'
 
 /**
  * @function delimiterHandler
