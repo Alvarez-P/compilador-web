@@ -31,14 +31,13 @@ export const matcherLexeme = (lexeme, Context) => {
     })
     const match = matcher(lexeme, requiredRegex)
     return match ?
-        new Token(match, lexeme, '') : 
+        new Token(match, lexeme, null) : 
         new TokenError(
             Context.expectedTokens[0], 
-            lexeme, 
-            '', 
-            Context.lineNumber, 
-            'lexical', 
-            Context.numberLine, 
+            lexeme,
+            null, 
+            null, 
+            'lexical',
             `Se esperaba alguno de los siguientes tokens: ${Context.expectedTokens.join(', ')}`
         )
 }

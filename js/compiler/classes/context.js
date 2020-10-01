@@ -1,16 +1,16 @@
 export default class Context {
     lineTypes = ["function", "operation", "while", "delimiter"]
     functionPlaces = ["outside", "onSignature", "onBlock"]
-    operationPlaces = ["onAsignation","onOperation"]
-    operationPlace = "onAsignation"
-    operationDataType = 'any'
+    operationPlaces = ["onDeclaration", "onOperation"]
+    operationPlace = null
+    operationDataType = null
     lineType = null
-    functionPlace = "outside"
+    functionPlace = null
     scope = []
-    lastToken = {}
-    opDType = null
+    lastToken = null
     lineNumber = null
     expectedTokens = []
+    blockJustOpened = null
 
     set lineType(lineType) {
         if(this.lineTypes.includes(lineType)) this.lineType = lineType
