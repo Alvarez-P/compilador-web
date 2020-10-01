@@ -63,16 +63,19 @@ function initializeLineHandler(context, fnHandler, whHandler, opHandler, delHand
     return function(lineType){
         switch(lineType){
             case 'function':
-                context.addNewScope()
+                //context.addNewScope()
                 context.blockJustOpened = true
                 context.expectedTokens = ['TDF']
+                context.functionPlace = 'outside'
                 return fnHandler
             case 'while':
                 context.blockJustOpened = true
-                context.expectedTokens = ['IT']
+                context.expectedTokens = ['WHILE']
+                context.operationPlace = null
                 return whHandler
             case 'operation':
-                context.expectedTokens = ['ID']
+                context.expectedTokens = ['ID', 'TDV']
+                context.operationPlace = null
                 return opHandler
             case 'delimiter':
                 if (context.blockJustOpened) context.expectedTokens = ['DELBO']
