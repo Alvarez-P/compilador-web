@@ -1,4 +1,4 @@
-import compiler from './compiler/compiler.js'
+import { compile } from './compiler/compiler.js'
  
 document.addEventListener('DOMContentLoaded', function () {
     new Vue({
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             compile (){
                 this.text = document.getElementById("txtarea-code").value
                 this.resetTables()
-                this.setValuesToTables(compiler(this.text))
+                this.setValuesToTables(compile(this.text))
                 this.showLexemsInTokenFileTextArea()
                 this.enableDownloadButton()
             },

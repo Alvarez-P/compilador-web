@@ -13,6 +13,8 @@ function splitCode(code){
     let splittedCode = [], lineTypes = []
     let lines = code.split(/\n/)
     for (let line of lines){
+        //Ignora lineas vacias (Hace falta un mejor patrón)
+        if (line==='') continue
         //Limpia linea
         line.trim()
         while(line.search('\t')!==-1) line = line.replace(/\t/, '')
