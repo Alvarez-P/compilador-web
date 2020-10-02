@@ -16,16 +16,17 @@ const operationHandler = (context) => {
             switch(token.token){
                 case 'ID':
                     if (context.operationPlace==='onDeclaration') {
-                        //Comprueba si la variable puede definirse
+                        //Comprueba si la variable es precedida por un TD
                         const prevDType = context.lastToken.lexeme
-                        if (prevDType && prevDType!=='any'){ //Prueba si el anterior lexema era TD
+                        if (prevDType && prevDType!=='any'){
+                            //Comprueba si la variable ya estaba definida
                             const dtype = context.findVariable(token.lexeme)
-                            if (dtype){ //Comprueba si la variable ya estaba definida
+                            if (dtype){ 
                                 const desc = 'No se puede redefinir la variable. No se acepta el shadowing.'
                                 token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
                             } else {
                                 //Registra la variable en el scope
-                                token.dataType = dtype
+                                token.dataType = prevDType
                                 context.addNewVariable(token)
                             }
                         } else {
@@ -52,15 +53,15 @@ const operationHandler = (context) => {
                         }
                     }
                     break
-                case 'CNE':
-                    if (context.operationPlace==='onOperation') {
-                        const opDataType = context.operationDataType
-                        if (opDataType!=='any' && opDataType!=='int'){ //Comprueba si los tipos de dato no coinciden
-                            const desc = 'Incompatibilidad de tipos'
-                            token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
+            }
+            if (['CNE', 'CNPF'].includes(token.token)){
+                if (context.operationPlace==='onOperation'){
+                    token.dataType = token.token==='CNE'?'int':'double'
+                        if (context.operationDataType!=='any' && context.operationDataType!==token.dataType){
+                            const desc = `Tipo de dato inválido. Se esperaba un: ${context.operationDataType}`
+                            token = new TokenError(token.token, token.lexeme, token.token, null, 'semantic', desc)
                         }
-                    }
-                    break
+                }
             }
         }
         //Actualizacion del estado de Context
@@ -81,8 +82,8 @@ const operationHandler = (context) => {
             if (context.operationPlace==='onDeclaration') context.expectedTokens = ['AS']
             else context.expectedTokens = ['AS', 'OA']
         }
-        else if (context.expectedTokens.includes('CNE')) context.expectedTokens = ['OA']
-        else if (context.expectedTokens.includes('OA') || context.expectedTokens.includes('AS')) context.expectedTokens = ['ID', 'CNE']
+        else if (context.expectedTokens.includes('CNE') || context.expectedTokens.includes['CNFP']) context.expectedTokens = ['OA']
+        else if (context.expectedTokens.includes('OA') || context.expectedTokens.includes('AS')) context.expectedTokens = ['ID', 'CNE', 'CNPF']
 
         context.lastToken = token
         return token

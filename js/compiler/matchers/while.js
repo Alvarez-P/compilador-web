@@ -25,6 +25,15 @@ const whileHandler = (context) => {
                     }
                     break
             }
+            if (['CNE', 'CNPF'].includes(token.token)){
+                if (context.operationPlace==='onOperation'){
+                    token.dataType = token.token==='CNE'?'int':'double'
+                        if (context.operationDataType!=='any' && context.operationDataType!==token.dataType){
+                            const desc = `Tipo de dato inválido. Se esperaba un: ${context.operationDataType}`
+                            token = new TokenError(token.token, token.lexeme, token.token, null, 'semantic', desc)
+                        }
+                }
+            }
         }
         // Cambiar estado de context
         if (context.expectedTokens.includes('ID') && context.operationPlace==='onOperation') context.operationPlace = null
@@ -39,11 +48,11 @@ const whileHandler = (context) => {
 
         //Cambiar token esperado
         if (context.expectedTokens.includes('WHILE')) context.expectedTokens = ['DELSO']
-        else if (context.expectedTokens.includes('DELSO')) context.expectedTokens = ['ID', 'DELSE']
+        else if (context.expectedTokens.includes('DELSO')) context.expectedTokens = ['ID', 'CNE', 'CNPF', 'DELSE',]
         //BUG: Si el token esperado era DELSE y recibe "))" o similar, todo el analisis falla.
         else if (context.expectedTokens.includes('DELSE') && token.token ==='DELSE') context.expectedTokens = ['DELBO']
-        else if (context.expectedTokens.includes('ID')) context.expectedTokens = ['OA', 'DELSE']
-        else if (context.expectedTokens.includes('OA')) context.expectedTokens = ['ID']
+        else if (context.expectedTokens.includes('ID') || context.expectedTokens.includes('CNE') || context.expectedTokens.includes('CNPF')) context.expectedTokens = ['OA', 'DELSE']
+        else if (context.expectedTokens.includes('OA')) context.expectedTokens = ['ID', 'CNE', 'CNPF']
 
         //Retornar
         context.lastToken = token

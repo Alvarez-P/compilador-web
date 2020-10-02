@@ -1,29 +1,33 @@
 const register = (tokens, errors, lexemes, tokenCounter, errorTokenCounter) => (token, isLastLexemeInLine) => {
-    let isRegistered = false
+    let existingToken = null
     //Compara lexemas y tokens para comprobar si está registrado
     tokens.forEach(current => {
-        if(current.lexema === token.lexema && current.token === token.token) isRegistered = true
+        if(current.lexeme === token.lexeme && current.prevToken === token.token) existingToken = current
     })
+    token.prevToken = token.token //MUY IMPORTANTE
     //Traducción de tipos específicos a tipos genéricos
-    let realToken = token.token
-    if (['TDV', 'TDF'].includes(token.token)) realToken = 'TD'
-    if (['DELSO', 'DELSE', 'DELBO', 'DELBE'].includes(token.token)) realToken = 'DEL'
-    if (['WHILE'].includes(token.token)) realToken = 'IT'
-    //console.log(token.token, realToken, tokenCounter[realToken], errorTokenCounter[realToken], isLastLexemeInLine)
+    if (['TDV', 'TDF'].includes(token.token)) token.token = 'TD'
+    if (['DELSO', 'DELSE', 'DELBO', 'DELBE'].includes(token.token)) token.token = 'DEL'
+    if (['WHILE'].includes(token.token)) token.token = 'IT'
+    //Compruba si es un token de error
     if (token.description) {
         if (token.errorType==='lexical'){
-            token.token = 'ERLX' + token.token + errorTokenCounter['ERLX'+realToken]
-            errorTokenCounter[realToken] ++
+            const prevToken = token.token
+            token.token = 'ERLX' + token.token + errorTokenCounter['ERLX'+token.token]
+            errorTokenCounter['ERLX'+prevToken] ++
         } else{
             //NOTA: Find todos los semánticos
             token.token = 'ERSEM' + errorTokenCounter['SEM']
             errorTokenCounter['SEM'] ++
         }
         errors.push(token)
-    } else if (!isRegistered) {
-        token.token = token.token + tokenCounter[realToken]//.toString()
+    } else if (!existingToken) {
+        const prevToken = token.token
+        token.token = token.token + tokenCounter[token.token]
+        tokenCounter[prevToken] ++
         tokens.push(token)
-        tokenCounter[realToken] ++
+    } else {
+        token.token = existingToken.token
     }
     lexemes += `${token.token} `
     if (isLastLexemeInLine) lexemes += '\n'
