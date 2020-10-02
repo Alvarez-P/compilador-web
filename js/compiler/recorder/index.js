@@ -13,7 +13,8 @@ const register = (tokens, errors, lexemes, tokenCounter, errorTokenCounter) => (
                  current.prevToken === token.token && 
                  current.description === token.description) {
                 existingToken = current
-                if (current.lineNumber && token.lineNumber && current.lineNumber !== token.lineNumber) 
+                if (current.lineNumber && token.lineNumber && 
+                    current.lineNumber.toString().indexOf(token.lineNumber) === -1 )
                 current.lineNumber = `${current.lineNumber}, ${token.lineNumber}`
             }
         })

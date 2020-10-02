@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 arch.addEventListener('load', this.showTxt, false)
                 arch.readAsText(file)
             },
-            download (text){
+            download (){
                 let element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.lexemes));
                 element.setAttribute('download', this.filename);
             
                 element.style.display = 'none';
