@@ -59,7 +59,7 @@ const operationHandler = (context) => {
                     token.dataType = token.token==='CNE'?'int':'double'
                         if (context.operationDataType!=='any' && context.operationDataType!==token.dataType){
                             const desc = `Tipo de dato inválido. Se esperaba un: ${context.operationDataType}`
-                            token = new TokenError(token.token, token.lexeme, token.token, null, 'semantic', desc)
+                            token = new TokenError(token.token, token.lexeme, token.dataType, context.lineNumber, 'semantic', desc)
                         }
                 }
             }

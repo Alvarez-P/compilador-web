@@ -3,7 +3,7 @@ export default class Context {
     functionPlaces = ["outside", "onSignature", "onBlock"]
     operationPlaces = ["onDeclaration", "onOperation"]
     operationPlace = null
-    operationDataType = null
+    operationDataType = 'any'
     lineType = null
     functionPlace = null
     scope = []

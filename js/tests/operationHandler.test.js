@@ -4,7 +4,7 @@ import { operationHandler } from '../compiler/matchers/operations.js'
 //import { scopes } from "./index.js";
 
 const codeLines = [
-    ['a', '=', 'b', '-', 'd'],
+    ['c', '=', 'b', '-', 'd'],
     ['b', '=', 'd', '+', '2'],
     ['int', 'variable', '=', 'a', '+', 'b', '-', '23']
 ]
@@ -34,6 +34,8 @@ const contexts = scopes.map(scope => {
 })
 
 const handlers = contexts.map(context => {
+    context.operationPlace = 'onAsignation'
+    context.lineNumber = 1
     const handler = operationHandler(context)
     return handler
 })

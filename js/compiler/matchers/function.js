@@ -18,11 +18,11 @@ const functionHandler = (context) => {
                     const dtype = context.findVariable(token.lexeme)
                     if (dtype){
                         const desc = 'No se puede redefinir la variable. El shadowing no está permitido'
-                        token = new TokenError(token.token, token.lexeme, dtype, context.lineNumber, 'semantic', desc)
+                        token = new TokenError(token.token, token.lexeme, dtype, null, 'semantic', desc)
                     } else {
                         if (context.lastToken instanceof TokenError){
                             const desc = 'Identificador no posee un tipo de dato definido'
-                            token = new TokenError(token.token, token.lexeme, null, 'semantic', desc)
+                            token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
                         } else {
                             token.dataType = context.lastToken.lexeme
                             context.addNewVariable(token)
