@@ -5,7 +5,7 @@ const register = (tokens, errors, lexemes, tokenCounter, errorTokenCounter) => (
     //Compara lexemas y tokens para comprobar si está registrado
     if(!(token instanceof TokenError)){
         tokens.forEach(current => {
-            if(current.lexeme === token.lexeme && current.prevToken === token.token) existingToken = current
+            if(current.lexeme === token.lexeme && current.prevToken === token.token && !current.description) existingToken = current
         })
     } else {
         tokens.forEach(current => {
