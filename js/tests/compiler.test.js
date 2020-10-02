@@ -1,13 +1,17 @@
 import { compile } from '../compiler/compiler.js'
 
 const codes = [
-`void prueba1 ()
+`void prueba1(int y)
 {
-    a = a + b * 5
-    while (a < b)
-    {
-        a = a * 5
-    }
+	a = a + y * 5
+	while (y < 8)
+	{
+		a = a * 5
+	}
+}
+int suma@ (int a, int b, boolean c)
+{
+	c = a + b
 }`
 ]
 
