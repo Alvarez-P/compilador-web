@@ -38,8 +38,8 @@ const operationHandler = (context) => {
                         if (tokenDType){ //Comprueba si la variable está definida
                             const opDataType = context.operationDataType
                             if (opDataType!=='any' && opDataType!==tokenDType){ //Comprueba si los tipos de dato no coinciden
-                                const desc = `Incompatibilidad de tipos`
-                                token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
+                                const desc = `Incompatibilidad de tipos. Se esperaba: ${opDataType}`
+                                token = new TokenError(token.token, token.lexeme, tokenDType, null, 'semantic', desc)
                             }
                         } else{
                             const desc = 'Indefinida la variable'
