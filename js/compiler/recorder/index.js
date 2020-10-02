@@ -1,9 +1,10 @@
 const register = (tokens, errors, lexemes, tokenCounter, errorTokenCounter) => (token, isLastLexemeInLine) => {
-    let isRegistered = false
+    let existingToken = null
     //Compara lexemas y tokens para comprobar si está registrado
     tokens.forEach(current => {
-        if(current.lexema === token.lexema && current.token === token.token) isRegistered = true
+        if(current.lexeme === token.lexeme && current.prevToken === token.token) existingToken = current
     })
+    token.prevToken = token.token //MUY IMPORTANTE
     //Traducción de tipos específicos a tipos genéricos
     if (['TDV', 'TDF'].includes(token.token)) token.token = 'TD'
     if (['DELSO', 'DELSE', 'DELBO', 'DELBE'].includes(token.token)) token.token = 'DEL'
@@ -20,11 +21,13 @@ const register = (tokens, errors, lexemes, tokenCounter, errorTokenCounter) => (
             errorTokenCounter['SEM'] ++
         }
         errors.push(token)
-    } else if (!isRegistered) {
+    } else if (!existingToken) {
         const prevToken = token.token
         token.token = token.token + tokenCounter[token.token]
         tokenCounter[prevToken] ++
         tokens.push(token)
+    } else {
+        token.token = existingToken.token
     }
     lexemes += `${token.token} `
     if (isLastLexemeInLine) lexemes += '\n'

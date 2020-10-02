@@ -3,13 +3,13 @@ import { compile } from '../compiler/compiler.js'
 const codes = [
 `void prueba1(int y)
 {
-	a = a + y * 5
+	int a = a + y * 5
 	while (y < 8)
 	{
 		a = a * 5
 	}
 }
-int suma@ (int a, int b, boolean c)
+int suma@ (int foo, int b, boolean c)
 {
 	c = a + b
 }`
