@@ -31,20 +31,19 @@ function compile(code) {
     const registerToken = register(tokens, errors, tokenFile, counter, errorCounter)
 
     //Separación
-    console.log('SEPARACIÓN')
     const { splittedCode, lineTypes } = splitCode(code)
-    console.log('MANEJO')
     for (const lineKey in lineTypes){
         //Manejo
         const handler = chooseLineHandler(lineTypes[lineKey])
         for (const lexemKey in splittedCode[lineKey]){
             const token = handler(splittedCode[lineKey][lexemKey])
-            if (token instanceof TokenError) token.line = (parseInt(lineKey) + 1)
+            if (token instanceof TokenError) token.lineNumber = (parseInt(lineKey) + 1)
             //Registro
             const isLast = (parseInt(lexemKey)+1) === splittedCode[lineKey].length
             tokenFile = registerToken(token, isLast)
         }
     }
+    console.log({ tokens, errors, tokenFile });
     return { tokens, errors, tokenFile }
 }
 
