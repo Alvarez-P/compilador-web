@@ -19,6 +19,7 @@ import { register } from './recorder/index.js'
 function compile(code) {
     //Contexto y manejadores
     let context = new Context()
+    context.addNewScope()
     const funcHandler = functionHandler(context)
     const whiHandler = whileHandler(context)
     const opHandler = operationHandler(context)
