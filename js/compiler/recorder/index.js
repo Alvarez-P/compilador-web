@@ -48,7 +48,7 @@ const register = (tokens, errors, lexemes, tokenCounter, errorTokenCounter) => (
     }
     lexemes += `${token.token} `
     if (isLastLexemeInLine) lexemes += '\n'
-    return lexemes//{ tokens, errors, lexemes, tokenCounter, errorTokenCounter }
+    return { lexemes, token } //{ tokens, errors, lexemes, tokenCounter, errorTokenCounter }
 }
 
 export {
