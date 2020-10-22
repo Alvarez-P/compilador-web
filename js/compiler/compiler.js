@@ -7,6 +7,7 @@ import { whileHandler } from './matchers/while.js'
 import Context from './classes/context.js'
 import { TokenError } from './classes/token.js'
 import { register } from './recorder/index.js'
+import { convertLinesToPrefix } from './prefix.js'
 
 
 /**
@@ -30,20 +31,33 @@ function compile(code) {
     let counter = Object.assign({}, tokenCounter)
     let errorCounter = Object.assign({}, errorTokenCounter)
     const registerToken = register(tokens, errors, tokenFile, counter, errorCounter)
+    const opLines = []
 
     //Separación
     const { splittedCode, lineTypes } = splitCode(code)
     for (const lineKey in lineTypes){
         //Manejo
+        const opTokens = []
         const handler = chooseLineHandler(lineTypes[lineKey])
         for (const lexemKey in splittedCode[lineKey]){
             const token = handler(splittedCode[lineKey][lexemKey])
             if (token instanceof TokenError) token.lineNumber = (parseInt(lineKey) + 1)
             //Registro
             const isLast = (parseInt(lexemKey)+1) === splittedCode[lineKey].length
-            tokenFile = registerToken(token, isLast)
+            const result = registerToken(token, isLast)
+            tokenFile = result.lexemes
+            //Conversión a prefijo
+            if (context.lineType==='operation') opTokens.push(result.token)
         }
+        if (context.lineType==='operation') opLines.push(opTokens)
     }
+
+    //Conversión a prefijo
+    const prefixLines = convertLinesToPrefix(opLines)
+
+    //Generación de triplos y cuádruplos
+    //TU PARTE, ADOLFO
+
     console.log({ tokens, errors, tokenFile });
     return { tokens, errors, tokenFile }
 }
@@ -68,15 +82,18 @@ function initializeLineHandler(context, fnHandler, whHandler, opHandler, delHand
                 context.blockJustOpened = true
                 context.expectedTokens = ['TDF']
                 context.functionPlace = 'outside'
+                context.lineType = 'function'
                 return fnHandler
             case 'while':
                 context.blockJustOpened = true
                 context.expectedTokens = ['WHILE']
                 context.operationPlace = null
+                context.lineType = 'while'
                 return whHandler
             case 'operation':
                 context.expectedTokens = ['ID', 'TDV'] //MUY IMPORTANTE EL ORDEN DEL ARRAY
                 context.operationPlace = null
+                context.lineType = 'operation'
                 return opHandler
             case 'delimiter':
                 if (context.blockJustOpened){
@@ -84,6 +101,7 @@ function initializeLineHandler(context, fnHandler, whHandler, opHandler, delHand
                     context.blockJustOpened = false
                 }
                 else context.expectedTokens = ['DELBE']
+                context.lineType = 'delimiter'
                 return delHandler
             default:
                 throw new Error('Tipo de línea desconocida')
