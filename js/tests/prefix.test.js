@@ -1,6 +1,7 @@
 import { infixToPrefix } from '../compiler/prefix.js'
 
 const op1 = [
+    'int',
     'res',
     '=',
     '(',

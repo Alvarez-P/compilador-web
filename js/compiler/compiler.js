@@ -58,7 +58,7 @@ function compile(code) {
     //Generación de triplos y cuádruplos
     //TU PARTE, ADOLFO
 
-    console.log({ tokens, errors, tokenFile });
+    console.log({ tokens, errors, tokenFile, prefixLines });
     return { tokens, errors, tokenFile }
 }
 
