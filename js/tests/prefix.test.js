@@ -1,4 +1,4 @@
-import { infixToPrefix } from '../compiler/prefix.js'
+import { infixToPrefix, getPrefixLexemes } from '../compiler/prefix.js'
 
 const op1 = [
     'int',
@@ -18,10 +18,10 @@ const op1 = [
     '-',
     'v'
 ]
-const tokens = []
 
-op1.map((lexeme => {
-    tokens.push({lexeme: lexeme})
-}))
+const tokens = op1.map(lexeme => { return {lexeme: lexeme} })
 
-console.log(infixToPrefix(tokens))
+const prefix = infixToPrefix(tokens)
+
+console.log(prefix)
+console.log(getPrefixLexemes(prefix))

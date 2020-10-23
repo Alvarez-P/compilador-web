@@ -74,7 +74,12 @@ function convertLinesToPrefix(opLines){
     return prefixLines
 }
 
+function getPrefixLexemes(line){
+    return line.map((token => token.lexeme))
+}
+
 export {
     infixToPrefix,
-    convertLinesToPrefix
+    convertLinesToPrefix,
+    getPrefixLexemes
 }
