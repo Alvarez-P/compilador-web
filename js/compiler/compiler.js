@@ -7,7 +7,7 @@ import { whileHandler } from './matchers/while.js'
 import Context from './classes/context.js'
 import { TokenError } from './classes/token.js'
 import { register } from './recorder/index.js'
-import { convertLinesToPrefix } from './prefix.js'
+import { convertLinesToPrefix, getPrefixLexemes } from './prefix.js'
 import buildTriple from './triple/index.js'
 
 
@@ -48,13 +48,14 @@ function compile(code) {
             const result = registerToken(token, isLast)
             tokenFile = result.lexemes
             // Conversión a prefijo
-            if (context.lineType==='operation' && result.token.token.indexOf('TD') === -1) opTokens.push(result.token)
+            if (context.lineType==='operation') opTokens.push(result.token)
         }
         if (context.lineType==='operation') opLines.push(opTokens)
     }
 
     // Conversión a prefijo
     const prefixLines = convertLinesToPrefix(opLines)
+    
     // Generación de triplo
     const triple = buildTriple(prefixLines)
     return { tokens, errors, tokenFile, triple }

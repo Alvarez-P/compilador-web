@@ -40,9 +40,9 @@ function infixToPrefix(tokens){
                     if (stack.length!==0) topPri = getPriority(stack[stack.length-1].lexeme)
                 }
             }
-            stack.push(token.lexeme)
+            stack.push(token)
         } else { //Simbolo es un operando
-            prefix.push(token.lexeme)
+            prefix.push(token)
         }
     }
     while(stack.length!==0) prefix.push(stack.pop())
@@ -69,9 +69,13 @@ function convertLinesToPrefix(opLines){
                 break
             }
         }
-        if (!error) prefixLines.push({ prefixLine: infixToPrefix(line), type: 'operation' })
+        if (!error) prefixLines.push({ prefixLine: getPrefixLexemes(infixToPrefix(line)), type: 'operation' })
     }
     return prefixLines
+}
+
+function getPrefixLexemes(line){
+    return line.map((token => token.lexeme))
 }
 
 export {
