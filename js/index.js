@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
         data: {
             text: '',
             tokens: [{}],
+            triple: [[]],
             errors: [{}],
             lexemes: '',
             filename: 'token-file.txt'
@@ -14,11 +15,13 @@ document.addEventListener('DOMContentLoaded', function () {
             resetTables (){
                 this.tokens.length = 0
                 this.errors.length = 0
+                this.triple.length = 0
             },
-            setValuesToTables ({ tokens, tokenFile, errors }) {
+            setValuesToTables ({ tokens, tokenFile, errors, triple }) {
                 this.tokens = tokens
                 this.lexemes = tokenFile
                 this.errors.push(...errors)
+                this.triple = triple
             },
             showLexemsInTokenFileTextArea (){
                 const textArea = document.getElementById("archivo-token");

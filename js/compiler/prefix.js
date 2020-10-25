@@ -69,7 +69,7 @@ function convertLinesToPrefix(opLines){
                 break
             }
         }
-        if (!error) prefixLines.push(infixToPrefix(line))
+        if (!error) prefixLines.push({ prefixLine: getPrefixLexemes(infixToPrefix(line)), type: 'operation' })
     }
     return prefixLines
 }

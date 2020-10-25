@@ -19,7 +19,7 @@ const op1 = [
     'v'
 ]
 
-const tokens = op1.map(lexeme => { return {lexeme: lexeme} })
+const tokens = op1.map(lexeme =>{ return { lexeme }})
 
 const prefix = infixToPrefix(tokens)
 
