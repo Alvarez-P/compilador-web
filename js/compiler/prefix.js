@@ -17,6 +17,9 @@ function infixToPrefix(tokens){
         const token =  tokens[i]
         const lexeme = tokens[i].lexeme
 
+        // No analices tipos de datos
+        if (lexeme.match(matchingTokens['TDV'])) continue
+
         if (lexeme===')') stack.push(token)
         else if (lexeme==='('){
             //Saca todos los operadores de la pila hasta encontrar ')'
@@ -72,5 +75,7 @@ function convertLinesToPrefix(opLines){
 }
 
 export {
-    convertLinesToPrefix
+    infixToPrefix,
+    convertLinesToPrefix,
+    getPrefixLexemes
 }
