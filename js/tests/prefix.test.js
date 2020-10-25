@@ -20,7 +20,7 @@ const op1 = [
 const tokens = []
 
 op1.map((lexeme => {
-    tokens.push({lexeme: lexeme})
+    tokens.push({ lexeme })
 }))
 
 console.log(infixToPrefix(tokens))

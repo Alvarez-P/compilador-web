@@ -37,9 +37,9 @@ function infixToPrefix(tokens){
                     if (stack.length!==0) topPri = getPriority(stack[stack.length-1].lexeme)
                 }
             }
-            stack.push(token)
+            stack.push(token.lexeme)
         } else { //Simbolo es un operando
-            prefix.push(token)
+            prefix.push(token.lexeme)
         }
     }
     while(stack.length!==0) prefix.push(stack.pop())
@@ -66,7 +66,7 @@ function convertLinesToPrefix(opLines){
                 break
             }
         }
-        if (!error) prefixLines.push(infixToPrefix(line))
+        if (!error) prefixLines.push({ prefixLine: infixToPrefix(line), type: 'operation' })
     }
     return prefixLines
 }
