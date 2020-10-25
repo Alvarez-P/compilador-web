@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.tokens = tokens
                 this.lexemes = tokenFile
                 this.errors.push(...errors)
-                console.log(triple);
                 this.triple = triple
             },
             showLexemsInTokenFileTextArea (){
