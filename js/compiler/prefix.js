@@ -65,11 +65,11 @@ function convertLinesToPrefix(lines){
     const prefixLines = []
     for (const line of lines){
         // Trata de forma especial el cierre del while
-        /*
         if (line.type==='whileEnd'){
+            console.log(line)
             prefixLines.push({lexemes:[], type: line.lineType})
             continue
-        }*/
+        }
         let error = false
         for(const token of line.tokens){
             //Verifica que no hayan tokens de error en línea

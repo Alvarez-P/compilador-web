@@ -68,6 +68,8 @@ function compile(code) {
                 tokensLine.tokens.splice(tokensLine.tokens.length-1, 1)
                 tokensLine.tokens.splice(0, 2)
                 tokensLines.push(tokensLine)
+            } else if (context.closingBlock==='while'){
+                tokensLines.push({tokens: [], lineType: 'whileEnd'})
             }
         }
     }
@@ -94,6 +96,7 @@ function compile(code) {
  */
 function initializeLineHandler(context, fnHandler, whHandler, opHandler, delHandler){
     return function(lineType){
+        context.closingBlock = null
         switch(lineType){
             case 'function':
                 //context.addNewScope()
@@ -117,8 +120,13 @@ function initializeLineHandler(context, fnHandler, whHandler, opHandler, delHand
                 if (context.blockJustOpened){
                     context.expectedTokens = ['DELBO']
                     context.blockJustOpened = false
+                    context.blockStack.push(context.lineType)
+                } else{
+                    context.expectedTokens = ['DELBE']
+                    //BUG: Compilado inesperado si llaves de cierre > llaves de apertura
+                    //Comp. esperado: Si no hay nada que cerrar, ignorar llave de cierre
+                    context.closingBlock = context.blockStack.pop()
                 }
-                else context.expectedTokens = ['DELBE']
                 context.lineType = 'delimiter'
                 return delHandler
             default:
