@@ -33,6 +33,8 @@ function compile(code) {
     let errorCounter = Object.assign({}, errorTokenCounter)
     const registerToken = register(tokens, errors, tokenFile, counter, errorCounter)
     const tokensLines = []
+    //Variables auxiliares
+    let isCompilingPossible = true
 
     // Separación
     const { splittedCode, lineTypes } = splitCode(code)
@@ -42,22 +44,40 @@ function compile(code) {
         const handler = chooseLineHandler(lineTypes[lineKey])
         for (const lexemKey in splittedCode[lineKey]){
             const token = handler(splittedCode[lineKey][lexemKey])
-            if (token instanceof TokenError) token.lineNumber = (parseInt(lineKey) + 1)
-            // Registro
+            //Registro
+            if (token instanceof TokenError){
+                token.lineNumber = (parseInt(lineKey) + 1)
+                // Decide si el compilado a código intermedio es posible
+                if (['operation', 'while'].includes(context.lineType)){
+                    isCompilingPossible = false
+                }
+            }
             const isLast = (parseInt(lexemKey)+1) === splittedCode[lineKey].length
             const result = registerToken(token, isLast)
             tokenFile = result.lexemes
-            // Conversión a prefijo
-            if (context.lineType==='operation') tokensLine.tokens.push(result.token)
+            // Seleccion de lexemas para conv. a prefijo
+            if (['operation', 'while'].includes(context.lineType)){
+                tokensLine.tokens.push(result.token)
+            }
         }
-        if (context.lineType==='operation') tokensLines.push(tokensLine)
+        //Seleccion de lexemas para conv. a prefijo
+        if (isCompilingPossible){
+            if (context.lineType==='operation') tokensLines.push(tokensLine)
+            else if (context.lineType==='while'){
+                //Del while solo se toma la condicion
+                tokensLine.tokens.splice(tokensLine.tokens.length-1, 1)
+                tokensLine.tokens.splice(0, 2)
+                tokensLines.push(tokensLine)
+            }
+        }
     }
 
     // Conversión a prefijo
     const prefixLines = convertLinesToPrefix(tokensLines)
     // Generación de triplo
-    const triple = buildTriple(prefixLines)
-    return { tokens, errors, tokenFile, triple }
+    //const triple = buildTriple(prefixLines)
+    console.log(prefixLines)
+    return { tokens, errors, tokenFile }
 }
 
 /**
