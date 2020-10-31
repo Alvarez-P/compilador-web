@@ -7,7 +7,7 @@ import { whileHandler } from './matchers/while.js'
 import Context from './classes/context.js'
 import { TokenError } from './classes/token.js'
 import { register } from './recorder/index.js'
-import { convertLinesToPrefix } from './prefix/prefix.js'
+import { convertLinesToPrefix } from './prefix/prefixParsing.js'
 import { shouldTakeToken, setupTokenSelection } from './prefix/prefixSelection.js'
 import buildTriple from './triple/index.js'
 
@@ -63,38 +63,26 @@ function compile(code) {
         //Seleccion de lexemas para conv. a prefijo
         const tokens = selectPrefixTokens(tokensLine)
         if(tokens) tokensLines.push(tokens)
-        /*
-        if (isCompilingPossible){
-            if (context.lineType==='operation') tokensLines.push(tokensLine)
-            else if (context.lineType==='while'){
-                //Del while solo se toma la condicion
-                tokensLine.tokens.splice(tokensLine.tokens.length-1, 1)
-                tokensLine.tokens.splice(0, 2)
-                tokensLines.push(tokensLine)
-            } else if (context.closingBlock==='while'){
-                tokensLines.push({tokens: [], lineType: 'whileEnd'})
-            }
-        }
-        */
     }
 
     // Conversión a prefijo
     const prefixLines = convertLinesToPrefix(tokensLines)
-    // Generación de triplo
+    // Contrucción de triplo (comentado porque fallaba)
     //const triple = buildTriple(prefixLines)
-    console.log(prefixLines)
+    //console.log(prefixLines)
     return { tokens, errors, tokenFile }
+    
 }
 
 /**
  * @description Devuelve la función usada para analizar lexemas para un 
  * tipo de línea determinado. Inicializa parámetros en context basado
  * también en el tipo de línea a analizar.
- * @param {*} context 
- * @param {*} fnHandler 
- * @param {*} whHandler 
- * @param {*} opHandler 
- * @param {*} delHandler 
+ * @param {Object} context 
+ * @param {Function} fnHandler 
+ * @param {Function} whHandler 
+ * @param {Function} opHandler 
+ * @param {Function} delHandler 
  * @returns {Function} Función que devulve una función usada para analizar
  * lexemas de un tipo de línea determinado.
  */

@@ -1,13 +1,10 @@
 
 /**
- * @description Return a function that decides which tokens are selected for prefix parsing, 
- * given certain context conditions
- * @param {Array} tokensLine Array of tokens candidate to prefix parsing
- * @param {Strin} isCompilingPossible Decides whether to perform selection
- * @param {String} lineType Line type being analyzed currently by the compiler
- * @param {String} closingBlock Indicates which code structure (if any) just closed
- * @returns {Array} Array of tokens selected for prefix parsing, or null, if
- * no tokens are selected.
+ * @description Returna una función que decide cuáles tokens son seleccionados
+ * para conversión a prefijo, dadas ciertas condiciones del contexto
+ * @param {Array} tokensLine Lista de tokens que podrían convertirse
+ * @returns {Array} Lista de tokens seleccionados para conversión. Se devuelve null
+ * si ninguno fue seleccionado
  */
 function setupTokenSelection(context){
     return (tokensLine) => {
