@@ -59,21 +59,38 @@ function infixToPrefix(tokens){
  * ningún error semántico o sintáctico son convertidas.
  */
 
-function convertLinesToPrefix(opLines){
+function convertLinesToPrefix(lines){
     const prefixLines = []
-    for (const line of opLines){
+    for (const line of lines){
+        // Trata de forma especial el cierre del while
+        /*
+        if (line.type==='whileEnd'){
+            prefixLines.push({lexemes:[], type: line.lineType})
+            continue
+        }*/
         let error = false
-        for(const token of line){
+        for(const token of line.tokens){
+            //Verifica que no hayan tokens de error en línea
             if (token instanceof TokenError){
                 error = true
                 break
             }
         }
-        if (!error) prefixLines.push({ prefixLine: getPrefixLexemes(infixToPrefix(line)), type: 'operation' })
+        // De no haber tokens de error, convierte lexemas a prefijo
+        if (!error) prefixLines.push({
+            //PrefixLine puede contener tokens si se quita getPrefixLexemes
+            prefixLine: getPrefixLexemes(infixToPrefix(line.tokens)),
+            type: line.lineType
+        })
     }
     return prefixLines
 }
 
+/**
+ * @description Dado un array de objetos Token, devuelve de forma ordenada
+ * los lexemas de estos.
+ * @param {Array} line Array de objetos Token
+ */
 function getPrefixLexemes(line){
     return line.map((token => token.lexeme))
 }

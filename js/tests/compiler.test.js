@@ -9,7 +9,7 @@ const codes = [
 		a = a * 5
 	}
 }
-int suma@ (int foo, int b, boolean c)
+int suma@ (int a, int b, int c)
 {
 	c = a + b
 }`

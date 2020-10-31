@@ -32,13 +32,13 @@ function compile(code) {
     let counter = Object.assign({}, tokenCounter)
     let errorCounter = Object.assign({}, errorTokenCounter)
     const registerToken = register(tokens, errors, tokenFile, counter, errorCounter)
-    const opLines = []
+    const tokensLines = []
 
     // Separación
     const { splittedCode, lineTypes } = splitCode(code)
     for (const lineKey in lineTypes){
         // Manejo
-        const opTokens = []
+        const tokensLine = { tokens: [], lineType: lineTypes[lineKey] }
         const handler = chooseLineHandler(lineTypes[lineKey])
         for (const lexemKey in splittedCode[lineKey]){
             const token = handler(splittedCode[lineKey][lexemKey])
@@ -48,13 +48,13 @@ function compile(code) {
             const result = registerToken(token, isLast)
             tokenFile = result.lexemes
             // Conversión a prefijo
-            if (context.lineType==='operation') opTokens.push(result.token)
+            if (context.lineType==='operation') tokensLine.tokens.push(result.token)
         }
-        if (context.lineType==='operation') opLines.push(opTokens)
+        if (context.lineType==='operation') tokensLines.push(tokensLine)
     }
 
     // Conversión a prefijo
-    const prefixLines = convertLinesToPrefix(opLines)
+    const prefixLines = convertLinesToPrefix(tokensLines)
     // Generación de triplo
     const triple = buildTriple(prefixLines)
     return { tokens, errors, tokenFile, triple }
