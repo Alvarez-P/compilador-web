@@ -7,7 +7,8 @@ import { whileHandler } from './matchers/while.js'
 import Context from './classes/context.js'
 import { TokenError } from './classes/token.js'
 import { register } from './recorder/index.js'
-import { convertLinesToPrefix, getPrefixLexemes } from './prefix.js'
+import { convertLinesToPrefix } from './prefix/prefix.js'
+import { shouldTakeToken, setupTokenSelection } from './prefix/prefixSelection.js'
 import buildTriple from './triple/index.js'
 
 
@@ -27,14 +28,13 @@ function compile(code) {
     const opHandler = operationHandler(context)
     const delHandler = delimiterHandler(context)
     const chooseLineHandler = initializeLineHandler(context, funcHandler, whiHandler, opHandler, delHandler)
+    const selectPrefixTokens = setupTokenSelection(context)
     //Tablas y archivos de token
     let tokens = [], errors = [], tokenFile = ''
     let counter = Object.assign({}, tokenCounter)
     let errorCounter = Object.assign({}, errorTokenCounter)
     const registerToken = register(tokens, errors, tokenFile, counter, errorCounter)
     const tokensLines = []
-    //Variables auxiliares
-    let isCompilingPossible = true
 
     // Separación
     const { splittedCode, lineTypes } = splitCode(code)
@@ -49,18 +49,21 @@ function compile(code) {
                 token.lineNumber = (parseInt(lineKey) + 1)
                 // Decide si el compilado a código intermedio es posible
                 if (['operation', 'while'].includes(context.lineType)){
-                    isCompilingPossible = false
+                    context.isCompilingPossible = false
                 }
             }
             const isLast = (parseInt(lexemKey)+1) === splittedCode[lineKey].length
             const result = registerToken(token, isLast)
             tokenFile = result.lexemes
             // Seleccion de lexemas para conv. a prefijo
-            if (['operation', 'while'].includes(context.lineType)){
+            if (shouldTakeToken(context.lineType)){
                 tokensLine.tokens.push(result.token)
             }
         }
         //Seleccion de lexemas para conv. a prefijo
+        const tokens = selectPrefixTokens(tokensLine)
+        if(tokens) tokensLines.push(tokens)
+        /*
         if (isCompilingPossible){
             if (context.lineType==='operation') tokensLines.push(tokensLine)
             else if (context.lineType==='while'){
@@ -72,6 +75,7 @@ function compile(code) {
                 tokensLines.push({tokens: [], lineType: 'whileEnd'})
             }
         }
+        */
     }
 
     // Conversión a prefijo

@@ -12,6 +12,7 @@ export default class Context {
     expectedTokens = []
     blockJustOpened = null
     blockStack = []
+    isCompilingPossible = true
 
     set lineType(lineType) {
         if(this.lineTypes.includes(lineType)) this.lineType = lineType
