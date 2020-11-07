@@ -1,6 +1,7 @@
-import conditionalInTriple from "./conditionalInTriple.js"
+import endWhile from "./whileEnd.js"
 import iteratorInTriple from "./iteratorInTriple.js"
 import operationInTriple from "./operationInTriple.js"
+import TripleContext from "../classes/triple-context.js"
 
 /**
  * @function buildTriple
@@ -10,15 +11,17 @@ import operationInTriple from "./operationInTriple.js"
  */
 const buildTriple = (lines) => {
     const TRIPLE = []
+    const TripleCtx = new TripleContext()
+    let trCount = 1
     // Instance builders functions
-    const putOperationInTriple = operationInTriple(TRIPLE, lines)
-    const putIteratorInTriple = iteratorInTriple(TRIPLE, lines)
-    const putConditionalInTriple = conditionalInTriple(TRIPLE, lines)
+    const putOperationInTriple = operationInTriple(TRIPLE, TripleCtx)
+    const putIteratorInTriple = iteratorInTriple(TRIPLE, TripleCtx, trCount)
+    const setEndWhile = endWhile(TRIPLE, TripleCtx)
 
     lines.forEach(line => {
         if (line.type === 'operation') putOperationInTriple(line.prefixLine)
-        else if (line.type === 'iterator') putIteratorInTriple(line.prefixLine)
-        else putConditionalInTriple(line.prefixLine)
+        else if (line.type === 'while') putIteratorInTriple(line.prefixLine)
+        else setEndWhile(line.prefixLine)
     })
     return TRIPLE
 }

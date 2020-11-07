@@ -1,14 +1,22 @@
-import { matchingTokens } from './var/regex.js'
-import { TokenError } from './classes/token.js'
+import { matchingTokens } from '../var/regex.js'
+import { TokenError } from '../classes/token.js'
 
 function getPriority(op){
     if (op==='(' || op===')') return 1
-    if (op==='+' || op==='-') return 2
-    else if (op==='*' || op==='/') return 3
-    else if (op==='^') return 4
+    if (op==='&&' || op==='||') return 2
+    if (['>','<','==','<=','>='].includes(op)) return 3
+    if (op==='+' || op==='-') return 4
+    else if (op==='*' || op==='/') return 5
+    else if (op==='^') return 6
     else return 0 //asignación
 }
 
+/**
+ * Dado una lista de tokens, retorna una lista de tales tokens ordenados
+ * de acuerdo a notación prefija
+ * @param {Array} tokens Lista de tokens a ordenar
+ * @returns Lista de tokens en forma prefija
+ */
 function infixToPrefix(tokens){
     let stack = []
     let prefix = []
@@ -58,22 +66,38 @@ function infixToPrefix(tokens){
  * convertidas a notación prefija. Sólo las líneas que no presentan
  * ningún error semántico o sintáctico son convertidas.
  */
-
-function convertLinesToPrefix(opLines){
+function convertLinesToPrefix(lines){
     const prefixLines = []
-    for (const line of opLines){
+    for (const line of lines){
+        // Trata de forma especial el cierre del while
+        if (line.type==='whileEnd'){
+            console.log(line)
+            prefixLines.push({lexemes:[], type: line.lineType})
+            continue
+        }
         let error = false
-        for(const token of line){
+        for(const token of line.tokens){
+            //Verifica que no hayan tokens de error en línea
             if (token instanceof TokenError){
                 error = true
                 break
             }
         }
-        if (!error) prefixLines.push({ prefixLine: getPrefixLexemes(infixToPrefix(line)), type: 'operation' })
+        // De no haber tokens de error, convierte lexemas a prefijo
+        if (!error) prefixLines.push({
+            //PrefixLine puede contener tokens si se quita getPrefixLexemes
+            prefixLine: getPrefixLexemes(infixToPrefix(line.tokens)),
+            type: line.lineType
+        })
     }
     return prefixLines
 }
 
+/**
+ * @description Dado un array de objetos Token, devuelve de forma ordenada
+ * los lexemas de estos.
+ * @param {Array} line Array de objetos Token
+ */
 function getPrefixLexemes(line){
     return line.map((token => token.lexeme))
 }

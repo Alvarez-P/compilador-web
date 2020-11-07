@@ -6,10 +6,14 @@ const codes = [
 	int a = a + y * 5
 	while (y < 8)
 	{
-		a = a * 5
+        a = a * 5
+        while (y > 9)
+        {
+            y = 3 * 5
+        }
 	}
 }
-int suma@ (int foo, int b, boolean c)
+int suma@ (int a, int b, int c)
 {
 	c = a + b
 }`

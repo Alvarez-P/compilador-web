@@ -55,9 +55,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 arch.addEventListener('load', this.showTxt, false)
                 arch.readAsText(file)
             },
+            tripleTotext(){
+                let tripleText = '\n\n\nTRIPLE\n\nLinea\tOperador\tDato objeto\tDato Fuente\n'
+                this.triple.forEach((line, index) => {
+                    tripleText += `${index+1}\t${line.join('\t\t')}\n`
+                })
+                return tripleText
+            },
             download (){
                 let element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.lexemes));
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.lexemes + this.tripleTotext()));
                 element.setAttribute('download', this.filename);
             
                 element.style.display = 'none';

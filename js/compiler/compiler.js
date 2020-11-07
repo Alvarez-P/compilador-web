@@ -7,7 +7,8 @@ import { whileHandler } from './matchers/while.js'
 import Context from './classes/context.js'
 import { TokenError } from './classes/token.js'
 import { register } from './recorder/index.js'
-import { convertLinesToPrefix, getPrefixLexemes } from './prefix.js'
+import { convertLinesToPrefix } from './prefix/prefixParsing.js'
+import { shouldTakeToken, setupTokenSelection } from './prefix/prefixSelection.js'
 import buildTriple from './triple/index.js'
 
 
@@ -27,35 +28,45 @@ function compile(code) {
     const opHandler = operationHandler(context)
     const delHandler = delimiterHandler(context)
     const chooseLineHandler = initializeLineHandler(context, funcHandler, whiHandler, opHandler, delHandler)
+    const selectPrefixTokens = setupTokenSelection(context)
     //Tablas y archivos de token
     let tokens = [], errors = [], tokenFile = ''
     let counter = Object.assign({}, tokenCounter)
     let errorCounter = Object.assign({}, errorTokenCounter)
     const registerToken = register(tokens, errors, tokenFile, counter, errorCounter)
-    const opLines = []
+    const tokensLines = []
 
     // Separación
     const { splittedCode, lineTypes } = splitCode(code)
     for (const lineKey in lineTypes){
         // Manejo
-        const opTokens = []
+        const tokensLine = { tokens: [], lineType: lineTypes[lineKey] }
         const handler = chooseLineHandler(lineTypes[lineKey])
         for (const lexemKey in splittedCode[lineKey]){
             const token = handler(splittedCode[lineKey][lexemKey])
-            if (token instanceof TokenError) token.lineNumber = (parseInt(lineKey) + 1)
-            // Registro
+            //Registro
+            if (token instanceof TokenError){
+                token.lineNumber = (parseInt(lineKey) + 1)
+                // Decide si el compilado a código intermedio es posible
+                if (['operation', 'while'].includes(context.lineType)){
+                    context.isCompilingPossible = false
+                }
+            }
             const isLast = (parseInt(lexemKey)+1) === splittedCode[lineKey].length
             const result = registerToken(token, isLast)
             tokenFile = result.lexemes
-            // Conversión a prefijo
-            if (context.lineType==='operation') opTokens.push(result.token)
+            // Seleccion de lexemas para conv. a prefijo
+            if (shouldTakeToken(context.lineType)){
+                tokensLine.tokens.push(result.token)
+            }
         }
-        if (context.lineType==='operation') opLines.push(opTokens)
+        //Seleccion de lexemas para conv. a prefijo
+        const tokens = selectPrefixTokens(tokensLine)
+        if(tokens) tokensLines.push(tokens)
     }
 
     // Conversión a prefijo
-    const prefixLines = convertLinesToPrefix(opLines)
-    // Generación de triplo
+    const prefixLines = convertLinesToPrefix(tokensLines)
     const triple = buildTriple(prefixLines)
     return { tokens, errors, tokenFile, triple }
 }
@@ -64,16 +75,17 @@ function compile(code) {
  * @description Devuelve la función usada para analizar lexemas para un 
  * tipo de línea determinado. Inicializa parámetros en context basado
  * también en el tipo de línea a analizar.
- * @param {*} context 
- * @param {*} fnHandler 
- * @param {*} whHandler 
- * @param {*} opHandler 
- * @param {*} delHandler 
+ * @param {Object} context 
+ * @param {Function} fnHandler 
+ * @param {Function} whHandler 
+ * @param {Function} opHandler 
+ * @param {Function} delHandler 
  * @returns {Function} Función que devulve una función usada para analizar
  * lexemas de un tipo de línea determinado.
  */
 function initializeLineHandler(context, fnHandler, whHandler, opHandler, delHandler){
     return function(lineType){
+        context.closingBlock = null
         switch(lineType){
             case 'function':
                 //context.addNewScope()
@@ -97,8 +109,13 @@ function initializeLineHandler(context, fnHandler, whHandler, opHandler, delHand
                 if (context.blockJustOpened){
                     context.expectedTokens = ['DELBO']
                     context.blockJustOpened = false
+                    context.blockStack.push(context.lineType)
+                } else{
+                    context.expectedTokens = ['DELBE']
+                    //BUG: Compilado inesperado si llaves de cierre > llaves de apertura
+                    //Comp. esperado: Si no hay nada que cerrar, ignorar llave de cierre
+                    context.closingBlock = context.blockStack.pop()
                 }
-                else context.expectedTokens = ['DELBE']
                 context.lineType = 'delimiter'
                 return delHandler
             default:
