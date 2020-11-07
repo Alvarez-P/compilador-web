@@ -1,9 +1,9 @@
-import replaceWithTemporal from "./replaceWithTemporal.js"
+import {replaceWithTemporal} from "./updateLine.js"
 const operators = ['+', '-', '/', '*', '^']
 
 const operatorAndOperands = (line) => (index) => operators.includes(line[index]) && !operators.includes(line[index+1]) && !operators.includes(line[index+2])
 
-const operationInTriple = (TRIPLE) => (line) => {
+const operationInTriple = (TRIPLE, TripleCtx) => (line) => {
     const rplWithTemp = replaceWithTemporal(line)
     const isOperatorAndOperands = operatorAndOperands(line)
 
@@ -15,10 +15,12 @@ const operationInTriple = (TRIPLE) => (line) => {
             if (line[index+1].indexOf('T') !== -1) {
                 temp = line[index+1] 
                 TRIPLE.push([line[index], temp, line[index+2]])
+                TripleCtx.lineNumber++
             } else {
                 temp = `T${tempCount++}`
                 TRIPLE.push(['=', temp, line[index+1]])
                 TRIPLE.push([line[index], temp, line[index+2]])
+                TripleCtx.lineNumber+=2
             }
             rplWithTemp(index, temp)
             lmxsCount-=2
@@ -28,6 +30,7 @@ const operationInTriple = (TRIPLE) => (line) => {
     }
     // Agrega la asignación
     TRIPLE.push([line[0], line[1], temp])
+    TripleCtx.lineNumber++
 }
 
 export default operationInTriple
