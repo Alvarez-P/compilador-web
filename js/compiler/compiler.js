@@ -67,11 +67,8 @@ function compile(code) {
 
     // Conversión a prefijo
     const prefixLines = convertLinesToPrefix(tokensLines)
-    // Contrucción de triplo (comentado porque fallaba)
-    //const triple = buildTriple(prefixLines)
-    //console.log(prefixLines)
-    return { tokens, errors, tokenFile }
-    
+    const triple = buildTriple(prefixLines)
+    return { tokens, errors, tokenFile, triple }
 }
 
 /**

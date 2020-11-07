@@ -3,12 +3,16 @@ import triple from '../compiler/triple/index.js'
 const mocks = [
     [
         {
-            prefixLine: ['=', 'x', '-', '4', '2'],
+            prefixLine: ["||","<", "y", "x","==", "x", "9"],
+            type: 'while'
+        },
+        {
+            prefixLine: ['=', 'y', '+', 'y', '1'],
             type: 'operation'
         },
         {
-            prefixLine: ['=', 'y', '-', '8', '*', '6', '4'],
-            type: 'operation'
+            prefixLine: ['}'],
+            type: 'whileEnd'
         }
     ]
 ]

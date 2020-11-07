@@ -1,4 +1,4 @@
-import { infixToPrefix, getPrefixLexemes } from '../compiler/prefix.js'
+import { infixToPrefix, getPrefixLexemes } from '../compiler/prefix/prefixParsing.js'
 
 const op1 = [
     'int',
