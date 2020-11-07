@@ -34,7 +34,7 @@ const operationHandler = (context) => {
                             token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
                         }
                     } else if (context.operationPlace==='onOperation') {
-                        const tokenDType = context.findVariable(token.lexeme)
+                        const tokenDType = context.findVariableInAllScopes(token.lexeme)
                         if (tokenDType){ //Comprueba si la variable está definida
                             const opDataType = context.operationDataType
                             if (opDataType!=='any' && opDataType!==tokenDType){ //Comprueba si los tipos de dato no coinciden
@@ -46,7 +46,7 @@ const operationHandler = (context) => {
                             token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
                         }
                     } else {// Para lexemas "a" en "a = b * c". Comprueba que existe en scope
-                    const tokenDType = context.findVariable(token.lexeme)
+                    const tokenDType = context.findVariableInAllScopes(token.lexeme)
                         if (!tokenDType){
                             const desc = 'Indefinida la variable'
                             token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
@@ -69,7 +69,7 @@ const operationHandler = (context) => {
         else if (context.expectedTokens.includes('OA') || context.expectedTokens.includes('AS')){
             //Salva tipo de dato de operando izquierdo en caso de operación o asignación
             const lastLexeme = context.lastToken.lexeme
-            const dtype = context.findVariable(lastLexeme)
+            const dtype = context.findVariableInAllScopes(lastLexeme)
             context.operationPlace = 'onOperation'
             if (!dtype) context.operationDataType = 'any'
             else context.operationDataType = dtype
