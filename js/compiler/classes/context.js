@@ -47,6 +47,20 @@ export default class Context {
         }
         return dataType
     }
+    findVariableInAllScopes (lexeme) {
+        let found = false, dataType = ''
+        for (let scope of this.scope) {
+            for (let object of scope) {
+                if (object.lexeme === lexeme) {
+                    dataType = object.dataType
+                    found = true
+                }
+                if (found) break
+            }
+            if (found) break
+        }
+        return dataType
+    }
     addNewScope () {
         this.scope.unshift([])
     }

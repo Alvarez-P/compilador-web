@@ -50,7 +50,10 @@ const whileHandler = (context) => {
         if (context.expectedTokens.includes('WHILE')) context.expectedTokens = ['DELSO']
         else if (context.expectedTokens.includes('DELSO')) context.expectedTokens = ['ID', 'CNE', 'CNPF', 'DELSE',]
         //BUG: Si el token esperado era DELSE y recibe "))" o similar, todo el analisis falla.
-        else if (context.expectedTokens.includes('DELSE') && token.token ==='DELSE') context.expectedTokens = ['DELBO']
+        else if (context.expectedTokens.includes('DELSE') && token.token ==='DELSE') {
+            context.expectedTokens = ['DELBO']
+            context.addNewScope()
+        }
         else if (context.expectedTokens.includes('ID') || context.expectedTokens.includes('CNE') || context.expectedTokens.includes('CNPF')) context.expectedTokens = ['OA', 'DELSE']
         else if (context.expectedTokens.includes('OA')) context.expectedTokens = ['ID', 'CNE', 'CNPF']
 
