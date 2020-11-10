@@ -21,12 +21,12 @@ const operationInTriple = (TRIPLE, TripleCtx) => (line) => {
             }
             if (line[index+1].indexOf('T') !== -1) {
                 temp = line[index+1] 
-                TRIPLE.push([line[index], temp, line[index+2]])
+                TRIPLE.push([line[index], temp, secondOperand])
                 TripleCtx.lineNumber++
             } else {
                 temp = `T${tempCount++}`
                 TRIPLE.push(['=', temp, line[index+1]])
-                TRIPLE.push([line[index], temp, line[index+2]])
+                TRIPLE.push([line[index], temp, secondOperand])
                 TripleCtx.lineNumber+=2
             }
             rplWithTemp(index, temp)
