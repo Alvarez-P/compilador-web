@@ -3,7 +3,7 @@
  * @param {Array} TRIPLE 
  * @param {Object} TripleCtx 
  */
-const conditionalInTriple = (TRIPLE, TripleCtx) => (line) => {
+const endWhile = (TRIPLE, TripleCtx) => {
 
     TRIPLE.push(['JR', '', TripleCtx.lastScopeStart])
     TripleCtx.lineNumber++
@@ -12,4 +12,4 @@ const conditionalInTriple = (TRIPLE, TripleCtx) => (line) => {
         TRIPLE[pending][0] = TripleCtx.lineNumber + 1
     });
 }
-export default conditionalInTriple
+export default endWhile

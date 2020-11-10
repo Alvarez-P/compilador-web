@@ -16,12 +16,11 @@ const buildTriple = (lines) => {
     // Instance builders functions
     const putOperationInTriple = operationInTriple(TRIPLE, TripleCtx)
     const putIteratorInTriple = iteratorInTriple(TRIPLE, TripleCtx, trCount)
-    const setEndWhile = endWhile(TRIPLE, TripleCtx)
 
     lines.forEach(line => {
         if (line.type === 'operation') putOperationInTriple(line.prefixLine)
         else if (line.type === 'while') putIteratorInTriple(line.prefixLine)
-        else setEndWhile(line.prefixLine)
+        else endWhile(TRIPLE, TripleCtx)
     })
     return TRIPLE
 }

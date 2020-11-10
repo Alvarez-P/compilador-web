@@ -4,12 +4,12 @@ const operators = ['+', '-', '/', '*', '^']
 const operatorAndOperands = (line) => (index) => operators.includes(line[index]) && !operators.includes(line[index+1]) && !operators.includes(line[index+2])
 
 const operationInTriple = (TRIPLE, TripleCtx) => (line) => {
-    const rplWithTemp = replaceWithTemporal(line)
+    let index = 0, lxmsCount = line.length, tempCount = 1
+    let temp = line[2]
+    const rplWithTemp = replaceWithTemporal(line, lxmsCount)
     const isOperatorAndOperands = operatorAndOperands(line)
 
-    let index = 0, lmxsCount = line.length, tempCount = 1
-    let temp = line[2]
-    while (lmxsCount > 3 && index < lmxsCount) {
+    while (lxmsCount > 3 && index < lxmsCount) {
         if (isOperatorAndOperands(index)) {
             // Existencia de variable temporal entre los operandos
             let secondOperand = line[index+2], secondTemp = ''
@@ -30,7 +30,6 @@ const operationInTriple = (TRIPLE, TripleCtx) => (line) => {
                 TripleCtx.lineNumber+=2
             }
             rplWithTemp(index, temp)
-            lmxsCount-=2
             index = 1
         }
         index++
