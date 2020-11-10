@@ -4,7 +4,7 @@ const aritOperators = ['+', '-', '/', '*', '^', '%']
 const relOperators = ['==', '>=', '<=', '<', '>', '!=']
 const lgcOperators = ['&&', '||']
 
-const relOperatorAndOperands = (line) => (index) => relOperators.includes(line[index]) && !relOperators.includes(line[index+1]) && !relOperators.includes(line[index+2])
+const relOperatorAndOperands = (line) => (index) => relOperators.includes(line[index]) && !relOperators.includes(line[index+1]) && !aritOperators.includes(line[index+1])  && !relOperators.includes(line[index+2]) && !aritOperators.includes(line[index+2])
 const aritOperatorAndOperands = (line) => (index) => aritOperators.includes(line[index]) && !aritOperators.includes(line[index+1]) && !aritOperators.includes(line[index+2])
 const notDoubleLgcOperator = (line) => (index) => lgcOperators.includes(line[index]) && !lgcOperators.includes(line[index+1])
 
@@ -30,11 +30,24 @@ const iteratorInTriple = (TRIPLE, TripleCtx, trCount) => (line) => {
             if (isARelOprAndTwoOprs(index)) {
                 temp = `T${tempCount}`
                 tr = `TR${trCount++}`
-                TRIPLE.push(['=', temp, line[index+1]])
-                TRIPLE.push([line[index], temp, line[index+2]])
-                TripleCtx.lineNumber+=2
+                let secondOperand = line[index+2], secondTemp = ''
+                if (line[index+1].indexOf('T') !== 0) {
+                    tempCount++
+                    TRIPLE.push(['=', temp, line[index+1]])
+                    TripleCtx.lineNumber+=1
+                } else {
+                    temp = line[index+1]
+                }
+                if (isNaN(secondOperand) && secondOperand.indexOf('T') !== 0) {
+                    secondTemp = `T${tempCount++}`
+                    TRIPLE.push(['=', secondTemp, secondOperand])
+                    secondOperand = secondTemp
+                    TripleCtx.lineNumber+=1
+                }
+                TRIPLE.push([line[index], temp, secondOperand])
+                TripleCtx.lineNumber+=1
                 delLxms(index)
-                index--
+                index = -1
 
                 if (TripleCtx.logicalOperator !== '||') {
                     TRIPLE.push([TripleCtx.lineNumber+3, tr, 'TRUE'])
@@ -63,23 +76,31 @@ const iteratorInTriple = (TRIPLE, TripleCtx, trCount) => (line) => {
                         TRIPLE[pending][0] = TripleCtx.lineNumber + 1
                     }
                 }
+                tempCount = 1
                 opAnalized++
             }
             else if (isAAritOprAndTwoOprs(index)) {
                 // Existencia de variable temporal entre los operandos
-                if (line[index+1].indexOf('T') !== -1) {
-                    temp = line[index+1] 
-                    TRIPLE.push([line[index], temp, line[index+2]])
+                let secondOperand = line[index+2], secondTemp = ''
+                if (isNaN(secondOperand) && secondOperand.indexOf('T') !== 0) {
+                    secondTemp = `T${tempCount++}`
+                    TRIPLE.push(['=', secondTemp, secondOperand])
+                    secondOperand = secondTemp
+                    TripleCtx.lineNumber++
+                }
+                if (line[index+1].indexOf('T') === 0) {
+                    temp = line[index+1]
+                    TRIPLE.push([line[index], temp, secondOperand])
                     TripleCtx.lineNumber++
                 } else {
                     temp = `T${tempCount++}`
                     TRIPLE.push(['=', temp, line[index+1]])
-                    TRIPLE.push([line[index], temp, line[index+2]])
+                    TRIPLE.push([line[index], temp, secondOperand])
                     TripleCtx.lineNumber+=2
                 }
                 rplWithTemp(index, temp)
                 lmxsCount-=2
-                index = 1
+                index = -1
             }
         }
         else if (isNotDoubleLgcOpr(index)) {

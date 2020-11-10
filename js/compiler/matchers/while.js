@@ -11,7 +11,7 @@ const whileHandler = (context) => {
         if (!(token instanceof TokenError)){
             switch(token.token){
                 case 'ID':
-                    const tokenDType = context.findVariable(token.lexeme)
+                    const tokenDType = context.findVariableInAllScopes(token.lexeme)
                     if (!tokenDType){
                         const desc = 'Indefinida la variable'
                         token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)

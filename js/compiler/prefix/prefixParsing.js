@@ -3,11 +3,12 @@ import { TokenError } from '../classes/token.js'
 
 function getPriority(op){
     if (op==='(' || op===')') return 1
-    if (op==='&&' || op==='||') return 2
-    if (['>','<','==','<=','>='].includes(op)) return 3
-    if (op==='+' || op==='-') return 4
-    else if (op==='*' || op==='/') return 5
-    else if (op==='^') return 6
+    else if (op==='&&' || op==='||') return 2
+    else if (['>','<','==','<=','>='].includes(op)) return 3
+    else if (op==='+' || op==='-') return 4
+    else if (op==='%') return 5
+    else if (op==='*' || op==='/') return 6
+    else if (op==='^') return 7
     else return 0 //asignación
 }
 

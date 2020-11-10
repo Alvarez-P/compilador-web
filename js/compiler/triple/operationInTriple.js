@@ -12,6 +12,13 @@ const operationInTriple = (TRIPLE, TripleCtx) => (line) => {
     while (lmxsCount > 3 && index < lmxsCount) {
         if (isOperatorAndOperands(index)) {
             // Existencia de variable temporal entre los operandos
+            let secondOperand = line[index+2], secondTemp = ''
+            if (isNaN(secondOperand) && secondOperand.indexOf('T') !== 0) {
+                secondTemp = `T${tempCount++}`
+                TRIPLE.push(['=', secondTemp, secondOperand])
+                secondOperand = secondTemp
+                TripleCtx.lineNumber++
+            }
             if (line[index+1].indexOf('T') !== -1) {
                 temp = line[index+1] 
                 TRIPLE.push([line[index], temp, line[index+2]])
