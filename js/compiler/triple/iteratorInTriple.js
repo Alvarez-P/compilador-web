@@ -74,6 +74,7 @@ const iteratorInTriple = (TRIPLE, TripleCtx, trCount) => (line) => {
                         TripleCtx.addInTheLastPendingLineIndex(TripleCtx.lineNumber -1)
                         const pending = TripleCtx.lastPendingCondLinesIndexes
                         TRIPLE[pending][0] = TripleCtx.lineNumber + 1
+                        TripleCtx.logicalOperator = null
                     }
                 }
                 tempCount = 1
