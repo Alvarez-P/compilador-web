@@ -4,7 +4,7 @@
 :root {
     --dark-color: #0f111a;
     --contrast-color: #215968;
-	--light-color: #f8f9fa;
+	--light-color: #ffffff;
 	--grey: #8f9296;
 }
 body {
@@ -12,8 +12,9 @@ body {
 	overflow-x: hidden;
 	margin:0;
 }
-
-
+a {
+	color:var(--contrast-color);
+}
 /*---------------------------------------------------------
                         Text and layout
 ---------------------------------------------------------*/
@@ -32,9 +33,10 @@ textarea {
     margin-top: 4%;
 }
 .register-right{
-    background: var(--light-color);
+    background: var(--dark-color);
     border-top-left-radius: 10% 50%;
-    border-bottom-left-radius: 10% 50%;
+	border-bottom-left-radius: 10% 50%;
+	color: var(--light-color);
 }
 .register-left p{
     font-weight: lighter;
@@ -50,7 +52,7 @@ textarea {
     margin-top: 8%;
     margin-bottom: -15%;
     font-weight: bold;
-    color: var(--contrast-color);
+    color: var(--light-color);
 }
 
 /*---------------------------------------------------------
