@@ -12,6 +12,19 @@ body {
 	overflow-x: hidden;
 	margin:0;
 }
+/*  Scroll */
+body::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+body::-webkit-scrollbar-thumb {
+    background: rgb(145, 145, 145);
+    border-radius: 4px;
+}
+body::-webkit-scrollbar-thumb:hover {
+    background: #797979;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
 a {
 	color:var(--contrast-color);
 }
@@ -34,8 +47,10 @@ textarea {
 }
 .register-right{
     background: var(--dark-color);
-    border-top-left-radius: 10% 50%;
-	border-bottom-left-radius: 10% 50%;
+    border-top-left-radius: 20% 50%;
+	border-bottom-left-radius: 20% 50%;
+	border-bottom-right-radius: 20% 50%;
+	border-top-right-radius: 20% 50%;
 	color: var(--light-color);
 }
 .register-left p{
@@ -117,17 +132,31 @@ button {
 	cursor: not-allowed; 
 	pointer-events: none; 
 	background-color: var(--grey);
-	color: var(var(--dark-color))
+	color: var(--dark-color)
 }
 /*---------------------------------------------------------
                         Text Area
 ---------------------------------------------------------*/
 #archivo-token {
 	border-radius: .5rem .5rem 0rem 0rem;
+	max-height: 300px;
+	overflow: auto;
+	background: var(--light-color)
+}
+#archivo-token::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+#archivo-token::-webkit-scrollbar-thumb {
+    background: var(--grey);
+    border-radius: 4px;
+}
+#archivo-token::-webkit-scrollbar-thumb:hover {
+    background: #797979;
 }
 .tables h6 {
 	font-size: 13px;
-	color: #92999f;
+	color: var(--grey);
 }
 /*------------------------------------------------------------------
             Tables 
@@ -159,11 +188,11 @@ tbody::-webkit-scrollbar {
     height: 8px;
 }
 tbody::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: var(--grey);
     border-radius: 4px;
 }
 tbody::-webkit-scrollbar-thumb:hover {
-    background: #b3b3b3;
+    background: #797979;
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
 }
 /*------------------------------------------------------------------
