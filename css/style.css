@@ -47,10 +47,10 @@ textarea {
 }
 .register-right{
     background: var(--dark-color);
-    border-top-left-radius: 20% 50%;
-	border-bottom-left-radius: 20% 50%;
-	border-bottom-right-radius: 20% 50%;
-	border-top-right-radius: 20% 50%;
+    border-top-left-radius: 3% 3%;
+	border-bottom-left-radius: 3% 3%;
+	border-bottom-right-radius: 3% 3%;
+	border-top-right-radius: 3% 3%;
 	color: var(--light-color);
 }
 .register-left p{
@@ -171,6 +171,7 @@ caption, h5 {
 .table {
 	background-color: var(--light-color);
 	border-radius: 4px;
+	font-size: 13px;
 }
 .table tbody { 
 	display: block; 
