@@ -10,7 +10,7 @@ import { register } from './recorder/index.js'
 import { convertLinesToPrefix } from './prefix/prefixParsing.js'
 import { shouldTakeToken, setupTokenSelection } from './prefix/prefixSelection.js'
 import buildTriple from './triple/index.js'
-
+import { deleteUnusedValues } from './optimization/unusedValues.js'
 
 /**
  * @description Divide un string en lineas para validar con expresiones regulares y obtener los tokens
@@ -35,10 +35,13 @@ function compile(code) {
     let errorCounter = Object.assign({}, errorTokenCounter)
     const registerToken = register(tokens, errors, tokenFile, counter, errorCounter)
     const tokensLines = []
+    const delUnusedValues = deleteUnusedValues(tokensLines)
 
     // Separación
     const { splittedCode, lineTypes } = splitCode(code)
     for (const lineKey in lineTypes){
+        context.lineNumber = parseInt(lineKey)
+        context.tokenLinesLength = tokensLines.length
         // Manejo
         const tokensLine = { tokens: [], lineType: lineTypes[lineKey] }
         const handler = chooseLineHandler(lineTypes[lineKey])
@@ -64,11 +67,12 @@ function compile(code) {
         const tokens = selectPrefixTokens(tokensLine)
         if(tokens) tokensLines.push(tokens)
     }
-
+    // Eliminación de variables no usadas
+    delUnusedValues(context.variablesLines)
     // Conversión a prefijo
     const prefixLines = convertLinesToPrefix(tokensLines)
     const triple = buildTriple(prefixLines)
-    return { tokens, errors, tokenFile, triple }
+    return { tokens, errors, tokenFile, triple, tokensLines }
 }
 
 /**

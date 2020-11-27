@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
             triple: [[]],
             errors: [{}],
             lexemes: '',
-            filename: 'token-file.txt'
+            filename: 'token-file.txt',
+            optimizedCode: ''
         },
         mounted: function() {
             this._editor = new CodeMirror(document.getElementById('codemirror'), {
@@ -41,11 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.errors.length = 0
                 this.triple.length = 0
             },
-            setValuesToTables ({ tokens, tokenFile, errors, triple }) {
+            setValuesToTables ({ tokens, tokenFile, errors, triple, tokensLines }) {
                 this.tokens = tokens
                 this.lexemes = tokenFile
                 this.errors.push(...errors)
                 this.triple = triple
+                this.buildOptimizedCodeTxt(tokensLines)
             },
             showLexemsInTokenFileTextArea (){
                 const textArea = document.getElementById("archivo-token");
@@ -58,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 btn.classList.remove("disabled")
             },
             compile (){
-                console.log(this.text);
                 this.resetTables()
                 this.setValuesToTables(compile(this.text))
                 this.showLexemsInTokenFileTextArea()
@@ -86,9 +87,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 return tripleText
             },
+            buildOptimizedCodeTxt(tokensLines) {
+                this.optimizedCode = '\n\nCódigo Optimizado\n\n'
+                if (tokensLines.length === 0) {
+                    this.optimizedCode += 'No se genera salida\nLas variables no se utilizan'
+                } else {
+                    tokensLines.forEach(line => {
+                        if (line.lineType === 'operation') {
+                            line.tokens.forEach(token => {
+                                this.optimizedCode += `${token.lexeme} `
+                            })
+                        }
+                        else if(line.lineType === 'while') {
+                            this.optimizedCode += 'while ('
+                            line.tokens.forEach(token => {
+                                this.optimizedCode += ` ${token.lexeme}`
+                            })
+                            this.optimizedCode += ' )\n{'
+                        }
+                        else if(line.lineType === 'whileEnd') {
+                            this.optimizedCode += '}'
+                        }
+                        this.optimizedCode += '\n'
+                    })
+                }
+            },
             download (){
                 let element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.lexemes + this.tripleTotext()));
+                const fileContent = this.lexemes + this.tripleTotext() + this.optimizedCode
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
                 element.setAttribute('download', this.filename);
             
                 element.style.display = 'none';

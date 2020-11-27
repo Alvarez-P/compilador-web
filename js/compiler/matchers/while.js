@@ -15,7 +15,8 @@ const whileHandler = (context) => {
                     if (!tokenDType){
                         const desc = 'Indefinida la variable'
                         token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
-                    } else if (context.operationPlace==='onOperation'){
+                    } else {
+                        context.addOpInLastVariablesLine(lexeme)
                         // Si hay operacion, busca tipo del token actual y comparalo con tipo de operacion
                         const opDataType = context.operationDataType
                         if (opDataType!=='any' && opDataType!==tokenDType){
@@ -48,7 +49,10 @@ const whileHandler = (context) => {
 
         //Cambiar token esperado
         if (context.expectedTokens.includes('WHILE')) context.expectedTokens = ['DELSO']
-        else if (context.expectedTokens.includes('DELSO')) context.expectedTokens = ['ID', 'CNE', 'CNPF', 'DELSE',]
+        else if (context.expectedTokens.includes('DELSO')) {
+            context.addVariablesLine(null, context.tokenLinesLength, true)
+            context.expectedTokens = ['ID', 'CNE', 'CNPF', 'DELSE',]
+        }
         //BUG: Si el token esperado era DELSE y recibe "))" o similar, todo el analisis falla.
         else if (context.expectedTokens.includes('DELSE') && token.token ==='DELSE') {
             context.expectedTokens = ['DELBO']
