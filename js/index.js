@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
             errors: [{}],
             lexemes: '',
             filename: 'token-file.txt',
-            optimizedCode: ''
+            tokensLines: []
         },
         mounted: function() {
             this._editor = new CodeMirror(document.getElementById('codemirror'), {
@@ -32,11 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         },
         methods: {
-            autoFormat() {
-                const totalLines = this._editor.lineCount();
-                const totalChars = this._editor.getTextArea().value.length;
-                this._editor.autoFormatRange({line:0, ch:0}, {line:totalLines, ch:totalChars});
-            },
             resetTables (){
                 this.tokens.length = 0
                 this.errors.length = 0
@@ -47,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.lexemes = tokenFile
                 this.errors.push(...errors)
                 this.triple = triple
-                this.buildOptimizedCodeTxt(tokensLines)
+                this.tokensLines = tokensLines
             },
             showLexemsInTokenFileTextArea (){
                 const textArea = document.getElementById("archivo-token");
@@ -56,8 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 textArea.rows = lines.length
             },
             enableDownloadButton (){
-                const btn = document.getElementById("download")
-                btn.classList.remove("disabled")
+                const btns = document.querySelectorAll(".download");
+                [].forEach.call(btns, btn => {
+                    btn.classList.remove("disabled")
+                })
+                const btnDownloadAll = document.getElementById('download-all')
+                btnDownloadAll.classList.remove("disabled")
             },
             compile (){
                 this.resetTables()
@@ -81,42 +80,52 @@ document.addEventListener('DOMContentLoaded', function () {
                 arch.readAsText(file)
             },
             tripleTotext(){
-                let tripleText = '\n\n\nTRIPLO\n\nLinea\tOperador\tDato objeto\tDato Fuente\n'
+                let tripleText = '\n\nTRIPLO\n\nLinea\tOperador\tDato objeto\tDato Fuente\n'
                 this.triple.forEach((line, index) => {
                     tripleText += `${index+1}\t${line.join('\t\t')}\n`
                 })
                 return tripleText
             },
-            buildOptimizedCodeTxt(tokensLines) {
-                this.optimizedCode = '\n\nCódigo Optimizado\n\n'
-                if (tokensLines.length === 0) {
-                    this.optimizedCode += 'No se genera salida\nLas variables no se utilizan'
+            optimizedCodeToText() {
+                let optimizedCode = '\n\nCódigo Optimizado\n\n'
+                if (this.tokensLines.length === 0) {
+                    optimizedCode += 'No se genera salida\nLas variables no se utilizan'
                 } else {
-                    tokensLines.forEach(line => {
+                    this.tokensLines.forEach(line => {
                         if (line.lineType === 'operation') {
                             line.tokens.forEach(token => {
-                                this.optimizedCode += `${token.lexeme} `
+                                optimizedCode += `${token.lexeme} `
                             })
                         }
                         else if(line.lineType === 'while') {
-                            this.optimizedCode += 'while ('
+                            optimizedCode += 'while ('
                             line.tokens.forEach(token => {
-                                this.optimizedCode += ` ${token.lexeme}`
+                                optimizedCode += ` ${token.lexeme}`
                             })
-                            this.optimizedCode += ' )\n{'
+                            optimizedCode += ' )\n{'
                         }
                         else if(line.lineType === 'whileEnd') {
-                            this.optimizedCode += '}'
+                            optimizedCode += '}'
                         }
-                        this.optimizedCode += '\n'
+                        optimizedCode += '\n'
                     })
                 }
+                return optimizedCode
             },
-            download (){
+            downloadAll (){
+                const fileContent = `Archivo de tokens\n\n${this.lexemes} ${this.tripleTotext()} ${this.optimizedCodeToText()}`
+                this.download('compilado', fileContent)
+            },
+            downloadTriplo(){
+                this.download('triplo', this.tripleTotext())
+            },
+            downloadTokenFile(){
+                this.download('archivo-tokens', `Archivo de tokens\n\n${this.lexemes}`)
+            },
+            download (filename, fileContent){
                 let element = document.createElement('a');
-                const fileContent = this.lexemes + this.tripleTotext() + this.optimizedCode
                 element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileContent));
-                element.setAttribute('download', this.filename);
+                element.setAttribute('download', filename);
             
                 element.style.display = 'none';
                 document.body.appendChild(element);

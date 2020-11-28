@@ -123,7 +123,7 @@ button {
 	cursor: pointer;
 	border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
 }
-#download {
+.download {
 	margin: 0rem;
 	width: 100%;
 	border-radius: 0rem 0rem 1.5rem 1.5rem;	
@@ -133,6 +133,10 @@ button {
 	pointer-events: none; 
 	background-color: var(--grey);
 	color: var(--dark-color)
+}
+#download-all.disabled {
+	background-color: var(--dark-color);
+	color: var(--grey)
 }
 /*---------------------------------------------------------
                         Text Area
@@ -154,29 +158,35 @@ button {
 #archivo-token::-webkit-scrollbar-thumb:hover {
     background: #797979;
 }
+
+/*------------------------------------------------------------------
+            Tables 
+------------------------------------------------------------------*/
 .tables h6 {
 	font-size: 13px;
 	color: var(--grey);
 }
-/*------------------------------------------------------------------
-            Tables 
-------------------------------------------------------------------*/
 .tables {
-	margin-top: 40px
+	margin-top: 40px;
 }
 caption, h5 {
 	color: var(--light-color);
 	font-size: larger;
 }
+.tables table {
+	margin-bottom: 0px
+}
 .table {
 	background-color: var(--light-color);
-	border-radius: 4px;
 	font-size: 13px;
 }
 .table tbody { 
 	display: block; 
 	max-height: 300px; 
 	overflow-y: scroll; 
+}
+table thead {
+	background-color: var(--dark-color);
 }
 .table thead, table tbody tr { 
 	display: table; 
