@@ -65,7 +65,6 @@
 ------------------------------------------------------------------->
             <div class="col-md-9 register-right">
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <h3 class="register-heading">Compilador</h3>
                         <div class="row register-form">
                             <div class="col-md-12">
@@ -76,33 +75,27 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
 <!------------------------------------------------------------------
                 Buttons 
 ------------------------------------------------------------------->
-                            <div class="col-md-12 buttonsCompile"> 
-                                <div class="form-group">
-                                    <label class="btn btnRegister inputfile">
+                            <div class="row buttonsCompiler"> 
+                                <div class="col-md-12 text-center">
+                                    <label id="cargar" class="btn btnRegister inputfile">
                                         <span class="mdi mdi-file-upload align-middle"></span>
-                                        Cargar archivo 
-                                        <input type="file" 
-                                            style="display: none;" 
-                                            @change="previewFiles"
-                                            accept="text/plain">
+                                        Cargar archivo
+                                        <input type="file" style="display: none;" @change="previewFiles" accept="text/plain">
                                     </label>
-                                    <button name="button" class="btnRegister align-middle" v-on:click="compile()">
+                                    <button id="compilar" name="button" class="btnRegister align-middle" v-on:click="compile()">
                                         <span class="mdi mdi-cog align-middle"></span>
                                         <span class="align-middle">Compilar</span>
                                     </button>
-                                    <center>
-                                        <button id="download-all" name="button" class="btnRegister align-middle disabled" v-on:click="downloadAll()">
-                                            <span class="mdi  mdi-package-down align-middle"></span>
-                                            <span class="align-middle">Descargar todo</span>
-                                        </button>
-                                    </center>
+                                    <button id="download-all" name="button" class="btnRegister disabled" v-on:click="downloadAll()">
+                                        <span class="mdi  mdi-package-down align-middle"></span>
+                                        <span class="align-middle">Descargar todo</span>
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
