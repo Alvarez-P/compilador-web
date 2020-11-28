@@ -1,5 +1,6 @@
 export default class Context {
     lineTypes = ["function", "operation", "while", "delimiter"]
+    isOpenWhile = false
     functionPlaces = ["outside", "onSignature", "onBlock"]
     operationPlaces = ["onDeclaration", "onOperation"]
     operationPlace = null
@@ -8,14 +9,16 @@ export default class Context {
     functionPlace = null
     scope = []
     lastToken = null
-    lineNumber = null
+    lineNumber = 0
     expectedTokens = []
     blockJustOpened = null
     blockStack = []
     isCompilingPossible = true
+    variablesLines = [] // [{ value, operators, line }]
+    tokenLinesLength = 0
 
     set lineType(lineType) {
-        if(this.lineTypes.includes(lineType)) this.lineType = lineType
+        this.lineType = lineType
     }
     set functionPlace(functionPlace) {
         if(this.functionPlaces.includes(functionPlace)) this.functionPlace = functionPlace
@@ -67,7 +70,19 @@ export default class Context {
     addNewVariable (variable) {
         this.scope[0].unshift(variable)
     }
-    resetOperationDataType(){
+    resetOperationDataType () {
         this.operationDataType = 'any'
+    }
+    addVariablesLine (lexeme, line, inWhile) {
+        const variablesLine = {
+            value: lexeme,
+            line,
+            operators: new Set(),
+            inWhile
+        }
+        this.variablesLines.unshift(variablesLine)
+    }
+    addOpInLastVariablesLine (operator) {
+        this.variablesLines[0].operators.add(operator)
     }
 }

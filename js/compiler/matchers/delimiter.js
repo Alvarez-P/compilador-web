@@ -12,8 +12,12 @@ const delimiterHandler = (context) => {
         // Análisis sintáctico
         const token = matcherLexeme(lexeme, context) 
         if (!(token instanceof TokenError)){
+            context.isOpenWhile = true
             // Si el token era el esperado se hace el análisis semántico
-            if (token.token==='DELBE') context.deleteLastScope()
+            if (token.token==='DELBE') {
+                context.isOpenWhile = false
+                context.deleteLastScope()
+            }
         }
         return token
     }

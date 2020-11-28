@@ -25,9 +25,11 @@ const operationHandler = (context) => {
                                 const desc = 'No se puede redefinir la variable. No se acepta el shadowing.'
                                 token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
                             } else {
-                                //Registra la variable en el scope
+                                // Registra la variable en el scope
                                 token.dataType = prevDType
                                 context.addNewVariable(token)
+                                // Para optimización
+                                context.addVariablesLine(lexeme, context.tokenLinesLength, context.isOpenWhile)
                             }
                         } else {
                             const desc = 'Se desconoce el tipo de dato de la variable'
@@ -36,6 +38,7 @@ const operationHandler = (context) => {
                     } else if (context.operationPlace==='onOperation') {
                         const tokenDType = context.findVariableInAllScopes(token.lexeme)
                         if (tokenDType){ //Comprueba si la variable está definida
+                            context.addOpInLastVariablesLine(lexeme)
                             const opDataType = context.operationDataType
                             if (opDataType!=='any' && opDataType!==tokenDType){ //Comprueba si los tipos de dato no coinciden
                                 const desc = `Incompatibilidad de tipos. Se esperaba: ${opDataType}`
@@ -46,10 +49,13 @@ const operationHandler = (context) => {
                             token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
                         }
                     } else {// Para lexemas "a" en "a = b * c". Comprueba que existe en scope
-                    const tokenDType = context.findVariableInAllScopes(token.lexeme)
+                        const tokenDType = context.findVariableInAllScopes(token.lexeme)
                         if (!tokenDType){
                             const desc = 'Indefinida la variable'
                             token = new TokenError(token.token, token.lexeme, null, null, 'semantic', desc)
+                        } else {
+                            // Para optimización
+                            context.addVariablesLine(lexeme, context.tokenLinesLength, context.isOpenWhile)
                         }
                     }
                     break
