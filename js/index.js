@@ -69,10 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.readTxt(file)
             },
             showTxt (event){
-                const textArea = document.getElementById('txtarea-code')
-                textArea.value = event.target.result
-                const lines = event.target.result.split('\n')
-                textArea.rows = lines.length - 1
+                this._editor.setValue(event.target.result)
             },
             readTxt (file){
                 const arch = new FileReader()

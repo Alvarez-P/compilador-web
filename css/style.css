@@ -59,8 +59,12 @@ textarea {
     margin-top: -9%;
 }
 .register .register-form{
-    padding: 10%;
-    margin-top: 10%;
+    padding: 10% 10% 0% 10%;
+	margin-top: 10%;
+	margin-top: 10%;
+}
+.buttonsCompiler {
+	margin-bottom: 10%;
 }
 .register-heading{
     text-align: center;
@@ -95,10 +99,13 @@ textarea {
                         Buttons
 ---------------------------------------------------------*/
 button {
-    text-align: center;
+	text-align: center;
+}
+#cargar, #compilar, #download-all {
+	display: inline-block;
+    vertical-align: top;
 }
 .buttonsCompile {
-	flex-direction: column; 
 	align-items: center;
 }
 .btnRegister:hover {
@@ -114,7 +121,6 @@ button {
 	padding: .10%
 }
 .btnRegister { 
-	margin: .2rem;
     border: none;
     background: var(--dark-color);
     color: var(--light-color);
