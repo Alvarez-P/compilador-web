@@ -75,8 +75,8 @@ function compile(code) {
     //Generación de triplo
     const triple = buildTriple(prefixLines)
     //Generación de código ensamblador
-    const assembly = genAssembly(triple)
-    return { tokens, errors, tokenFile, triple, tokensLines }
+    const assemblyLines = genAssembly(triple)
+    return { tokens, errors, tokenFile, triple, tokensLines, assemblyLines }
 }
 
 /**

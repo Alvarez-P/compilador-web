@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
             errors: [{}],
             lexemes: '',
             filename: 'token-file.txt',
-            tokensLines: []
+            tokensLines: [],
+            assemblyLines: []
         },
         mounted: function() {
             this._editor = new CodeMirror(document.getElementById('codemirror'), {
@@ -37,12 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.errors.length = 0
                 this.triple.length = 0
             },
-            setValuesToTables ({ tokens, tokenFile, errors, triple, tokensLines }) {
+            setValuesToTables ({ tokens, tokenFile, errors, triple, tokensLines, assemblyLines }) {
                 this.tokens = tokens
                 this.lexemes = tokenFile
                 this.errors.push(...errors)
                 this.triple = triple
                 this.tokensLines = tokensLines
+                this.assemblyLines = assemblyLines
             },
             showLexemsInTokenFileTextArea (){
                 const textArea = document.getElementById("archivo-token");

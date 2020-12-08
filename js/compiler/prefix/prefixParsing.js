@@ -4,7 +4,7 @@ import { TokenError } from '../classes/token.js'
 function getPriority(op){
     if (op==='(' || op===')') return 1
     else if (op==='&&' || op==='||') return 2
-    else if (['>','<','==','<=','>='].includes(op)) return 3
+    else if (['>','<','==', '!=', '<=','>='].includes(op)) return 3
     else if (op==='+' || op==='-') return 4
     else if (op==='%') return 5
     else if (op==='*' || op==='/') return 6
