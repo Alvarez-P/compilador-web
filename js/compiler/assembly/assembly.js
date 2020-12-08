@@ -24,12 +24,12 @@ const genAssembly = (triple) => {
             if(OP=='-') lines.push(['SUB', DO, DF])
         }else if (OP==='*'){
             lines.push(['MOV', 'AL', DO])//Multiplicando
-            lines.push(['MOV', 'BL', DF], ['MUL', 'BL'])//Multiplicador
+            lines.push(['MOV', 'BL', DF], ['MUL', 'BL', ''])//Multiplicador
             lines.push(['MOV', DO, 'AX'])//Resultado al registro original
             lineInsertions[i+1] = 3
         }else if (['/', '%'].includes(OP)){
             lines.push(['MOV', 'AX', DO])//Dividendo
-            lines.push(['MOV', 'BL', DF], ['DIV', 'BL'])//Divisor
+            lines.push(['MOV', 'BL', DF], ['DIV', 'BL', ''])//Divisor
             const res = (OP==='/')?'AL':'AH'
             lines.push(['MOV', DO, res])//Resultado al registro original
             lineInsertions[i+1] = 3
@@ -37,7 +37,7 @@ const genAssembly = (triple) => {
             lines.push(['CMP', DO, DF])
             relationalOP = OP
         }else if(OP==='JR'){//Saltos incondicionados (JR)
-            lines.push(['JMP', `RENGLON${DF}`])
+            lines.push(['JMP', `RENGLON${DF}`, ''])
             //Almacena renglón de salto
             updateJumps(jumps, parseInt(DF), assembly.length+1)
         }else{//Saltos condicionados (TRX)
@@ -46,7 +46,7 @@ const genAssembly = (triple) => {
                 jumpOP = relOps2jumpOps[relationalOP]
                 relationalOP = null
             }else jumpOP = 'JMP'
-            lines.push([jumpOP, `RENGLON${OP}`])
+            lines.push([jumpOP, `RENGLON${OP}`, ''])
             //Almacena renglón de salto
             updateJumps(jumps, parseInt(OP), assembly.length+1)
         }
@@ -65,26 +65,23 @@ const genAssembly = (triple) => {
                 insertionLine = parseInt(insertionLine)
                 if(insertionLine<labelLine) offset += parseInt(lineInsertions[insertionLine])
             }
-            //Si existe desplazamiento...
-            console.log(labelLine, offset)
-            if(offset!=0){
-                const newLabel = `RENGLON${labelLine+offset}`
-                //Corrige etiquetas en las instrucciones de salto
-                for(let jumpLine of jumps[labelLine]){
-                    jumpLine = parseInt(jumpLine)
-                    console.log(jumpLine)
-                    assembly[jumpLine-1][1] = newLabel
-                }
-                //Inserta etiquetas en las lineas
-                assembly[labelLine+1].unshift(newLabel)
+            //Genera nueva etiqueta y...
+            const newLabelLine = labelLine+offset
+            const newLabel = `RENGLON${newLabelLine}`
+            //Corrige etiquetas en las instrucciones de salto
+            for(let jumpLine of jumps[labelLine]){
+                jumpLine = parseInt(jumpLine)
+                assembly[jumpLine-1][1] = newLabel
             }
+            //Inserta etiquetas en las lineas
+            if(assembly[newLabelLine-1]) assembly[newLabelLine-1].unshift(newLabel+':')
+            else assembly.push([newLabel+':', '', '', ''])
         }
     }
-    //Añadir etiquetas faltantes
+    //Añadir etiquetas vacías
     for(let i=0; i<assembly.length; i++){
-        if(assembly[i].length<=3) assembly[i].unshift(i+1)
+        if(assembly[i].length<=3) assembly[i].unshift('')
     }
-    console.log(lineInsertions, jumps)
     return assembly
 }
 
