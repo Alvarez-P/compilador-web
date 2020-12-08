@@ -88,7 +88,7 @@ const genAssembly = (triple) => {
 const updateJumps = (jumps, labelLine, jumpLine) => {
     const labelLines = Object.keys(jumps)
     if(labelLines){
-        if(labelLines.includes(labelLine)) jumps[labelLine].push(jumpLine)
+        if(labelLines.includes(String(labelLine))) jumps[labelLine].push(jumpLine)
         else jumps[labelLine] = [jumpLine]
     }
     else jumps[labelLine] = [jumpLine]
