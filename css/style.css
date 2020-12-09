@@ -164,7 +164,24 @@ button {
 #archivo-token::-webkit-scrollbar-thumb:hover {
     background: #797979;
 }
-
+/** Codigo Optimizado**/
+#optimized-code {
+	border-radius: .5rem .5rem 0rem 0rem;
+	max-height: 300px;
+	overflow: auto;
+	background: var(--light-color)
+}
+#optimized-code::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+#optimized-code::-webkit-scrollbar-thumb {
+    background: var(--grey);
+    border-radius: 4px;
+}
+#optimized-code::-webkit-scrollbar-thumb:hover {
+    background: #797979;
+}
 /*------------------------------------------------------------------
             Tables 
 ------------------------------------------------------------------*/
