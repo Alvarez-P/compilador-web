@@ -11,6 +11,7 @@ import { convertLinesToPrefix } from './prefix/prefixParsing.js'
 import { shouldTakeToken, setupTokenSelection } from './prefix/prefixSelection.js'
 import buildTriple from './triple/index.js'
 import { deleteUnusedValues } from './optimization/unusedValues.js'
+import { genAssembly } from './assembly/assembly.js'
 
 /**
  * @description Divide un string en lineas para validar con expresiones regulares y obtener los tokens
@@ -71,8 +72,11 @@ function compile(code) {
     delUnusedValues(context.variablesLines)
     // Conversión a prefijo
     const prefixLines = convertLinesToPrefix(tokensLines)
+    //Generación de triplo
     const triple = buildTriple(prefixLines)
-    return { tokens, errors, tokenFile, triple, tokensLines }
+    //Generación de código ensamblador
+    const assemblyLines = genAssembly(triple)
+    return { tokens, errors, tokenFile, triple, tokensLines, assemblyLines }
 }
 
 /**

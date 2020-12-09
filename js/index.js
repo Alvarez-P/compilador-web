@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
             triple: [[]],
             errors: [{}],
             lexemes: '',
-            filename: 'token-file.txt',
-            tokensLines: []
+            tokensLines: [],
+            assemblyLines: [{}],
+            optimizedCode: ''
         },
         mounted: function() {
             this._editor = new CodeMirror(document.getElementById('codemirror'), {
@@ -37,17 +38,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.errors.length = 0
                 this.triple.length = 0
             },
-            setValuesToTables ({ tokens, tokenFile, errors, triple, tokensLines }) {
+            setValuesToTables ({ tokens, tokenFile, errors, triple, tokensLines, assemblyLines }) {
                 this.tokens = tokens
                 this.lexemes = tokenFile
                 this.errors.push(...errors)
                 this.triple = triple
                 this.tokensLines = tokensLines
+                this.assemblyLines = assemblyLines
             },
             showLexemsInTokenFileTextArea (){
                 const textArea = document.getElementById("archivo-token");
                 textArea.value = this.lexemes
                 const lines = this.lexemes.split("\n")
+                textArea.rows = lines.length
+            },
+            showOptimizedCode (){
+                const textArea = document.getElementById("optimized-code");
+                this.optimizedCode = this.optimizedCodeToText()
+                textArea.value = this.optimizedCode
+                const lines = this.optimizedCode.split("\n")
                 textArea.rows = lines.length
             },
             enableDownloadButton (){
@@ -62,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.resetTables()
                 this.setValuesToTables(compile(this.text))
                 this.showLexemsInTokenFileTextArea()
+                this.showOptimizedCode()
                 this.enableDownloadButton()
             },
             previewFiles (event){
@@ -81,10 +91,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.triple.forEach((line, index) => {
                     tripleText += `${index+1}\t${line.join('\t\t')}\n`
                 })
+                tripleText += '\n'
                 return tripleText
             },
+            objectCodeTotext(){
+                let assemblyLinesText = 'Codigo Objeto\n\nLinea\tEtiqueta\tOperador\tDato Objeto\tDato Fuente\n'
+                this.assemblyLines.forEach((line, index) => {
+                    assemblyLinesText += `${index+1}\t${line.join('\t\t')}\n`
+                })
+                assemblyLinesText += '\n'
+                return assemblyLinesText
+            },
             optimizedCodeToText() {
-                let optimizedCode = '\n\nCódigo Optimizado\n\n'
+                let optimizedCode = ''
                 if (this.tokensLines.length === 0) {
                     optimizedCode += 'No se genera salida\nLas variables no se utilizan'
                 } else {
@@ -110,7 +129,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 return optimizedCode
             },
             downloadAll (){
-                const fileContent = `Archivo de tokens\n\n${this.lexemes} ${this.tripleTotext()} ${this.optimizedCodeToText()}`
+                let fileContent = `Archivo de tokens\n\n${this.lexemes} ${this.tripleTotext()} Código Optimizado\n\n${this.optimizedCode}`
+                fileContent += `\n${this.objectCodeTotext()}`
                 this.download('compilado', fileContent)
             },
             downloadTriplo(){
@@ -118,6 +138,12 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             downloadTokenFile(){
                 this.download('archivo-tokens', `Archivo de tokens\n\n${this.lexemes}`)
+            },
+            downloadObjectCode () {
+                this.download('codigo-objeto', this.objectCodeTotext())
+            },
+            downloadOptimizedCode() {
+                this.download('codigo-optimizado', `Código Optimizado\n\n${this.optimizedCode}`)
             },
             download (filename, fileContent){
                 let element = document.createElement('a');
