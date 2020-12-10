@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Analizador léxico - Analizador sintáctico - Generador de código intermedio"/>
-    <meta name="keywords" content="compilador, analizador, compilador web, sintaxis, léxico, codigo intermedio, triplo, tokens, token file, archivo de tokens, codigo, compilar"/>
+    <meta name="description" content="Analizador léxico - Analizador sintáctico - Generador de código intermedio" />
+    <meta name="keywords"
+        content="compilador, analizador, compilador web, sintaxis, léxico, codigo intermedio, triplo, tokens, token file, archivo de tokens, codigo, compilar" />
     <meta property="og:title" content="Compilador Web">
     <link rel="canonical" href="https://alvarez98.github.io/compilador-web/">
     <meta property="og:site_name" content="Compilador Web">
-    <meta property="og:description" content="Analizador léxico - Analizador sintáctico - Generador de código intermedio" />
+    <meta property="og:description"
+        content="Analizador léxico - Analizador sintáctico - Generador de código intermedio" />
     <meta property="og:image" content="https://alvarez98.github.io/compilador-web/assets/terminal-icon.png">
     <meta property="og:image:secure_url" content="https://alvarez98.github.io/compilador-web/assets/terminal-icon.png">
     <meta content="256" property="og:image:width">
@@ -20,137 +23,151 @@
     <meta name="author" content="Adolfo Alvarez - Esteban Brito" />
     <link rel="icon" href="./assets/terminal-white.png" type="image/png">
     <meta name=”twitter:title” content=”Compilador Web”>
-    <meta name=”twitter:description” content=”Analizador léxico - Analizador sintáctico - Generador de código intermedio”>
+    <meta name=”twitter:description” content=”Analizador léxico - Analizador sintáctico - Generador de código
+        intermedio”>
     <meta name=”twitter:image” content=”https://alvarez98.github.io/compilador-web/assets/terminal-icon.png”>
     <meta name=”twitter:site” content=”https://alvarez98.github.io/compilador-web/”>
     <meta name=”twitter:creator” content=”Adolfo-Alvarez_Esteban-Brito”>
     <meta property=”fb:app_id” content=”357515172212708”>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
+        id="bootstrap-css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/style.css" media="screen" />
     <link href="https://cdn.materialdesignicons.com/5.2.45/css/materialdesignicons.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
     </link>
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/theme/material-ocean.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js"
+        integrity="sha512-6xeOz/tyiXP8sAuAceq7K5oKd6f4Df/NsQdQqH006ajdAFZ+Vi1Nad6cO6hky3YMnd6gWCUVIfEaanwb3ryOVw=="
+        crossorigin="anonymous"></script>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/addon/selection/active-line.min.js"
+        integrity="sha512-PqKfkOO1MJCkdBSIUWjSXz7KDT8NrWud5SJxNMRCGNpWaVpCXSIZORwxp2toYILw7TrQLCGNqPhMjKHxWdWbhA=="
+        crossorigin="anonymous"></script>
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/theme/material-ocean.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js" integrity="sha512-6xeOz/tyiXP8sAuAceq7K5oKd6f4Df/NsQdQqH006ajdAFZ+Vi1Nad6cO6hky3YMnd6gWCUVIfEaanwb3ryOVw==" crossorigin="anonymous"></script>
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/addon/selection/active-line.min.js" integrity="sha512-PqKfkOO1MJCkdBSIUWjSXz7KDT8NrWud5SJxNMRCGNpWaVpCXSIZORwxp2toYILw7TrQLCGNqPhMjKHxWdWbhA==" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/addon/scroll/simplescrollbars.min.css" integrity="sha512-erubOI4munyUpAr2y0FppdEdeGicYF5WKV7UFaOM3XP7rpjv/YqRp7VupOZEQGlCahdMs/OOVOjn06gU1gCmeA==" crossorigin="anonymous" /><script type="module" src="./js/index.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/addon/scroll/simplescrollbars.min.js" integrity="sha512-xfrhnaAbPQbVlhM55XyecPDoR+13SnnMGmyNTJ6YthlR5Q8AbaVZYl7iRRCc+Na3lh4CeiI3aaOpBkCYBrDg0w==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/addon/edit/closebrackets.min.js" integrity="sha512-DAIJy4jG4mmAg8yxjTDS/PilB7xOnDEolPBpY/m+bw8VFLjkGnYW03zha6t2aUPl+rh9VhZ3iEsM6v+hM5uPzg==" crossorigin="anonymous"></script>
+        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/addon/scroll/simplescrollbars.min.css"
+        integrity="sha512-erubOI4munyUpAr2y0FppdEdeGicYF5WKV7UFaOM3XP7rpjv/YqRp7VupOZEQGlCahdMs/OOVOjn06gU1gCmeA=="
+        crossorigin="anonymous" />
+    <script type="module" src="./js/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/addon/scroll/simplescrollbars.min.js"
+        integrity="sha512-xfrhnaAbPQbVlhM55XyecPDoR+13SnnMGmyNTJ6YthlR5Q8AbaVZYl7iRRCc+Na3lh4CeiI3aaOpBkCYBrDg0w=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/addon/edit/closebrackets.min.js"
+        integrity="sha512-DAIJy4jG4mmAg8yxjTDS/PilB7xOnDEolPBpY/m+bw8VFLjkGnYW03zha6t2aUPl+rh9VhZ3iEsM6v+hM5uPzg=="
+        crossorigin="anonymous"></script>
     <title>Compilador</title>
 </head>
+
 <body>
     <div class="container register" id="app">
         <div class="row">
 
-<!------------------------------------------------------------------
+            <!------------------------------------------------------------------
                 Left Section 
 ------------------------------------------------------------------->
             <div class="col-md-3 register-left">
                 <img src="./assets/terminal.svg" alt="Compilador Web" width="300px" />
                 <h3>ISC</h3>
                 <h5>Lenguajes y Autómatas I</h5>
-                <p>Analizador léxico para reconocer las cadenas que pertenecen a un lenguaje regular.</p>
+                <p>Analizador léxico para el reconocimiento las cadenas que pertenecen a un lenguaje regular.</p>
             </div>
-<!------------------------------------------------------------------
+            <!------------------------------------------------------------------
                 Right Section
 ------------------------------------------------------------------->
             <div class="col-md-9 register-right">
                 <div class="tab-content" id="myTabContent">
-                        <h3 class="register-heading">Compilador</h3>
-                        <div class="row register-form">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="md-form amber-textarea active-amber-textarea">
-                                        <div id="codemirror"></div>
-                                        <label for="form19">Ingrese el código a compilar</label>
-                                    </div>
+
+                    <h3 class="register-heading">Compilador</h3>
+                    <div class="row register-form">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="md-form amber-textarea active-amber-textarea">
+                                    <div id="codemirror"></div>
+                                    <label for="form19">Ingrese el código a compilar</label>
                                 </div>
                             </div>
                         </div>
-<!------------------------------------------------------------------
+                    </div>
+                    <!------------------------------------------------------------------
                 Buttons 
 ------------------------------------------------------------------->
-                            <div class="row buttonsCompiler"> 
-                                <div class="col-md-12 text-center">
-                                    <label id="cargar" class="btn btnRegister inputfile">
-                                        <span class="mdi mdi-file-upload align-middle"></span>
-                                        Cargar archivo
-                                        <input type="file" style="display: none;" @change="previewFiles" accept="text/plain">
-                                    </label>
-                                    <button id="compilar" name="button" class="btnRegister align-middle" v-on:click="compile()">
-                                        <span class="mdi mdi-cog align-middle"></span>
-                                        <span class="align-middle">Compilar</span>
-                                    </button>
-                                    <button id="download-all" name="button" class="btnRegister disabled" v-on:click="downloadAll()">
-                                        <span class="mdi  mdi-package-down align-middle"></span>
-                                        <span class="align-middle">Descargar todo</span>
-                                    </button>
-                                </div>
-                            </div>
+                    <div class="row buttonsCompiler">
+                        <div class="col-md-12 text-center">
+                            <label id="cargar" class="btn btnRegister inputfile">
+                                <span class="mdi mdi-file-upload align-middle"></span>
+                                Cargar archivo
+                                <input type="file" style="display: none;" @change="previewFiles" accept="text/plain">
+                            </label>
+                            <button id="compilar" name="button" class="btnRegister align-middle" v-on:click="compile()">
+                                <span class="mdi mdi-cog align-middle"></span>
+                                <span class="align-middle">Compilar</span>
+                            </button>
+                            <button id="download-all" name="button" class="btnRegister disabled"
+                                v-on:click="downloadAll()">
+                                <span class="mdi  mdi-package-down align-middle"></span>
+                                <span class="align-middle">Descargar todo</span>
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-<!------------------------------------------------------------------
+        <!------------------------------------------------------------------
                 Tables 
 ------------------------------------------------------------------->
         <div class="row">
             <div class="col-md-6 col-xs-12 tables">
 
                 <h5>
-                    <span class="mdi mdi-table"></span> 
+                    <span class="mdi mdi-table"></span>
                     Tabla de Simbolos</h5>
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">
                         <tr>
-                          <th scope="col">Lexema</th>
-                          <th scope="col">Token</th>
-                          <th scope="col">Tipo de Dato</th>
+                            <th scope="col">Lexema</th>
+                            <th scope="col">Token</th>
+                            <th scope="col">Tipo de Dato</th>
                         </tr>
-                      </thead>
-                    <tr v-for="item in tokens" v-bind:style=" item.lineNumber ? 'color: #e04141' : 'color: green'" scope="row">
+                    </thead>
+                    <tr v-for="item in tokens" v-bind:style=" item.lineNumber ? 'color: #e04141' : 'color: green'"
+                        scope="row">
                         <td v-text="item.lexeme"></td>
                         <td v-text="item.token"></td>
                         <td v-text="item.dataType"></td>
                     </tr>
-                 </table>
+                </table>
 
             </div>
             <div class="col-md-6 col-xs-12 tables">
 
-               
                 <h5>
-                    <span class="mdi mdi-table-remove"></span> 
+                    <span class="mdi mdi-table-remove"></span>
                     Tabla de Errores
                 </h5>
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">
                         <tr>
-                          <th scope="col">Token error</th>
-                          <th scope="col">Lexema</th>
-                          <th scope="col">Línea</th>
-                          <th scope="col">Descripción</th>
+                            <th scope="col">Token error</th>
+                            <th scope="col">Lexema</th>
+                            <th scope="col">Línea</th>
+                            <th scope="col">Descripción</th>
                         </tr>
-                      </thead>
+                    </thead>
                     <tr v-for="item in errors" style="color: #e04141" scope="row">
                         <td v-text="item.token"></td>
                         <td v-text="item.lexeme"></td>
                         <td v-text="item.lineNumber"></td>
                         <td v-text="item.description"></td>
                     </tr>
-                 </table>
-                
+                </table>
+
             </div>
         </div>
-        <br><br>
         <div class="row">
             <div class="col-md-6 col-xs-12 tables">
 
@@ -160,12 +177,13 @@
                 </h5>
                 <textarea id="archivo-token" class="md-textarea form-control" rows="1" disabled></textarea>
                 <div class="text-center">
-                    <button id="download-token-file" name="button" class="download btnRegister align-middle disabled" v-on:click="downloadTokenFile()" >
+                    <button id="download-token-file" name="button" class="download btnRegister align-middle disabled"
+                        v-on:click="downloadTokenFile()">
                         <span class="mdi mdi-download align-middle"></span>
                         <span class="align-middle">Descargar</span>
                     </button>
                 </div>
-                
+
             </div>
             <div class="col-md-6 col-xs-12 tables">
 
@@ -175,12 +193,13 @@
                 </h5>
                 <textarea id="optimized-code" class="md-textarea form-control" rows="1" disabled></textarea>
                 <div class="text-center">
-                    <button id="download-optimized-code" name="button" class="download btnRegister align-middle disabled" v-on:click="downloadOptimizedCode()" >
+                    <button id="download-optimized-code" name="button"
+                        class="download btnRegister align-middle disabled" v-on:click="downloadOptimizedCode()">
                         <span class="mdi mdi-download align-middle"></span>
                         <span class="align-middle">Descargar</span>
                     </button>
                 </div>
-                
+
             </div>
         </div>
         <div class="row">
@@ -193,26 +212,27 @@
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">
                         <tr>
-                          <th scope="col">Linea</th>
-                          <th scope="col">Operador</th>
-                          <th scope="col">Dato objeto</th>
-                          <th scope="col">Dato Fuente</th>
+                            <th scope="col">Linea</th>
+                            <th scope="col">Operador</th>
+                            <th scope="col">Dato objeto</th>
+                            <th scope="col">Dato Fuente</th>
                         </tr>
-                      </thead>
+                    </thead>
                     <tr v-for="(item, index) in triple" scope="row">
                         <td v-text="index + 1" style="color: green"></td>
                         <td v-text="item[0]"></td>
                         <td v-text="item[1]"></td>
                         <td v-text="item[2]"></td>
                     </tr>
-                 </table>
-                 <div class="text-center">
-                    <button id="download-triplo" name="button" class="download btnRegister align-middle disabled" v-on:click="downloadTriplo()" >
+                </table>
+                <div class="text-center">
+                    <button id="download-triplo" name="button" class="download btnRegister align-middle disabled"
+                        v-on:click="downloadTriplo()">
                         <span class="mdi mdi-download align-middle"></span>
                         <span class="align-middle">Descargar</span>
                     </button>
                 </div>
-                
+
             </div>
             <div class="col-md-6 col-xs-12 tables">
 
@@ -239,66 +259,70 @@
                     </tr>
                 </table>
                 <div class="text-center">
-                    <button id="download-codigo-objeto" name="button" class="download btnRegister align-middle disabled" v-on:click="downloadObjectCode()" >
+                    <button id="download-codigo-objeto" name="button" class="download btnRegister align-middle disabled"
+                        v-on:click="downloadObjectCode()">
                         <span class="mdi mdi-download align-middle"></span>
                         <span class="align-middle">Descargar</span>
                     </button>
                 </div>
-                
+
             </div>
         </div>
     </div>
-<!------------------------------------------------------------------
+    <!------------------------------------------------------------------
                 Footer 
 ------------------------------------------------------------------->
-<footer class="footer-distributed">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="footer-left">
-                <h4>Instituto <span>Tecnológico de Mérida</span></h4>
-                <h5>Analizador léxico</h5>
-                <p class="footer-links">
-                    <a href="https://github.com/alvarez98/compilador-web">
-                        <span class="mdi mdi-github align-middle"></span>
-                    </a>
-                </p><br>
-                <p class="footer-company-name">© 2020
-                    <a href="http://aaaimx.org/">@aaaimx</a>
-                </p>
+    <footer class="footer-distributed">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="footer-left">
+                    <h4>Instituto <span>Tecnológico de Mérida</span></h4>
+                    <h5>Analizador léxico</h5>
+                    <p class="footer-links">
+                        <a href="https://github.com/alvarez98/compilador-web">
+                            <span class="mdi mdi-github align-middle"></span>
+                        </a>
+                    </p><br>
+                    <p class="footer-company-name">
+                        © 2020
+                        <a href="http://aaaimx.org/">@aaaimx</a>
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="footer-right">
-                <p class="footer-company-about">
-                    <span>Adolfo Esteban Alvarez Pacheco</span>
-                    Estudiante de la carrera de Ingenieria en Sistemas. Interés en Desarrollo Web e Inteligencia Artificial</p>
-                <div class="footer-icons">
-                    <a href="https://github.com/alvarez98/">
-                        <span class="mdi mdi-github align-middle"></span>
-                    </a>
-                    <a href="https://www.facebook.com/profile.php?id=100007732549352">
-                        <span class="mdi mdi-facebook align-middle"></span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/adolfo-esteban-%C3%A1lvarez-pacheco-6b3a21192/">
-                        <span class="mdi mdi-linkedin align-middle"></span>
-                    </a>
+            <div class="col-md-4">
+                <div class="footer-right">
+                    <p class="footer-company-about">
+                        <span>Adolfo Esteban Alvarez Pacheco</span>
+                        Estudiante de la carrera de Ingenieria en Sistemas. Interés en Desarrollo Web e Inteligencia
+                        Artificial</p>
+                    <div class="footer-icons">
+                        <a href="https://github.com/alvarez98/">
+                            <span class="mdi mdi-github align-middle"></span>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=100007732549352">
+                            <span class="mdi mdi-facebook align-middle"></span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/adolfo-esteban-%C3%A1lvarez-pacheco-6b3a21192/">
+                            <span class="mdi mdi-linkedin align-middle"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="footer-right">
+                    <p class="footer-company-about">
+                        <span>Esteban Emmanuel Brito Borges</span>
+                        Estudiante de la carrera de Ingenieria en Sistemas. Interés en Desarrollo Web e Inteligencia
+                        Artificial</p>
+                    <div class="footer-icons">
+                        <a href="#"><span class="mdi mdi-github align-middle"></span></a>
+                        <a href="#"><span class="mdi mdi-facebook align-middle"></span></a>
+                        <a href="#"><span class="mdi mdi-linkedin align-middle"></span></a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="footer-right">
-                <p class="footer-company-about">
-                    <span>Esteban Emmanuel Brito Borges</span>
-                    Estudiante de la carrera de Ingenieria en Sistemas. Interés en Desarrollo Web e Inteligencia Artificial</p>
-                <div class="footer-icons">
-                    <a href="#"><span class="mdi mdi-github align-middle"></span></a>
-                    <a href="#"><span class="mdi mdi-facebook align-middle"></span></a>
-                    <a href="#"><span class="mdi mdi-linkedin align-middle"></span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+    </footer>
 </body>
 
 </html>
